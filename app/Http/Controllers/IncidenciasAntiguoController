@@ -1,0 +1,123 @@
+<?php
+
+namespace App\Http\Controllers;
+use Illuminate\Http\Request;
+use Auth;
+use View;
+use Illuminate\Support\Facades\DB;
+use App\Pedidos_wix_importados;
+use App\User;
+Use Validator;
+use Input;
+use DateTime;
+use Mail;
+use App;
+use PDF;
+use Dompdf\Dompdf;
+use Excel;
+use App\Incidencias_usuarios;
+
+class IncidenciasController extends Controller
+{
+    /**
+     * Constructor y middleware
+     * @return void(true/false auth)
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+	// **** IMPORTACIÓN ****
+
+	/**
+     * Muestra vista 'importar CSV' en /herramientas/importar_csv.blade.php
+     * @return view
+     */
+    public function inicio(Request $request){
+
+
+		/*-------------- ORDENACIONES --------------*/
+		$getParams = $request->query();
+		if(isset($getParams["ob"],$getParams["obt"])){
+			$orderBy = $getParams["ob"];
+			$orderByType = $getParams["obt"];
+		} else {
+			$orderBy = "id";
+			$orderByType = "desc";
+		}
+
+		/*-------------- FILTROS --------------*/
+		$where = "1=1 ";
+		if(isset($getParams["id"]) && $getParams["id"]!="") $where .= " and id = ".$getParams["id"]."";
+		if(isset($getParams["o_csv"])&& $getParams["o_csv"]!="") $where .= " and o_csv = '".$getParams["o_csv"]."'";
+		if(isset($getParams["numero_pedido"])&& $getParams["numero_pedido"]!="") $where .= " and numero_pedido = ".$getParams["numero_pedido"]."";
+		if(isset($getParams["cliente_facturacion"])&& $getParams["cliente_facturacion"]!="") $where .= " and cliente_facturacion like '%".$getParams["cliente_facturacion"]."%'";
+		if(isset($getParams["correo_comprador"])&& $getParams["correo_comprador"]!="") $where .= " and correo_comprador like '%".$getParams["correo_comprador"]."%'";
+		if(isset($getParams["fecha_pedido"])&& $getParams["fecha_pedido"]!="") $where .= " and fecha_pedido = '".$getParams["fecha_pedido"]."'";
+		if(isset($getParams["estado_incidencia"])&& $getParams["estado_incidencia"]!="") $where .= " and estado_incidencia = '".$getParams["estado_incidencia"]."'";
+		if(isset($getParams["direccion_envio"])&& $getParams["direccion_envio"]!="") $where .= " and direccion_envio like '%".$getParams["direccion_envio"]."%'";
+		if(isset($getParams["enviado"])&& $getParams["enviado"]!="") $where .= " and enviado = '".$getParams["enviado"]."'";
+
+
+		$pedidos_agrupados = "";
+
+		// Variables de busqueda y retención.
+		$last_value = "";
+		$keyIndex = "";
+
+
+		/*-------------- QUERY MySQL -------------- orderBy("numero_pedido", "desc")-> */
+		$incidencias = DB::table('incidencias_usuarios')->whereRaw($where)->orderBy($orderBy,$orderByType)->paginate(15);
+
+		foreach($incidencias as $key => $incidencia){
+			$incidencias[$key]->id_usuario_incidencia = User::find($incidencias[$key]->id_usuario_incidencia)->apodo;
+			if(isset($incidencias[$key]->id_usuario_asignado_incidencia)){
+				$incidencias[$key]->id_usuario_asignado_incidencia = User::find($incidencias[$key]->id_usuario_asignado_incidencia)->apodo;
+			} else {
+				$incidencias[$key]->id_usuario_asignado_incidencia = "sin asignar";
+			}
+		}
+		return View::make('incidencias/inicio', array('incidencias' => $incidencias));
+    }
+
+	/**
+     * Carga vista con el detalle de la incidencia
+     *
+     * @return view
+     */
+    public function detalle($id){
+		$incidencia = Incidencias_usuarios::find($id);
+		return View::make('incidencias/detalles', array('incidencia' => $incidencia));
+	}
+
+	/**
+     * Carga vista para añadir una nueva incidenci de forma manual.
+     *
+     * @return view
+     */
+    public function nueva(){
+		return View::make('incidencias/nuevo');
+	}
+
+
+	/**
+     * Guarda nueva incidencia con su prioridad. ( texto formato html )
+     * @return view
+     */
+    public function guardar(Request $request){
+
+		// Obtenemos _POST y asignamos
+		$prioridad = htmlspecialchars($request->all()["prioridad"]);
+		$mensaje = htmlspecialchars($request->all()["mensaje_incidencia"]);
+
+		// Creamos nueva incidencia y asignamos valores.
+		$incidencia = new Incidencias_usuarios;
+		$incidencia->id_usuario_incidencia = Auth::id();
+		$incidencia->mensaje = $mensaje;
+		$incidencia->prioridad = $prioridad;
+		$incidencia->estado = 1;
+		$incidencia->save();
+
+	}
+}

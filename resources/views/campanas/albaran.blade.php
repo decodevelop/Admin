@@ -38,7 +38,7 @@
 	<div style="width: 50%;float:left;text-align:left;">
 		<ul>
 
-			<li style="text-transform: uppercase; font-weight: bolder;">Direccion entrega:</li>
+			<li style="text-transform: uppercase; font-weight: bolder;">Dirección:</li>
 
 
 				<li>{{$campana->nombre_envio}}</li>

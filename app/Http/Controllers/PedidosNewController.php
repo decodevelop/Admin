@@ -703,7 +703,7 @@ class PedidosNewController extends Controller
           $ean = "8435550437419";
         }
 
-        
+
         $where = "1=1 and ean = ".$ean;
         $p_comanda = DB::table('productos')->whereRaw($where)->get();
         if(isset($p_comanda[0])){
@@ -1784,6 +1784,124 @@ class PedidosNewController extends Controller
 
         })->export('csv');
 
+
+    }
+
+    public function csv_szendex($id,$generar_csv){
+      $pedido = Pedidos::find($id);
+
+      $datos_adicionales = '#SeguimientoSMS=1#';
+      $date = getdate();
+      $fecha = $date['year'].str_pad($date['mon'], 2, "0", STR_PAD_LEFT).str_pad($date['mday'], 2, "0", STR_PAD_LEFT);
+
+      $tlf = "";
+      $tlf = str_replace("/", "", $pedido->cliente->telefono);
+      $tlf = trim($tlf);
+
+      if($pedido->cliente->direccion->pais_envio == ""){
+        $pais_fact = "ES";
+      }else{
+        $pais_fact = $pedido->cliente->direccion->pais_envio;
+      }
+
+      $empty = "";
+      $csv = array('numero_albaran' => $empty,
+                    'referencia_envio' => $pedido->numero_albaran,
+                    'referencia_bulto' => $empty,
+                    'peso' => $empty,
+                    'bultos' => $pedido->bultos,
+                    'fecha_recogida' => ''.$fecha.'',
+                    'observacion' => ''.$pedido->observaciones.'',
+                    'nombre_apellido' => ''.$pedido->cliente->nombre_envio.'',
+                    'direccion' => ''.$pedido->cliente->direccion->direccion_envio.'',
+                    'cp' => ''.trim($pedido->cliente->direccion->cp_envio).'',
+                    'poblacion' => ''.$pedido->cliente->direccion->ciudad_envio.'',
+                    'codigo_pais' => $pais_fact,
+                    'telefono' => ''.$tlf.'',
+                    'email' => ''.$pedido->cliente->email.'',
+                    'franquicia' => '',
+                    'adicionales' => ''.$datos_adicionales.''
+                    );
+
+        return json_encode($csv);
+
+    }
+
+    public function csv_szendex_post($id,Request $request){
+      $inputs = $request->all();
+      $pedido = Pedidos::find($id);
+      $productos = Productos_pedidos::whereHas('transportista', function($query) {
+        $query->where('nombre', '=', 'mrw');
+      })
+      ->whereHas('pedido', function($query) use($pedido){
+        $query->where('id','=',$pedido->id);
+      })
+      ->get();
+
+      $fecha = new DateTime();
+      $fecha = $fecha->format('Y-m-d');
+
+      $datos_adicionales = '#SeguimientoSMS=1#';
+      try {
+        if(($pedido->origen->api_key != null)&&($pedido->origen->api_key != '99999')){
+          $this->actualizar_pedidos_ps($pedido->origen->referencia,$pedido->numero_pedido_ps);
+        }
+
+        foreach ($productos as $producto) {
+          $producto->fecha_envio = $fecha;
+          $producto->estado_envio = 1;
+          $producto->save();
+        }
+
+      } catch(Exception $e){
+
+      }
+
+      $empty='';
+      if($inputs['kg-mrw'] > 5){
+        $datos_adicionales .= "#TipoServicio=0205#";
+      }else{
+        $datos_adicionales .= "#TipoServicio=0800#";
+      }
+
+      $csv = array('referencia_envio' => $pedido->numero_albaran,
+                    'peso' => $inputs['kg-mrw'],
+                    'bultos' => $inputs['bultos-mrw'],
+                    'fecha_recogida' => $inputs['fecha-mrw'],
+                    'observacion' => ''.$pedido->observaciones.'',
+                    'nombre_apellido' => $inputs['nombre-mrw'],
+                    'direccion' => $inputs['direccion-mrw'],
+                    'cp' => trim($inputs['cp-mrw']),
+                    'poblacion' => $inputs['ciudad-mrw'],
+                    'codigo_pais' => $inputs['pais-mrw'],
+                    'telefono' => $inputs['telefono-mrw'],
+                    'email' => ''.$pedido->cliente->email.'',
+                    );
+
+      return Excel::create('mrw_csv_'.$pedido->numero_albaran , function($excel) use($csv) {
+        $excel->getDefaultStyle()
+               ->getAlignment()
+               ->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $excel->getDefaultStyle()
+               ->getAlignment()
+               ->setVertical(\PHPExcel_Style_Alignment::VERTICAL_CENTER);
+
+        $excel->sheet('pedido', function($sheet) use($csv) {
+          // headers del documento xls
+          $header = [];
+          $row = 1;
+          //Crear headers
+          //añadimos las rows
+          //dd($productos_amazon);
+          $csv2= implode(';', $csv);
+          $csv3= array($csv2);
+          //dd($csv3);
+          $sheet->row($row , $csv);
+          //$header = array_map('strtoupper', $header_valor);
+          $sheet->fromArray('', null, 'A1', true);
+          //$sheet->getStyle("A1:D1")->getFont()->setBold(true);
+        });
+      })->export('xlsx');
 
     }
 

@@ -204,6 +204,9 @@ Route::group(['middleware' => 'auth'], function() {
 		Route::get('/pedidos/transportista/tipsa/csv/{id}/{generar_csv}', 'PedidosNewController@csv_tipsa'); // vista detalle pedido
 		Route::post('/pedidos/transportista/tipsa/csv/{id}', 'PedidosNewController@csv_tipsa_post');
 
+		Route::get('/pedidos/transportista/SZENDEX/csv/{id}/{generar_csv}', 'PedidosNewController@csv_szendex'); // vista detalle pedido
+		Route::post('/pedidos/transportista/SZENDEX/csv/{id}', 'PedidosNewController@csv_szendex_post');
+
 		Route::get('/pedidos/proveedor/{nombre_proveedor}','PedidosNewController@view_proveedor');
 		//Route::get('/pedidos/aviso_dups','PedidosNewController@aviso_dups');
 

@@ -1,0 +1,283 @@
+/* estadisticas */
+.fila-estadisticas table td {
+    padding: 3px 5px !important;
+    border: none !important;
+    text-align: left;
+}
+/* webs page*/
+.link-stores a {
+    background: #fffffffa;
+    padding: 5px 10px;
+    color: black;
+    margin: 10px 10px !important;
+    border-radius: 50%;
+}
+.link-stores {
+    margin-top: 10px;
+}
+.web-view {
+  height: 35vh;
+  box-shadow: 1px 1px 11px 3px #00000021;
+  display: table;
+  width: 100%;
+}
+.web-view.cabeceros,.web-view.decowoodes,.web-view.foxandsockses,.web-view.foxandsockseu,.web-view.cojines {
+    background-position: center !important;
+    background-repeat: no-repeat!important;
+    background-size: cover !important;
+}
+.web-view.cabeceros {
+  background: url('https://www.cabeceros.com/5119-large_default/pack-verde-azulado.jpg');
+}
+.web-view.cajasdemadera {
+  background: url('https://www.cajasdemadera.com/1037-large_default/pack-estanteria-armario-abierto.jpg');
+}
+.web-view.decowoodes {
+  background: url('https://decowood.es/3073-large_default/cabecero-recto-combinado-verde-azulado.jpg');
+}
+.web-view.foxandsockses {
+  background: url('https://foxandsocks.es/628-large_default/madrid-pack.jpg');
+}
+.web-view.foxandsockseu {
+  background: url('https://foxandsocks.es/638-large_default/ny-pack.jpg');
+}
+.web-view.cojines {
+  background: url('https://cojines.es/317-large_default/puf-de-yute-multicolor.jpg');
+}
+.content-view {
+    text-align: center;
+    vertical-align: middle;
+    display: table-cell;
+}
+.name-web {
+    color: white;
+    font-weight: bold;
+    background: #222d32c4;
+    /* text-shadow: 2px 1px 0px #ffffffa6; */
+    font-size: 25px;
+    text-transform: uppercase;
+}
+.links-web {
+    font-size: 18px;
+    margin-top: 15px;
+    text-transform: uppercase;
+}
+.web-shop {
+    margin-top: 20px;
+}
+.links-web a {
+    color: #333333;
+}
+.link-store a, .link-admin a {
+    background: #ffffffcc;
+    display: block;
+    font-weight: bold;
+    transition: all 0.4s ease 0s;
+}
+.link-stores a {
+  transition: all 0.4s ease 0s;
+}
+.links-web a:hover {
+    color: #ffffffcc;
+}
+.link-stores a:hover{
+  box-shadow: inset 1px 1px 20px 16px #367fa9;
+}
+.link-store a:hover, .link-admin a:hover {
+  box-shadow: inset 1px 1px 20px 16px #367fa9;
+
+}
+/**/
+.filterProducts button.btn.dropdown-toggle.btn-default {
+    background: #f1f8ff !important;
+    border: 1px solid #b4d6ea !important;
+    padding: 4px;
+}
+.seg-left, .seg.right {
+    /*float: left;*/
+}
+#collapse-seguimiento .fecha {
+    font-size: 0.7em;
+    color: #444444;
+}
+.fila-seguimiento {
+    background: #ffffffcf;
+    margin: 5px 0px;
+    border-radius: 10px;
+    border-bottom: 1px solid #f4f4f4;
+    padding: 10px 5px;
+}
+.fila-seguimiento {
+    border-bottom: 1px solid #f4f4f4;
+    padding: 10px 5px;
+}
+textarea#comentario_seguimiento {
+    border: 1px solid #7dbbb6;
+    background: #ffffff00;
+}
+.fila-seguimiento {
+    box-shadow: 7px 4px 17px 0px #000000b8;
+    padding: 10px 5px;
+}
+.fila-seguimiento.propietario{
+    border-left: 3px solid #00754f;
+}
+div#collapse-seguimiento {
+    background: #7dbbb6;
+    padding: 20px 3%;
+}
+.seg-left {
+    margin-right: 30px;
+}
+#collapse-seguimiento .enviar {
+    text-align: right;
+    padding: 0px 25%;
+}
+.subrallado {
+    background: rgba(222, 236, 249, 0.64) !important;
+    background: linear-gradient(rgba(222, 236, 249, 0.84), rgba(201, 227, 251, 0.77)) !important;
+    background: -webkit-linear-gradient(rgba(222, 236, 249, 0.84), rgba(201, 227, 251, 0.77)) !important;
+    background: -o-linear-gradient(rgba(222, 236, 249, 0.84), rgba(201, 227, 251, 0.77)) !important;
+    background: -moz-linear-gradient(rgba(222, 236, 249, 0.84), rgba(201, 227, 251, 0.77)) !important;
+    cursor: pointer;
+}
+.select-prd {
+    cursor: pointer;
+}
+.ver_pedido:nth-child(2n).subrallado {
+    background-color: rgba(222, 236, 249, 0.64) !important;
+}
+.carritoImprimir.scrolled {
+    position: fixed;
+    top: 10px;
+}
+button#btnCarrito.scrolled {
+    position: fixed;
+    right: 26px;
+    width: 100px;
+    top: 0px;
+    background: #3c8dbc;
+    color: white;
+}
+.table-check{
+  display: none;
+}
+
+
+
+/* Input checkbox */
+.buscar-mes input[type=checkbox], .buscar-semana input[type=checkbox]{
+	height: 0;
+	width: 0;
+	visibility: hidden;
+}
+
+.buscar-mes label, .buscar-semana label{
+  cursor: pointer;
+  text-indent: -9999px;
+  width: 200px;
+  height: 30px;
+  background: grey;
+  display: inline-block;
+  border-radius: 100px;
+  position: relative;
+}
+
+.buscar-mes label:after, .buscar-semana label:after{
+	content: '';
+	position: absolute;
+	top: 5px;
+	left: 5px;
+	width: 40px;
+	height: 20px;
+	background: #fff;
+	border-radius: 90px;
+	transition: 0.3s;
+}
+
+.buscar-mes input:checked + label, .buscar-semana input:checked + label{
+	background: #bada55;
+}
+
+ .buscar-mes input:checked + label:after, .buscar-semana input:checked + label:after{
+	left: calc(100% - 5px);
+	transform: translateX(-100%);
+}
+
+.buscar-mes label:active:after, .buscar-semana label:active:after{
+	width: 130px;
+}
+#iframe-pedido .modal-body {
+    height: 100%;
+}
+#iframe-pedido .modal-content {
+    height: 100%;
+}
+#iframe-pedido .modal-dialog.modal-lg {
+    height: 100%;
+    width: 90%;
+}
+iframe {
+  width: 100%;
+  height: 100%;
+}
+/* centering
+body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+}*/
+
+/* ---------------- */
+th {
+   vertical-align: middle !important;
+
+   text-align: center;
+}
+
+td {
+   text-align: center;
+   vertical-align: middle !important;
+}
+.filtro-admin{
+   background: #deecf9;
+}
+input.form-control.input-sm.filterProducts {
+    background: #f1f8ff;
+    border: 1px solid #b4d6ea;
+    border-radius: 4px;
+    margin: 5px;
+    margin-left: 1px;
+}
+select.form-control.input-sm.filterProducts {
+   width: 70px;
+   border-radius: 4px !important;
+background: #f1f8ff;
+border: 1px solid #b4d6ea;
+}
+#dataTables_productos tr:hover {
+    border-left: 1px solid #000000;
+    border-right: 1px solid #000000;
+    background-color: rgba(126, 135, 138, 0.16);
+    cursor: pointer;
+}
+
+
+/*INCIDENCIAS */
+
+@media (max-width: 1525px){
+  .descuento button.btn-actualizar, .descuento button.btn-resolver, .descuento label,.motivo-incidencia label {
+    display: none;
+  }
+  .descuento button.btn-actualizar.hidden, .descuento button.btn-resolver.hidden, .descuento label.hidden, .motivo-incidencia label.hidden {
+    display: block!important;
+  }
+}
+
+.acceso-webs button {
+  padding: 0px;
+  border: 0px;
+  background-color: transparent;
+  margin-left: 5px;
+}

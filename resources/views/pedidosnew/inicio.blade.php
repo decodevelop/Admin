@@ -496,7 +496,7 @@
                   <button title="Aceptar envio" style="margin: 2px;" id="enviar-pedido_{{ $pedido->id }}" type="button" class="btn btn-default btn-md"><i class="fa fa-truck" aria-hidden="true"></i></button>
                   <a title="Ver detalles" style="margin: 2px;"  href="/pedidos/detalle/{{$pedido->id }}" id="aceptar-{{ $pedido->id }}" type="button" class="btn btn-default btn-md"><i class="fa fa-eye" aria-hidden="true"></i></a>
                   <a title="Modificar" style="margin: 2px;"  href="/pedidos/modificar/{{$pedido->id }}" type="button" class="btn btn-primary btn-md modificar_pedido">  <i class="fa fa-edit"></i></a>
-                  <a title="Generar albaran" style="margin: 2px;"  href="/pedidos/albaran/{{$pedido->id }}" id="albaran-{{ $pedido->id }}" type="button" class="btn btn-default btn-md"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
+                  <a title="Generar albaran" style="margin: 2px;" id="albaran-pedido_{{ $pedido->id }}" type="button" class="btn btn-default btn-md"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
                   <a title="Duplicar" style="margin: 2px;"  href="/pedidos/duplicar/{{$pedido->id }}" id="duplicar-pedido_{{ $pedido->numero_pedido }}" type="button" class="btn btn-default btn-md"><i class="fa fa-files-o" aria-hidden="true"></i></a>
                   <button title="Eliminar"  style="margin: 2px;" id="eliminar-pedido_{{ $pedido->id }}" type="button" class="btn btn-github btn-md"><i class="fa fa-trash" aria-hidden="true"></i></button>
 
@@ -555,6 +555,29 @@
     $('[name="o_origen_referencia"]').change(function(){
       $('[name="origen_referencia"]').val($('[name="o_origen_referencia"]').val());
       //$('#debuger').val($('[name="o_o_csv"]').val());
+    });
+
+
+    $('[id^="albaran-pedido_"]').click(function(){
+  		var idped = $( this ).attr("id").split("_")[1];
+  		apprise('Generar albarán en A4?', {'verify':true,}, function(r){
+
+        if(r){
+          apprise('2 copias? ', {'verify':true,}, function(r){
+            if(r){
+              window.location.href = "/pedidos/albaran/A4/"+idped;
+            }else{
+              window.location.href = "/pedidos/albaran/FA4/"+idped;
+            }
+
+
+          });
+        }else{
+
+          window.location.href = "/pedidos/albaran/etiqueta/"+idped;
+
+        }
+      });
     });
 
     /* Eliminar pedido */

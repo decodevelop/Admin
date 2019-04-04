@@ -192,9 +192,11 @@ Route::group(['middleware' => 'auth'], function() {
 
 
 		// Rutas para generar PDFs pedidos (multiples/unicos/bultos)
-		Route::get('/pedidos/albaran/{idm}', 'PedidosNewController@gpdf_albaran'); // Generamos albaran PDF único/bultos
-		Route::post('/pedidos/albaran/{idm}', 'PedidosNewController@gpdf_albaran'); // Generamos albaran PDF único/bultos
+		Route::get('/pedidos/albaran/{type}/{idm}', 'PedidosNewController@gpdf_albaran'); // Generamos albaran PDF único/bultos
+		Route::post('/pedidos/albaran/{type}/{idm}', 'PedidosNewController@gpdf_albaran'); // Generamos albaran PDF único/bultos
 		Route::post('/pedidos/albaranes', 'PedidosNewController@gpdf_albaranes'); // Generamos albaran PDF Múltiple
+
+		Route::get('/pedidos/albaran_etiqueta/{idm}', 'PedidosNewController@gpdf_albaran_etiqueta'); // Generamos albaran PDF único/bultos
 
 		Route::get('/pedidos/transportista/{nombre_transportista}', 'PedidosNewController@pedidos_transportista'); // Generamos albaran PDF único/bultos
 

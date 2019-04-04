@@ -1416,13 +1416,21 @@ class PedidosNewController extends Controller
       return "Actualizado.";
     }
 
-    public function gpdf_albaran($idm, Request $request){
+    public function gpdf_albaran($type, $idm, Request $request){
       $ids = null;
 
       $pedido = Pedidos::find($idm);
       $ruta_pdf = "documentos/albaranes/agrupados/";
-      $nombre_pdf = "pedido_".$pedido->o_csv.$pedido->numero_pedido;
+      $nombre_pdf = $type."_albaran_".$pedido->origen->referencia.$pedido->numero_pedido;
       $view = "";
+
+      if($type== "etiqueta"){
+        $template= "pedidosnew.albaran_etiqueta";
+      }else if($type== "A4"){
+        $template= "pedidosnew.albaran";
+      }else{
+        $template= "pedidosnew.albaran1copia";
+      }
 
       if(isset($request->all()["ids"])){ $ids = json_decode($request->all()["ids"],true); }
 
@@ -1440,12 +1448,14 @@ class PedidosNewController extends Controller
         $view = $this->crear_vista_albaran_producto($trans_array);
         return $this->generar_pdf($view,$ruta_pdf,$nombre_pdf);
       }else{
-        $view = $this->crear_vista_albaran($pedido);
+        $view = $this->crear_vista_albaran($pedido, $template);
 
         return $this->generar_pdf($view,$ruta_pdf,$nombre_pdf);
       }
 
     }
+
+
 
     private function generar_pdf($view,$ruta_pdf,$nombre_pdf){
       $dompdf = new Dompdf();
@@ -1470,7 +1480,7 @@ class PedidosNewController extends Controller
 
       foreach($ids as $id){
         $pedido = Pedidos::find($id['value']);
-        $view .= $this->crear_vista_albaran($pedido);
+        $view .= $this->crear_vista_albaran($pedido, 'pedidosnew.albaran');
 
         $nombre_pdf = "pedidos_mult_".$pedido->numero_albaran;
       }
@@ -1495,7 +1505,7 @@ class PedidosNewController extends Controller
       return View::make('pedidosnew/alta_origen', array());
     }
 
-    private function crear_vista_albaran($pedido){
+    private function crear_vista_albaran($pedido, $vista){
       $view = '';
       $transportistas = Transportistas::whereHas('productos' , function ($query) use($pedido){
         $query->whereHas('pedido', function ($query) use($pedido){
@@ -1516,7 +1526,7 @@ class PedidosNewController extends Controller
         $datos = array('pedido' => $pedido,
                       'productos' => $productos);
 
-        $view .= View::make('pedidosnew.albaran', $datos)->render();
+        $view .= View::make($vista, $datos)->render();
 
         foreach ($productos as $producto) {
           $producto->albaran_generado = 1;

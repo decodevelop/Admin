@@ -91,7 +91,7 @@
 					@endforeach
 				</tbody>
 			</table>
-			<form id="generar_pdf_productos_form" method="post"  action="{{Url(''.'/pedidos/albaran/'.$pedido->id)}}">
+			<form id="generar_pdf_productos_form" method="post"  action="">
 				{{ csrf_field() }}
 				<input type="hidden" id="ids" name="ids" value="empty"/>
 			</form>
@@ -242,8 +242,8 @@
 							</table>
 							<div class="box-footer">
 								<div class="btn btn-warning">
-								<a style="color: white" href="/incidencias/nueva/{{$pedido->id}}"><i class="fa fa-plus"></i>&nbsp;Nueva incidencia</a>
-							</div>
+									<a style="color: white" href="/incidencias/nueva/{{$pedido->id}}"><i class="fa fa-plus"></i>&nbsp;Nueva incidencia</a>
+								</div>
 							</div>
 
 
@@ -412,8 +412,34 @@ $(document).ready(function(e){
 	/* Al clicar sobre el botón, importamos albaran marcados mediante ajax y retorna un pdf ( utilizado para definir los bultos ). */
 	$("#generar_albaranes_pdf").click(function(){
 		 var arrayPedidos = $("[name='pedido']").serializeArray();
+		 var idped = {{$pedido->id}};
 		 $("#ids").val(JSON.stringify(arrayPedidos));
-		 $("#generar_pdf_productos_form").submit();
+
+
+		 apprise('Generar albarán en A4?', {'verify':true,}, function(r){
+
+			 if(r){
+				 apprise('2 copias? ', {'verify':true,}, function(r){
+					 if(r){
+						  $("#generar_pdf_productos_form").attr('action',"/pedidos/albaran/A4/"+idped);
+							$("#generar_pdf_productos_form").submit();
+					 }else{
+						  $("#generar_pdf_productos_form").attr('action',"/pedidos/albaran/FA4/"+idped);
+							$("#generar_pdf_productos_form").submit();
+					 }
+
+
+				 });
+			 }else{
+
+				  $("#generar_pdf_productos_form").attr('action',"/pedidos/albaran/etiqueta/"+idped);
+					$("#generar_pdf_productos_form").submit();
+			 }
+		 });
+
+
+
+
 		 /*$.ajax({
 			url: "/pedidos/albaranes",
 			type:'POST',

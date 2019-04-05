@@ -1445,7 +1445,7 @@ class PedidosNewController extends Controller
             array_push($trans_array[$producto->transportista->id],$producto);
           }
         }
-        $view = $this->crear_vista_albaran_producto($trans_array);
+        $view = $this->crear_vista_albaran_producto($trans_array, $template);
         return $this->generar_pdf($view,$ruta_pdf,$nombre_pdf);
       }else{
         $view = $this->crear_vista_albaran($pedido, $template);
@@ -1539,7 +1539,7 @@ class PedidosNewController extends Controller
       return $view;
     }
 
-    private function crear_vista_albaran_producto($trans_array){
+    private function crear_vista_albaran_producto($trans_array, $template){
       $view = '';
       foreach ($trans_array as $id_trans => $productos) {
 
@@ -1548,7 +1548,7 @@ class PedidosNewController extends Controller
         $datos = array('pedido' => $productos[0]->pedido,
                       'productos' => $productos);
 
-        $view .= View::make('pedidosnew.albaran', $datos)->render();
+        $view .= View::make($template, $datos)->render();
 
         foreach ($productos as $producto) {
           $producto->albaran_generado = 1;

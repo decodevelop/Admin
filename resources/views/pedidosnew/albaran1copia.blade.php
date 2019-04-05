@@ -4,7 +4,6 @@
 	*{
 		font-size: 12px !important;
 		font-family:Arial, sans-serif!important;
-		font-weight: bold;
 	}
 	hr {
 	    display: block;
@@ -21,17 +20,14 @@
 	  padding: 0px;
 	  margin-bottom: 20px;
 	}
-	td,th,p{
-		font-weight: bold;
-	}
 </style>
-<div style="border-bottom: 1px #000 solid;height:98%">
+<div style="height:98%; border-bottom: 1px #000 solid;">
 <div style="clear:both; margin-top: 10px;">
 <b>
 	{{$pedido->origen->nombre}}
 </b>
 <span style="margin-left: 50%;">Nº Albarán:
-	<span style="font-size: 20px!important;">{{$pedido->numero_albaran}}</span>
+	{{$pedido->numero_albaran}}
 </span>
 <p style="">Fecha: {{ $pedido->fecha_pedido }}</p>
 	<hr>
@@ -89,15 +85,15 @@
 	  </tr>
 	  @foreach($productos as $producto)
 	  <tr>
-		<td class="tg-yw4l">{{ $producto->nombre_esp }} - {{ $producto->SKU }} - {{$producto->variante}} </td>
+		<td class="tg-yw4l">{{ $producto->nombre_esp }} - {{ $producto->SKU }} - {{ $producto->nombre }} - {{$producto->variante}} </td>
 		<td class="tg-yw4l">{{ $producto->cantidad }} </td>
 	  </tr>
 	  @endforeach
 	</table>
-	<p>Bultos: @if ($pedido->bultos == 0 || $pedido->bultos == '') 1 @else {{ $pedido->bultos }} @endif </p>
+	<p style="font-weight: 100;">Bultos: @if ($pedido->bultos == 0 || $pedido->bultos == '') 1 @else {{ $pedido->bultos }} @endif </p>
 		<?php
 		$obs = str_replace("\r\n","<br/>",$pedido->observaciones); ?>
-	<p>Observaciones: {!! $obs !!}</p>
+	<p style="font-weight: 100;">Observaciones: {!! $obs !!}</p>
 	@if(($pedido->precio_envio > 5) && ($pedido->precio_envio < 7) )
 		<b>Por favor, enviar el pedido en un mismo transportista</b>
 	@endif

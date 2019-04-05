@@ -412,7 +412,6 @@ $(document).ready(function(e){
 	/* Al clicar sobre el botón, importamos albaran marcados mediante ajax y retorna un pdf ( utilizado para definir los bultos ). */
 	$("#generar_albaranes_pdf").click(function(){
 		 var arrayPedidos = $("[name='pedido']").serializeArray();
-		 var idped = {{$pedido->id}};
 		 $("#ids").val(JSON.stringify(arrayPedidos));
 
 

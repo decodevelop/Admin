@@ -1475,14 +1475,25 @@ class PedidosNewController extends Controller
     public function gpdf_albaranes(Request $request){
       $ruta_pdf = "documentos/albaranes/agrupados/";
 
+      $type = $request->all()["type"];
+
+      if($type== "etiqueta"){
+        $template= "pedidosnew.albaran_etiqueta";
+      }else if($type== "A4"){
+        $template= "pedidosnew.albaran";
+      }else{
+        $template= "pedidosnew.albaran1copia";
+      }
+
       $view = "";
-      $ids = json_decode($request->all()["ids"], true);
+      if(isset($request->all()["ids"])){ $ids = json_decode($request->all()["ids"],true); }
 
       foreach($ids as $id){
         $pedido = Pedidos::find($id['value']);
-        $view .= $this->crear_vista_albaran($pedido, 'pedidosnew.albaran');
+        $view .= $this->crear_vista_albaran($pedido,$template);
 
-        $nombre_pdf = "pedidos_mult_".$pedido->numero_albaran;
+        $nombre_pdf = $type."_albaran_mult_".$pedido->origen->referencia.$pedido->numero_pedido;
+
       }
 
       return $this->generar_pdf($view,$ruta_pdf,$nombre_pdf);

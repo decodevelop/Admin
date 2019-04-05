@@ -526,9 +526,10 @@
         <div class="box-footer clearfix">
   				<button title="Generar albaranes en pdf" id="generar_albaranes_pdf" type="button" class="btn btn-danger btn-xs"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Generar Albaranes</button>
   				<button title="Generar Excel" id="generar_excel_pdf" type="button" class="btn btn-success btn-xs"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Generar Excel</button>
-  				<form id="generar_albaranes_pdf_form" method="post"  action="{{Url(''.'/pedidos/albaranes')}}">
+  				<form id="generar_albaranes_pdf_form" method="POST" action="/pedidos/albaranes">
     				{{ csrf_field() }}
     				<input type="hidden" id="ids" name="ids" value="empty"/>
+            <input type="hidden" id="type" name="type" value="empty"/>
   				</form>
   				<form id="generar_excel_form" method="post"  action="{{Url(''.'/pedidos/gen_excel')}}">
     				{{ csrf_field() }}
@@ -697,7 +698,27 @@
 
        var arrayPedidos = $("[name='pedido']").serializeArray();
        $("#ids").val(JSON.stringify(arrayPedidos));
-       $("#generar_albaranes_pdf_form").submit();
+
+       apprise('Generar albarán en A4?', {'verify':true,}, function(r){
+
+  			 if(r){
+  				 apprise('2 copias? ', {'verify':true,}, function(r){
+  					 if(r){
+               $("#type").val("A4");
+  							$("#generar_albaranes_pdf_form").submit();
+  					 }else{
+               $("#type").val("FA4");
+  							$("#generar_albaranes_pdf_form").submit();
+  					 }
+
+
+  				 });
+  			 }else{
+           $("#type").val("etiqueta");
+  					$("#generar_albaranes_pdf_form").submit();
+  			 }
+  		 });
+
        /*$.ajax({
         url: "/pedidos/albaranes",
         type:'POST',

@@ -333,7 +333,7 @@
       <ul class="sidebar-menu">
         <li class="header">ADMINISTRACIÓN</li>
 		 <li class="{{(Request::is('administracion')) ? 'active':'' }}"><a href="{{url('/administracion')}}"><i class="fa fa-book"></i> <span>Inicio</span></a></li>
-
+     @if (Auth::user()->apodo != "administracion")
         <li class="treeview {{(Request::is('estadisticas*')) ? 'active':'' }}">
               <a href="#">
                 <i class="fa fa fa-area-chart"></i> <span>Estadísticas</span>
@@ -348,7 +348,7 @@
                 <li class="{{(Request::is('estadisticas/productos')) ? 'active':'' }}"><a href="{{url('/estadisticas/productos')}}"><i class="fa fa-circle-o "></i> Productos</a></li>
               </ul>
             </li>
-
+    @endif
 
     <li class="treeview {{(Request::is('pedidos*')) ? 'active':'' }}">
           <a href="#">
@@ -405,7 +405,7 @@
           </a>
           <ul class="treeview-menu">
             <li class="{{(Request::is('catalogo')) ? 'active':'' }}"><a href="{{url('/catalogo')}}"><i class="fa fa-circle-o "></i> Inicio</a></li>
-            <li class="{{(Request::is('catalogo/ver_stock_web')) ? 'active':'' }}"><a href="{{url('/catalogo/ver_stock_web')}}"><i class="fa fa-circle-o"></i> Stock</a></li>
+            <li class="{{(Request::is('productos/ver_stock_web')) ? 'active':'' }}"><a href="{{url('/catalogo/ver_stock_web')}}"><i class="fa fa-circle-o"></i> Stock</a></li>
             <li class="{{(Request::is('catalogo/nuevo')) ? 'active':'' }}"><a href="{{url('/catalogo/nuevo')}}"><i class="fa fa-plus "></i> Nuevo producto</a></li>
           </ul>
     </li>

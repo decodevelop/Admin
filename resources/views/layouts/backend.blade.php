@@ -57,13 +57,14 @@
 	$sdeco = "<b>D</b>T";
 ?>
 @else
-.navbar-nav>.user-menu>.dropdown-menu {
-	padding: 0px 0 0 0 !important;
-}
+
 <?php
 	$bdeco = "<b>Deco</b>wood";
 	$sdeco = "<b>D</b>W";
 ?>
+.navbar-nav>.user-menu>.dropdown-menu {
+	padding: 0px 0 0 0 !important;
+}
 @endif
   </style>
   @yield('estilos')
@@ -313,7 +314,7 @@
           <img src="{{{ url(Auth::user()->imagen_perfil) }}}" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>{{ Auth::user()->apodo }}</p>
+          <p>{{ Auth::user()->apodo }} </p>
           <a href="#"><i class="fa fa-circle text-success"></i> Activo</a>
         </div>
       </div>

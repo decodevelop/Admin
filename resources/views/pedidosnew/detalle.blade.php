@@ -413,7 +413,7 @@ $(document).ready(function(e){
 	$("#generar_albaranes_pdf").click(function(){
 		 var arrayPedidos = $("[name='pedido']").serializeArray();
 		 $("#ids").val(JSON.stringify(arrayPedidos));
-
+		 var idped = {{ $pedido->id }};
 
 		 apprise('Generar albarán en A4?', {'verify':true,}, function(r){
 

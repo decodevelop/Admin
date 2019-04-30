@@ -2,7 +2,7 @@
 <style>
 	html {padding:0%; margin:0% 1%;}
 	*{
-		font-size: 12px !important;
+		font-size: 18px !important;
 		font-family:Arial, sans-serif!important;
 		font-weight: bold;
 	}

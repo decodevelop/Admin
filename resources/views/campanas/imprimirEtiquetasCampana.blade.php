@@ -3,7 +3,7 @@
 @section('titulo_h1','Amazon')
 
 @section('contenido')
-	<style>
+	<style> 
 		body{
 			background-color: white!important;
 		}

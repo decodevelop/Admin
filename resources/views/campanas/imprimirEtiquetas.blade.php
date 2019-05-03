@@ -48,7 +48,7 @@
 			@for ($i = 0; $i < $productos_palets->cantidad; $i++)
 				@php ($contadorEtiquetas = $contadorEtiquetas+1)
 				<div class="containerImgBarcode">
-				    <img src="data:image/png;base64,{{DNS1D::getBarcodePNG($productos_palets->producto->producto->ean, 'EAN13')}}" class="imgBarcode" alt="barcode" />
+				    <img src="data:image/png;base64,{{DNS1D::getBarcodePNG($productos_palets->producto->producto->ean, 'C128')}}" class="imgBarcode" alt="barcode" />
 						<p class="nombreProductoBarcode">{{$productos_palets->producto->producto->ean}}</p>
 				    <p class="nombreProductoBarcode">{{$productos_palets->producto->producto->nombre}}</p>
 				    <p class="referenciaProductoBarcode">REF: {{$productos_palets->producto->producto->referencia}}</p>

@@ -44,14 +44,15 @@
   			  	margin-bottom: 0cm; }
 		}
 	</style>
-	<div style="padding-top:0.5cm">
+	<div style="padding-top:0.3cm">
 		@php ($contadorEtiquetas = 0)
 		 @forelse ($palet->productos_palets as $productos_palets)
 			@for ($i = 0; $i < $productos_palets->cantidad; $i++)
 				@php ($contadorEtiquetas = $contadorEtiquetas+1)
 				<div class="containerImgBarcode">
+            <img src="/img/logodecopeque.jpg" class="logo" alt="logo" style="width: 2.7cm;margin-bottom: 0.3cm;" />
             <p>¿AMOR A PRIMERA VISTA?</p>
-            <p style="margin-bottom: 10px;"><strong>¡ESCAMEAME!</strong></p>
+            <p style="margin-bottom: 10px;"><strong>¡ESCANÉAME!</strong></p>
 
             <img src="data:image/png;base64,{{DNS2D::getBarcodePNG("https://decowood.es/", 'QRCODE')}}" class="imgBarcode" alt="barcode" />
 						{{--<p class="nombreProductoBarcode">{{$productos_palets->producto->producto->ean}}</p>

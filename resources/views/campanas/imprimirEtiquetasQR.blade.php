@@ -9,10 +9,13 @@
 		}
 		.containerImgBarcode{
 			text-align: center;
-		    display: inline-block;
-		    width: 255px;
-    		height:7cm;
-		    padding: 2cm 0.5cm 0 0.5cm;
+	    display: flex;
+	    justify-content: center;
+	    width: 6cm;
+	    height: 6cm;
+	    margin: 0cm 0.7cm 0.7cm 0cm;
+	    align-items: center;
+			float: left;
 		}
     p {
       margin-bottom: 0px;
@@ -44,13 +47,14 @@
   			  	margin-bottom: 0cm; }
 		}
 	</style>
-	<div style="padding-top:0.3cm">
+	<div style="margin:1.8cm 0 0 0.7cm">
 		@php ($contadorEtiquetas = 0)
 		 @forelse ($palet->productos_palets as $productos_palets)
 			@for ($i = 0; $i < $productos_palets->cantidad; $i++)
 				@php ($contadorEtiquetas = $contadorEtiquetas+1)
 				<div class="containerImgBarcode">
-            <img src="/img/logodecopeque.jpg" class="logo" alt="logo" style="width: 2.7cm;margin-bottom: 0.3cm;" />
+					<div class="container-qr">
+						<img src="/img/logodecopeque.jpg" class="logo" alt="logo" style="width: 2.7cm;margin-bottom: 0.3cm;" />
             <p>¿AMOR A PRIMERA VISTA?</p>
             <p style="margin-bottom: 10px;"><strong>¡ESCANÉAME!</strong></p>
 
@@ -58,6 +62,8 @@
 						{{--<p class="nombreProductoBarcode">{{$productos_palets->producto->producto->ean}}</p>
 				    <p class="nombreProductoBarcode">{{$productos_palets->producto->producto->nombre}}</p>
 				    <p class="referenciaProductoBarcode">REF: {{$productos_palets->producto->producto->referencia}}</p>--}}
+					</div>
+
 			    </div>
 				@if($contadorEtiquetas>=12)
 					<div class="page-break"></div>

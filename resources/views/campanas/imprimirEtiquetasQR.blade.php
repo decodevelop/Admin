@@ -32,6 +32,13 @@
 		.nombreProductoBarcode{
 			height: 20px;
 		}
+		.page-break{
+			display:block;
+			page-break-before:always;
+			/*height: 1.8cm;
+	    width: 100%;
+	    float: left;*/
+		}
 		@media print {
 		      .page-break{
 		      	display:block;
@@ -47,10 +54,14 @@
   			  	margin-bottom: 0cm; }
 		}
 	</style>
-	<div style="margin:1.8cm 0 0 0.7cm">
+	<div >
 		@php ($contadorEtiquetas = 0)
 		 @forelse ($palet->productos_palets as $productos_palets)
 			@for ($i = 0; $i < $productos_palets->cantidad; $i++)
+				@if($contadorEtiquetas==0)
+					<div class="" style="margin:1.8cm 0 0 0.7cm;display: block;float: left;">
+
+				@endif
 				@php ($contadorEtiquetas = $contadorEtiquetas+1)
 				<div class="containerImgBarcode">
 					<div class="container-qr">
@@ -66,6 +77,7 @@
 
 			    </div>
 				@if($contadorEtiquetas>=12)
+					</div>
 					<div class="page-break"></div>
 					@php ($contadorEtiquetas = 0)
 				@endif

@@ -16,6 +16,9 @@
 	    margin: 0cm 0.7cm 0.7cm 0cm;
 	    align-items: center;
 			float: left;
+      /*border: 1px solid black;
+      border-radius: 50%;*/
+
 		}
     p {
       margin-bottom: 0px;
@@ -39,6 +42,9 @@
 	    width: 100%;
 	    float: left;*/
 		}
+    .small, small {
+    font-size: 66%;
+    }
 	 .nombreProducto {
     position: relative;
     bottom: -47px;
@@ -60,26 +66,20 @@
 	</style>
 	<div >
 		@php ($contadorEtiquetas = 0)
-		 @forelse ($palet->productos_palets as $productos_palets)
-			@for ($i = 0; $i < $productos_palets->cantidad; $i++)
+			@for ($i = 0; $i < 12; $i++)
 				@if($contadorEtiquetas==0)
 					<div class="" style="margin:1.8cm 0 0 0.7cm;display: block;float: left;">
 
 				@endif
 				@php ($contadorEtiquetas = $contadorEtiquetas+1)
-				<div class="containerImgBarcode">
+				<div class="containerImgBarcode" style="padding-top: 57px;">
 					<div class="container-qr">
-						<img src="/img/logodecopeque.jpg" class="logo" alt="logo" style="width: 2.7cm;margin-bottom: 0.3cm;" />
-            <p>¿AMOR A PRIMERA VISTA?</p>
-            <p style="margin-bottom: 10px;"><strong>¡ESCANÉAME!</strong></p>
+						<img src="/img/logodecopeque.jpg" class="logo" alt="logo" style="width: 3.5cm;margin-bottom: 0.6cm;" />
+            <p>¡Síguenos en Instagram!</p>
+            <p style="margin-bottom: -9px;"><strong>{{'@decowood.es'}}</strong></p>
+            <p> <small>WWW.DECOWOOD.ES</small> </p>
 
-            <img src="data:image/png;base64,{{DNS2D::getBarcodePNG("https://decowood.es/", 'QRCODE')}}" class="imgBarcode" alt="barcode" />
-						{{--<p class="nombreProductoBarcode">{{$productos_palets->producto->producto->ean}}</p>
-				    <p class="nombreProductoBarcode">{{$productos_palets->producto->producto->nombre}}</p>
-				    <p class="referenciaProductoBarcode">REF: {{$productos_palets->producto->producto->referencia}}</p>--}}
-						<div class="nombreProducto">
-							Ejemplo: Cabecero de madera
-						</div>
+
 					</div>
 
 			    </div>
@@ -89,9 +89,6 @@
 					@php ($contadorEtiquetas = 0)
 				@endif
 			@endfor
-		@empty
-			<p>No hay datos.</p>
-		@endforelse
 	</div>
 <script src="{{url('/plugins/jQuery/jquery-2.2.3.min.js')}}"></script>
 <script>

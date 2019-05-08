@@ -150,6 +150,11 @@ Route::group(['middleware' => 'auth'], function() {
 
 
 		Route::get('/campanas/etiquetas/{id_campana}' , 'CampController@generarEtiquetasCampana');
+		Route::get('/campanas/etiquetas_instagram' , function(){
+
+				return view('campanas.imprimirEtiquetasInstagram');
+
+		});
 
 		Route::post('/campanas/palets/eliminarProductoPalet' , 'CampController@eliminarProductoPalet');
 

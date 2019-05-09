@@ -156,6 +156,12 @@ Route::group(['middleware' => 'auth'], function() {
 
 		});
 
+		Route::get('/campanas/etiquetas_decowood_web' , function(){
+
+				return view('campanas.imprimirEtiquetasWebQR');
+
+		});
+
 		Route::post('/campanas/palets/eliminarProductoPalet' , 'CampController@eliminarProductoPalet');
 
 		Route::get('/pruebacron', 'PedidosNewController@pruebacron'); // Inicio Productos
@@ -246,6 +252,11 @@ Route::group(['middleware' => 'auth'], function() {
 
 		});
 		Route::get('/development/pruebas', 'ToolsController@pruebas');
+		Route::get('/development/etiquetasqr', 'ToolsController@importarProductosParaEtiquetasQR');
+		Route::post('/development/etiquetasqr', 'ToolsController@generarEtiquetasQR');
+
+
+
 		Route::post('/development', 'ToolsController@generarConsultaEan');
 
 		Route::post('/development/categorias_sql', 'ToolsController@generarConsultaCategoriasSql');

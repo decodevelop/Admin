@@ -487,7 +487,7 @@ class CampController extends Controller
 
   public function generarEtiquetas($id_palet){
     $palet = Palets::find($id_palet);
-    return View::make('campanas/imprimirEtiquetasQR', array('palet' => $palet));
+    return View::make('campanas/imprimirEtiquetas', array('palet' => $palet));
   }
 
   public function generarAlbaran($id_palet, Request $request){

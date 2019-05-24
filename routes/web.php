@@ -150,6 +150,17 @@ Route::group(['middleware' => 'auth'], function() {
 
 
 		Route::get('/campanas/etiquetas/{id_campana}' , 'CampController@generarEtiquetasCampana');
+		Route::get('/campanas/etiquetas_instagram' , function(){
+
+				return view('campanas.imprimirEtiquetasInstagram');
+
+		});
+
+		Route::get('/campanas/etiquetas_decowood_web' , function(){
+
+				return view('campanas.imprimirEtiquetasWebQR');
+
+		});
 
 		Route::post('/campanas/palets/eliminarProductoPalet' , 'CampController@eliminarProductoPalet');
 
@@ -241,6 +252,11 @@ Route::group(['middleware' => 'auth'], function() {
 
 		});
 		Route::get('/development/pruebas', 'ToolsController@pruebas');
+		Route::get('/development/etiquetasqr', 'ToolsController@importarProductosParaEtiquetasQR');
+		Route::post('/development/etiquetasqr', 'ToolsController@generarEtiquetasQR');
+
+
+
 		Route::post('/development', 'ToolsController@generarConsultaEan');
 
 		Route::post('/development/categorias_sql', 'ToolsController@generarConsultaCategoriasSql');
@@ -248,6 +264,11 @@ Route::group(['middleware' => 'auth'], function() {
 		Route::post('/development/fabricante_sql', 'ToolsController@generarConsultaManufacturerSql');
 		Route::get('/development/clientes', 'ToolsController@exportarClientesWebs');
 
+		Route::get('/development/etiquetas_pc' , function(){
+
+				return view('herramientas.etiquetas_pc');
+
+		});
 
 		Route::get('/development/instagram' , function(){
 

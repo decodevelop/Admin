@@ -13,8 +13,8 @@
 	    display: flex;
 	    justify-content: center;
 	    width: 6cm;
-	    height: 6cm;
-	    margin: 0cm 0.7cm 0.7cm 0cm;
+	    height: 2.5cm;
+	    margin: 0cm 0.7cm 0cm 0cm;
 	    align-items: center;
 			float: left;
 			/*border-radius: 50%;
@@ -24,7 +24,7 @@
       margin-bottom: 0px;
     }
 		.imgBarcode{
-			    width: 87px;
+
 			/*width: 200px;*/
 		}
 		.nombreProductoBarcode{
@@ -66,40 +66,28 @@
 	<div >
 
 		@php ($contadorEtiquetas = 0)
-		 @forelse ($productos as $producto)
 
-			@for ($i = 0; $i < $producto['unidades']; $i++)
+			@for ($i = 0; $i < 33; $i++)
 
 				@if($contadorEtiquetas==0)
-					<div class="" style="margin:1.8cm 0 0 0.7cm;display: block;float: left;">
+					<div class="" style="margin:1cm 0 0 0.7cm;display: block;float: left;">
 
 				@endif
 				@php ($contadorEtiquetas = $contadorEtiquetas+1)
 				<div class="containerImgBarcode">
 					<div class="container-qr">
-						<img src="/img/logodecopeque.jpg" class="logo" alt="logo" style="width: 2.7cm;margin-bottom: 0.1cm;" />
-            <p>¿AMOR A PRIMERA VISTA?</p>
-            <p style="margin-bottom: 5px;"><strong>¡ESCANÉAME!</strong></p>
 
-            <img src="data:image/png;base64,{{DNS2D::getBarcodePNG($producto['url'], 'QRCODE')}}" class="imgBarcode" alt="barcode" />
-						{{--<p class="nombreProductoBarcode">{{$productos_palets->producto->producto->ean}}</p>
-				    <p class="nombreProductoBarcode">{{$productos_palets->producto->producto->nombre}}</p>
-				    <p class="referenciaProductoBarcode">REF: {{$productos_palets->producto->producto->referencia}}</p>--}}
-						<div class="nombreProducto">
-							{{$producto['nombre']." ".$producto['referencia']}}
-						</div>
+            <p>PC1</p>
+
 					</div>
 
 			    </div>
-				@if($contadorEtiquetas>=12)
+				@if($contadorEtiquetas>=33)
 					</div>
 					<div class="page-break"></div>
 					@php ($contadorEtiquetas = 0)
 				@endif
 			@endfor
-		@empty
-			<p>No hay datos.</p>
-		@endforelse
 	</div>
 <script src="{{url('/plugins/jQuery/jquery-2.2.3.min.js')}}"></script>
 <script>

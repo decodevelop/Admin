@@ -398,4 +398,64 @@ class ToolsController extends Controller
 
       })->export('xls');
     }
+
+
+    public function importarProductosParaEtiquetasQR(Request $request){
+      $page_name= "Generador etiquetas QR";
+      $format = ".XSLX";
+      return View::make('herramientas/importar' , array('page_name' => $page_name,
+                                                        'format' => $format));
+
+    }
+
+    public function generarEtiquetasQR(Request $request){
+      $productos = array();
+      $success= array();
+      $errors = array();
+      if(isset($request["inputSeguridad"]) && $request["inputSeguridad"]=='565dsad4874#@3sfasf' && $request['csv']!=NULL){ //Controlamos que no venga vacío el fichero
+        // 1. Validar formato documento importado
+        if(strtolower($request['csv']->getClientOriginalExtension())=='xlsx'){ //Controlamos la extensión del fichero.
+          // 2. Generar nombre del fichero
+          $nombreFichero = 'excel_etiquetasQR_'.date('d-m-Y_H-i-s').'.'.$request->csv->getClientOriginalExtension();
+          // 3. Subir fichero al directorio de archivos
+          $request->csv->move(public_path('documentos/tools'), $nombreFichero);
+          // Paso 3.1: Eliminar documentos anteriores a 1 semana. (esto está en pedidos también)
+          //* Hay que crear un CRON en el sistema para que elimine cierto numero cada semana, aunque se puede hacer
+          //* el cleanup aquí mismo al cargar un nuevo fichero.
+
+          // Paso 5: Bucle donde iremos subiendo los productos uno a uno.
+
+        //  $productosexistentes = Productos::get();
+
+          $contHechos = 0;
+           $pr = Excel::load('documentos/tools/'.$nombreFichero, function($archivo) use($productos){
+
+
+//                 Session::put('productosConsulta', $productos);
+
+
+           })->get();
+
+          // dd($result);
+           foreach($pr as $key => $value){
+
+             //dd($value);
+             array_push($productos, array('referencia' => $value["referencia"],
+                                          'nombre'=>$value["nombre"],
+                                          'unidades'=>$value["unidades"],
+                                          'url'=>$value["url"]));
+
+           }
+           //dd($productos);
+           array_push($success,'Fichero subido correctamente');
+
+
+        }else array_push($errors,'Formato de fichero no válido.');
+      }else array_push($errors,'No has subido fichero.');
+
+
+       return View::make('campanas/imprimirEtiquetasQR', array('productos' => $productos));
+    }
+
+
 }

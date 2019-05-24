@@ -24,7 +24,7 @@
       margin-bottom: 0px;
     }
 		.imgBarcode{
-			    width: 87px;
+
 			/*width: 200px;*/
 		}
 		.nombreProductoBarcode{
@@ -66,9 +66,8 @@
 	<div >
 
 		@php ($contadorEtiquetas = 0)
-		 @forelse ($productos as $producto)
 
-			@for ($i = 0; $i < $producto['unidades']; $i++)
+			@for ($i = 0; $i < 12; $i++)
 
 				@if($contadorEtiquetas==0)
 					<div class="" style="margin:1.8cm 0 0 0.7cm;display: block;float: left;">
@@ -77,16 +76,16 @@
 				@php ($contadorEtiquetas = $contadorEtiquetas+1)
 				<div class="containerImgBarcode">
 					<div class="container-qr">
-						<img src="/img/logodecopeque.jpg" class="logo" alt="logo" style="width: 2.7cm;margin-bottom: 0.1cm;" />
+						<img src="/img/logodecopeque.jpg" class="logo" alt="logo" style="width: 2.7cm;margin-bottom: 0.2cm;" />
             <p>¿AMOR A PRIMERA VISTA?</p>
-            <p style="margin-bottom: 5px;"><strong>¡ESCANÉAME!</strong></p>
+            <p style="margin-bottom: 10px;"><strong>¡ESCANÉAME!</strong></p>
 
-            <img src="data:image/png;base64,{{DNS2D::getBarcodePNG($producto['url'], 'QRCODE')}}" class="imgBarcode" alt="barcode" />
+            <img src="data:image/png;base64,{{DNS2D::getBarcodePNG("https://decowood.es/", 'QRCODE')}}" class="imgBarcode" alt="barcode" />
 						{{--<p class="nombreProductoBarcode">{{$productos_palets->producto->producto->ean}}</p>
 				    <p class="nombreProductoBarcode">{{$productos_palets->producto->producto->nombre}}</p>
 				    <p class="referenciaProductoBarcode">REF: {{$productos_palets->producto->producto->referencia}}</p>--}}
 						<div class="nombreProducto">
-							{{$producto['nombre']." ".$producto['referencia']}}
+							www.decowood.es
 						</div>
 					</div>
 
@@ -97,9 +96,6 @@
 					@php ($contadorEtiquetas = 0)
 				@endif
 			@endfor
-		@empty
-			<p>No hay datos.</p>
-		@endforelse
 	</div>
 <script src="{{url('/plugins/jQuery/jquery-2.2.3.min.js')}}"></script>
 <script>

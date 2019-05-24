@@ -1899,7 +1899,7 @@ class PedidosNewController extends Controller
                     'email' => ''.$pedido->cliente->email.'',
                     );
 
-      return Excel::create('mrw_csv_'.$pedido->numero_albaran , function($excel) use($csv) {
+      return Excel::create('szendex_csv_'.$pedido->numero_albaran , function($excel) use($csv) {
         $excel->getDefaultStyle()
                ->getAlignment()
                ->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);

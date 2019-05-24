@@ -57,13 +57,14 @@
 	$sdeco = "<b>D</b>T";
 ?>
 @else
-.navbar-nav>.user-menu>.dropdown-menu {
-	padding: 0px 0 0 0 !important;
-}
+
 <?php
 	$bdeco = "<b>Deco</b>wood";
 	$sdeco = "<b>D</b>W";
 ?>
+.navbar-nav>.user-menu>.dropdown-menu {
+	padding: 0px 0 0 0 !important;
+}
 @endif
   </style>
   @yield('estilos')
@@ -289,12 +290,12 @@
             </ul>
           </li>
           <!-- User Account: style can be found in dropdown.less -->
-          <li class="dropdown user user-menu">
+          {{--<li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="{{{ url(Auth::user()->imagen_perfil) }}}" class="user-image" alt="User Image">
               <span class="hidden-xs">{{ Auth::user()->apodo }}</span>
             </a>
-          </li>
+          </li>--}}
           <!-- Control Sidebar Toggle Button
           <li>
             <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
@@ -313,12 +314,12 @@
           <img src="{{{ url(Auth::user()->imagen_perfil) }}}" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>{{ Auth::user()->apodo }}</p>
-          <a href="#"><i class="fa fa-circle text-success"></i> Activo</a>
+          <p>{{ Auth::user()->apodo }} </p>
+          <small> {{ Auth::user()->rol }}</small>
         </div>
       </div>
       <!-- search form -->
-      <form action="#" method="get" class="sidebar-form">
+      {{--<form action="#" method="get" class="sidebar-form">
         <div class="input-group">
           <input type="text" name="q" class="form-control" placeholder="Search...">
               <span class="input-group-btn">
@@ -326,13 +327,13 @@
                 </button>
               </span>
         </div>
-      </form>
+      </form>--}}
       <!-- /.search form -->
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu">
-        <li class="header">ADMINISTRACIÓN</li>
-		 <li class="{{(Request::is('administracion')) ? 'active':'' }}"><a href="{{url('/administracion')}}"><i class="fa fa-book"></i> <span>Inicio</span></a></li>
-
+        <li class="header">Menú</li>
+		 {{-- <li class="{{(Request::is('administracion')) ? 'active':'' }}"><a href="{{url('/administracion')}}"><i class="fa fa-book"></i> <span>Inicio</span></a></li>--}}
+     @if (Auth::user()->rol != "pedidos")
         <li class="treeview {{(Request::is('estadisticas*')) ? 'active':'' }}">
               <a href="#">
                 <i class="fa fa fa-area-chart"></i> <span>Estadísticas</span>
@@ -347,7 +348,7 @@
                 <li class="{{(Request::is('estadisticas/productos')) ? 'active':'' }}"><a href="{{url('/estadisticas/productos')}}"><i class="fa fa-circle-o "></i> Productos</a></li>
               </ul>
             </li>
-
+    @endif
 
     <li class="treeview {{(Request::is('pedidos*')) ? 'active':'' }}">
           <a href="#">
@@ -369,6 +370,7 @@
                 <li class="{{(Request::is('pedidos/transportista/mrw')) ? 'active':'' }}"><a href="{{url('/pedidos/transportista/mrw')}}"><i class="fa fa-envelope-square" aria-hidden="true"></i> MRW</a></li>
                 <li class="{{(Request::is('pedidos/transportista/tipsa')) ? 'active':'' }}"><a href="{{url('/pedidos/transportista/tipsa')}}"><i class="fa fa-envelope-square" aria-hidden="true"></i> TIPSA</a></li>
                 <li class="{{(Request::is('pedidos/transportista/ups')) ? 'active':'' }}"><a href="{{url('/pedidos/transportista/ups')}}"><i class="fa fa-envelope-square" aria-hidden="true"></i> UPS</a></li>
+                <li class="{{(Request::is('pedidos/transportista/SZENDEX')) ? 'active':'' }}"><a href="{{url('/pedidos/transportista/SZENDEX')}}"><i class="fa fa-envelope-square" aria-hidden="true"></i> SZENDEX</a></li>
               </ul>
             </li>
             <li class="treeview">
@@ -404,7 +406,7 @@
           </a>
           <ul class="treeview-menu">
             <li class="{{(Request::is('catalogo')) ? 'active':'' }}"><a href="{{url('/catalogo')}}"><i class="fa fa-circle-o "></i> Inicio</a></li>
-            <li class="{{(Request::is('catalogo/ver_stock_web')) ? 'active':'' }}"><a href="{{url('/catalogo/ver_stock_web')}}"><i class="fa fa-circle-o"></i> Stock</a></li>
+            <li class="{{(Request::is('productos/ver_stock_web')) ? 'active':'' }}"><a href="{{url('/catalogo/ver_stock_web')}}"><i class="fa fa-circle-o"></i> Stock</a></li>
             <li class="{{(Request::is('catalogo/nuevo')) ? 'active':'' }}"><a href="{{url('/catalogo/nuevo')}}"><i class="fa fa-plus "></i> Nuevo producto</a></li>
           </ul>
     </li>

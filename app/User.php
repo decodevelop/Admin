@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'apodo', 'permisos', 'puesto_trabajo', 'email', 'clave', 'imagen_perfil',
+        'apodo', 'permisos', 'puesto_trabajo', 'email', 'clave', 'imagen_perfil','nombre','primer_apellido','segundo_apellido','fecha_nacimiento','rol'
     ];
 
     /**
@@ -26,14 +26,14 @@ class User extends Authenticatable
     protected $hidden = [
         'clave', 'remember_token',
     ];
-	
+
 	/**
      * Override getAuthPassword to override modified passwname.
      *
      * @var array
      */
-	public function getAuthPassword(){ 
+	public function getAuthPassword(){
 		return $this->clave;
-	} 
-	
+	}
+
 }

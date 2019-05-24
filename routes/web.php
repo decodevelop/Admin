@@ -264,6 +264,11 @@ Route::group(['middleware' => 'auth'], function() {
 		Route::post('/development/fabricante_sql', 'ToolsController@generarConsultaManufacturerSql');
 		Route::get('/development/clientes', 'ToolsController@exportarClientesWebs');
 
+		Route::get('/development/etiquetas_pc' , function(){
+
+				return view('herramientas.etiquetas_pc');
+
+		});
 
 		Route::get('/development/instagram' , function(){
 

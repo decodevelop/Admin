@@ -82,12 +82,11 @@ class ToolsController extends Controller
               // dd($result);
                foreach($result as $key => $value){
 
-                 $ids = explode('_',$value["id_producto_prestashop"]);
+                 //$ids = explode('_',$value["id_producto_prestashop"]);
                   //dd($ids);
-                if($ids[1]!=0){
-                 array_push($productos, array('id' => $ids[1],
+                 array_push($productos, array('id' => $value["id_product_attribute"],
                                               'ean'=>$value["ean"]));
-                }
+
                }
                  Session::put('productosConsulta', $productos);
 
@@ -407,6 +406,15 @@ class ToolsController extends Controller
                                                         'format' => $format));
 
     }
+
+
+    public function generador_etiquetas(){
+       return View::make('herramientas/generador_etiquetas');
+    }
+    public function etiquetas_almacen(Request $request){
+        return View::make('herramientas/etiquetas_almacen' , array('datos' => $request));
+    }
+
 
     public function generarEtiquetasQR(Request $request){
       $productos = array();

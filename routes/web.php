@@ -255,6 +255,8 @@ Route::group(['middleware' => 'auth'], function() {
 		Route::get('/development/etiquetasqr', 'ToolsController@importarProductosParaEtiquetasQR');
 		Route::post('/development/etiquetasqr', 'ToolsController@generarEtiquetasQR');
 
+		Route::get('/development/generador_etiquetas', 'ToolsController@generador_etiquetas');
+		Route::post('/development/generador_etiquetas', 'ToolsController@etiquetas_almacen');
 
 
 		Route::post('/development', 'ToolsController@generarConsultaEan');

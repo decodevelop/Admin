@@ -435,6 +435,7 @@
               </a>
               <ul class="treeview-menu">
                 <li class="{{(Request::is('development')) ? 'active':'' }}"><a href="{{url('/development')}}"><i class="fa fa-circle-o "></i> Inicio</a></li>
+                <li class="{{(Request::is('development/generador_etiquetas')) ? 'active':'' }}"><a href="{{url('/development/generador_etiquetas')}}"><i class="fa fa-circle-o "></i> etiquetas</a></li>
                 <li class="{{(Request::is('development/calculadora')) ? 'active':'' }}"><a href="{{url('/development/calculadora')}}"><i class="fa fa-circle-o "></i> Calculadora</a></li>
               </ul>
             </li>

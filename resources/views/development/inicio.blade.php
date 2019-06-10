@@ -331,7 +331,7 @@ use App\Direcciones;
 					@if (is_int($count/182))
 						===============================================<br>
 					@endif
-					UPDATE ps_product_attribute SET ean13 = '{{$product['ean']}}' WHERE '{{$product['id']}}' like id_product_attribute;<br>
+					UPDATE psdw_product_attribute SET ean13 = '{{$product['ean']}}' WHERE '{{$product['id']}}' like id_product_attribute;<br>
 
 				@endforeach
 			@endif

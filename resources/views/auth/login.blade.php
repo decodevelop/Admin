@@ -1,9 +1,26 @@
 @extends('layouts.frontend')
 
 @section('contenido')
+  <link rel="stylesheet" href="{{url('/css/fonts.css')}}">
+  <style>
+      .login-logo .subtitle::after {
+      content: "-";
+      margin-left: 5px;
+      display: inline-block;
+    }
+    .login-logo .subtitle::before {
+    content: "-";
+    margin-right: 5px;
+    display: inline-block;
+  }
+  .login-logo a {
+    letter-spacing: 7px;
+}
+  </style>
 <div class="login-box">
   <div class="login-logo">
-    <a href=""><b>Admin</b>Decowood (test)</a>
+    <a href="">DECO<strong>WOOD</strong></a>
+    <div class="subtitle" style="text-transform: uppercase;font-size: 14px;display: block;margin-top: -6px;">ADMIN</div>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">

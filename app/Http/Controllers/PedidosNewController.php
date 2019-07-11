@@ -1819,11 +1819,25 @@ class PedidosNewController extends Controller
       $tlf = str_replace("/", "", $pedido->cliente->telefono);
       $tlf = trim($tlf);
 
-      if($pedido->cliente->direccion->pais_envio == ""){
-        $pais_fact = "ES";
-      }else{
-        $pais_fact = $pedido->cliente->direccion->pais_envio;
+
+      $pais_fact = $pedido->cliente->direccion->pais_envio;
+      switch ($pedido->cliente->direccion->pais_envio) {
+        case 'ES':
+          $pais_fact = 'ESPAÑA';
+          break;
+        case 'PT':
+          $pais_fact = 'PORTUGAL';
+          break;
+        case 'FR':
+          $pais_fact = 'FRANCIA';
+          break;
+        default:
+          $pais_fact = 'ESPAÑA';
+          break;
       }
+
+
+
 
       $empty = "";
       $csv = array('numero_albaran' => $empty,

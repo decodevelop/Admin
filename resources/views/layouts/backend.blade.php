@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{url('/css/AdminLTE.min.css')}}">
+  <link rel="stylesheet" href="{{url('/css/fonts.css')}}">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="{{url('/css/skins/_all-skins.min.css')}}">
@@ -53,14 +54,14 @@
     padding: 0px 0 0 0 !important;
 }
 <?php
-	$bdeco = "<b>Deco</b>test";
-	$sdeco = "<b>D</b>T";
+	$bdeco = "DECO<b>TEST</b>";
+	$sdeco = "DC<b>T</b>";
 ?>
 @else
 
 <?php
-	$bdeco = "<b>Deco</b>wood";
-	$sdeco = "<b>D</b>W";
+	$bdeco = "DECO<b>WOOD</b>";
+	$sdeco = "DC<b>W</b>";
 ?>
 .navbar-nav>.user-menu>.dropdown-menu {
 	padding: 0px 0 0 0 !important;
@@ -395,21 +396,9 @@
 
 
 
-    <li class="{{(Request::is('incidencias*')) ? 'active':'' }}"><a href="{{url('/incidencias')}}"><i class="fa fa-comments-o"></i> <span>Incidencias</span></a></li>
+      <li class="{{(Request::is('incidencias*')) ? 'active':'' }}"><a href="{{url('/incidencias')}}"><i class="fa fa-comments-o"></i> <span>Incidencias</span></a></li>
 
-    <li class="treeview {{(Request::is('catalogo*')) ? 'active':'' }}">
-          <a href="#">
-            <i class="fa fa-archive"></i> <span>Catálogo</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li class="{{(Request::is('catalogo')) ? 'active':'' }}"><a href="{{url('/catalogo')}}"><i class="fa fa-circle-o "></i> Inicio</a></li>
-            <li class="{{(Request::is('productos/ver_stock_web')) ? 'active':'' }}"><a href="{{url('/catalogo/ver_stock_web')}}"><i class="fa fa-circle-o"></i> Stock</a></li>
-            <li class="{{(Request::is('catalogo/nuevo')) ? 'active':'' }}"><a href="{{url('/catalogo/nuevo')}}"><i class="fa fa-plus "></i> Nuevo producto</a></li>
-          </ul>
-    </li>
+      <li><a href="http://catalogo.decowood.es/" target="_blank"><i class="fa fa-archive"></i> <span>Catálogo</span></a></li>
 
 
       <li class="treeview {{(Request::is('campanas*')) ? 'active':'' }}">
@@ -470,7 +459,7 @@
   <!-- /.content-wrapper -->
   <footer class="main-footer">
     <div class="pull-right hidden-xs">
-      <b>Version</b> 2.3.6
+      <b>Version</b> 2.5.0.20190710
     </div>
     <strong>Copyright &copy; <?php echo date("Y"); ?> Decowood.</strong>
     @if(strpos( $url, 'test' ))

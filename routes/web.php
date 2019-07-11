@@ -285,7 +285,7 @@ Route::group(['middleware' => 'auth'], function() {
 
 		Route::get('/development/mails', 'PedidosController@excel_mails');
 
-
+		Route::get('/development/descargar_imagen', 'ToolsController@descargar_imagen');
 		route::get('/consola/', function(){
 			// --- Renombrar una tabla ---
 			//Schema::rename('talleres', 'taller');

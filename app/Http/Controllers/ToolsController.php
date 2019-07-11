@@ -415,6 +415,14 @@ class ToolsController extends Controller
         return View::make('herramientas/etiquetas_almacen' , array('datos' => $request));
     }
 
+    public function descargar_imagen(){
+
+
+      $imagen = file_get_contents('https://decowood.es/7743/corcho-mapa-del-mundo-blanco.jpg');
+      mkdir("imagenes_limango/090201-S001-01-MB", 0700);
+      file_put_contents('090201-S001-01-MB/foto.jpg', $imagen);
+
+    }
 
     public function generarEtiquetasQR(Request $request){
       $productos = array();

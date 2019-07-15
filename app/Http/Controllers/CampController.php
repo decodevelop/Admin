@@ -219,6 +219,9 @@ class CampController extends Controller
                  $producto_vp->nombre = $value['nombre'];
                  $producto_vp->referencia = $value['sku'];
                  $producto_vp->ean = $value['ean'];
+                 $producto_vp->largo = $value['largo'];
+                 $producto_vp->alto = $value['alto'];
+                 $producto_vp->ancho = $value['ancho'];
 
                  $producto_vp->save();
 

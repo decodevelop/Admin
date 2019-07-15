@@ -14,7 +14,7 @@ class Productos_vp extends Model
 
     protected $table = 'productos_vp';
     protected $fillable = [
-      'id','id_vp','nombre','referencia','ean'
+      'id','id_vp','nombre','referencia','ean','alto','largo','ancho'
     ];
 
     public function productos_campanas()

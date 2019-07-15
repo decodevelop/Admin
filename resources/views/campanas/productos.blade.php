@@ -127,8 +127,16 @@
 					@if(session()->exists('productosPalet_'.$id_campana) && count(session('productosPalet_'.$id_campana)) > 0)
 						<ul class="carritoListaImprimir">
 							@foreach(session('productosPalet_'.$id_campana) as $key => $productoCarrito)
-							<li><div class="col-xs-10 textoLineaCarrito">{{$productoCarrito[0]["cantidad_producto"].' x '.$productoCarrito[0]["nombre_producto"].': '.$productoCarrito[0]["ean"]}}</div>
-                  <div class="col-xs-2"><div class="eliminarIndividualCampana {{$productoCarrito[0]['ean']}}"><i class="fa fa-times"></i></div></div></li>
+							<li>
+                <div class="col-xs-10 textoLineaCarrito">
+                  {{$productoCarrito[0]["cantidad_producto"].' x '.$productoCarrito[0]["nombre_producto"].': '.$productoCarrito[0]["ean"]}}
+                </div>
+                <div class="col-xs-2">
+                  <div class="eliminarIndividualCampana {{$productoCarrito[0]['ean']}}">
+                    <i class="fa fa-times"></i>
+                  </div>
+                </div>
+              </li>
 							@endforeach
 						</ul>
 						<div class="botonesCarritoImprimir">
@@ -193,13 +201,23 @@
                 <td style="width: 140px" class="td_nombre_producto"><div>{{$producto_camp->producto->nombre}}</div><input type="text" value="{{$producto_camp->producto->nombre}}" class="form-control" style="display:none"></td>
                 <td style="width: 10px" class="td_referencia_producto"><div>{{$producto_camp->producto->referencia}}</div><input type="text" value="{{$producto_camp->producto->referencia}}" class="form-control" style="display:none"></td>
                 <td style="width: 10px" class="td_codigoean_producto"><div>{{$producto_camp->producto->ean}}</div><input type="text" value="{{$producto_camp->producto->ean}}" class="form-control" style="display:none"></td>
-                <td style="width: 10px"> <div> {{$producto_camp->restantes}}({{$producto_camp->comanda}}) </div> </td>
-                <td style="width: 10px">
-                  <input name="cantidad" type="number" placeholder="Cantidad" class="form-control input-md input_cantidad_producto" value="1" min="1" max="{{$producto_camp->restantes}}">
-                </td>
-                <td>
-                  <button type="button" class="btn btn-block btn-default btn-sm agregarCarrito"><i class="fa fa-plus"></i> Agregar</button>
-                </td>
+                <td style="width: 10px" class="td_restantes_producto"> <div> <label class="restantes restantes-{{$producto_camp->producto->ean}}">{{$producto_camp->restantes}}</label>({{$producto_camp->comanda}}) </div> </td>
+                  @if ($producto_camp->restantes > 0)
+                    <td style="width: 10px">
+                      <input name="cantidad" type="number" placeholder="Cantidad" class="form-control input-md input_cantidad_producto" value="1" min="1" max="{{$producto_camp->restantes}}">
+                    </td>
+                    <td>
+                      <button type="button" class="btn btn-block btn-default btn-sm agregarCarrito"><i class="fa fa-plus"></i> Agregar</button>
+                    </td>
+                  @else
+                    <td style="width: 10px">
+                      <input disabled name="cantidad" type="number" placeholder="Cantidad" class="form-control input-md input_cantidad_producto" value="0" min="0" max="{{$producto_camp->restantes}}">
+                    </td>
+                    <td>
+
+                    </td>
+                  @endif
+
               </tr>
             @empty
               <p>No hay datos.</p>
@@ -234,6 +252,7 @@
     </div>
     <!-- /.row -->
 </section>
+
 @endsection
 @section('scripts')
 <!-- DataTables -->
@@ -242,6 +261,14 @@
 <script src="{{url('/plugins/datepicker/bootstrap-datepicker.js')}}"></script>
 <script>
 $(document).ready(function(){
+
+  @foreach(session('productosPalet_'.$id_campana) as $key => $productoCarrito)
+
+    $(".restantes-{{$productoCarrito[0]["ean"]}}").html($(".restantes-{{$productoCarrito[0]["ean"]}}").html() - {{$productoCarrito[0]["cantidad_producto"]}});
+
+
+  @endforeach
+
   /* Mostrar el carrito */
 	$("#btnCarrito").click(function(){
 		if($(".carritoImprimir").css("display") == "block") $(".carritoImprimir").css("display","none");
@@ -259,6 +286,7 @@ $(document).ready(function(){
 		ean = productoSelected.find(".td_codigoean_producto div").html();
 		nombre = productoSelected.find(".td_nombre_producto div").html();
 		referencia = productoSelected.find(".td_referencia_producto div").html();
+    restantes = productoSelected.find(".td_restantes_producto .restantes").html();
     id_campana = $('#id_campana').val();
 		if(cantidad=='') cantidad = 0;
 		productos_amazon_carrito.push({"id_producto":id,"cantidad_producto":cantidad,"ean":ean, "nombre_producto":nombre, "referencia_producto":referencia, "id_campana":id_campana});
@@ -271,16 +299,24 @@ $(document).ready(function(){
       method: "POST",
       data: {"_token": "{{ csrf_token() }}", productos_amazon_carrito : JSON.stringify(productos_amazon_carrito)}
     }).done(function(carrito_final){
-        $('.loader-dw').hide();
+
         $('.carritoListaImprimir').children().remove();
         $('.carritoListaImprimir').append(carrito_final[0]);
         $('#btnCarrito').empty().append("<i class='fa fa-shopping-cart'></i> Palet (" + carrito_final[1] + ")");
-        //apprise(carrito_final);
+        //apprise(restantes);
+        var nuevos_restantes = restantes - cantidad;
+        productoSelected.find(".td_restantes_producto .restantes").html( restantes - cantidad);
+        if(nuevos_restantes < 1){
+          productoSelected.find(".input_cantidad_producto").prop('disabled', true);
+          productoSelected.find(".agregarCarrito").hide();
+        }
+
+        $('.loader-dw').hide();
     });
     //---
 
     //-----Atiguo--------
-  /*  $("#productos_amazon_carrito").val(JSON.stringify(productos_amazon_carrito));
+    /*  $("#productos_amazon_carrito").val(JSON.stringify(productos_amazon_carrito));
 		$("#carrito_compra_form").submit();*/
     //-------------------
 	});

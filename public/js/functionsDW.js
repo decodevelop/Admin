@@ -216,7 +216,9 @@ function eliminarIndividualCampana(){
     method: "GET",
     //data: {}
   }).done(function(carrito_final){
-      $('.loader-dw').hide();
+
+       location.reload();
+       //$('.loader-dw').hide();
       $('.eliminarIndividualCampana.'+ean).parent().parent().fadeOut('fast','linear',function(){this.remove()});
       $('#btnCarrito').empty().append("<i class='fa fa-shopping-cart'></i> Carrito (" + carrito_final + ")");
       //apprise(carrito_final);

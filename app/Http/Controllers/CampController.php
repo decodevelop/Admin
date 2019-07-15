@@ -57,12 +57,10 @@ class CampController extends Controller
   }
 
   public function viewProductos($id_campana,Request $request){
-
     /*-------------- ORDENACIONES --------------*/
     $getParams = $request->query();
     $orderBy2 = "id";
     $orderByType2 = "desc";
-
     /*-------------- FILTROS --------------*/
     $where = "1=1 ";
     if(isset($getParams["nombre"]) && $getParams["nombre"]!="") $where .= " and nombre like '%".$getParams["nombre"]."%'";

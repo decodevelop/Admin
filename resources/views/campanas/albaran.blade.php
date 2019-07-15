@@ -69,6 +69,9 @@
 	  <tr>
 		<th class="tg-yw4l">Referencia proveedor</th>
 		<th class="tg-yw4l">Descripcion</th>
+		<th class="tg-yw4l">Largo</th>
+		<th class="tg-yw4l">Alto</th>
+		<th class="tg-yw4l">Ancho</th>
     <th class="tg-yw4l">Codigo EAN</th>
 		<th class="tg-yw4l">Cantidad</th>
 	  </tr>
@@ -76,6 +79,9 @@
 	  <tr>
     <td class="tg-yw4l">{{$productos_palets->producto->producto->referencia}} </td>
 		<td class="tg-yw4l">{{$productos_palets->producto->producto->nombre}} </td>
+		<td class="tg-yw4l">{{$productos_palets->producto->producto->largo}} </td>
+		<td class="tg-yw4l">{{$productos_palets->producto->producto->alto}} </td>
+		<td class="tg-yw4l">{{$productos_palets->producto->producto->ancho}} </td>
     <td class="tg-yw4l">{{$productos_palets->producto->producto->ean}} </td>
 		<td class="tg-yw4l">{{ $productos_palets->cantidad }} </td>
 	  </tr>

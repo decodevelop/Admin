@@ -262,12 +262,13 @@
 <script>
 $(document).ready(function(){
 
-  @foreach(session('productosPalet_'.$id_campana) as $key => $productoCarrito)
 
-    $(".restantes-{{$productoCarrito[0]["ean"]}}").html($(".restantes-{{$productoCarrito[0]["ean"]}}").html() - {{$productoCarrito[0]["cantidad_producto"]}});
+    @if(session()->exists('productosPalet_'.$id_campana) && count(session('productosPalet_'.$id_campana)) > 0)
+      @foreach(session('productosPalet_'.$id_campana) as $key => $productoCarrito)
+        $(".restantes-{{$productoCarrito[0]["ean"]}}").html($(".restantes-{{$productoCarrito[0]["ean"]}}").html() - {{$productoCarrito[0]["cantidad_producto"]}});
+      @endforeach
+    @endif
 
-
-  @endforeach
 
   /* Mostrar el carrito */
 	$("#btnCarrito").click(function(){

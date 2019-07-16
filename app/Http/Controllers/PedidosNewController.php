@@ -1899,6 +1899,17 @@ class PedidosNewController extends Controller
         $datos_adicionales .= "#TipoServicio=0800#";
       }
 
+      switch ($inputs['pais-mrw']) {
+        case 'ESPAÑA':
+          $codigo_pais = '0050';
+          break;
+        case 'PORTUGAL':
+          $codigo_pais = '0050';
+          break;
+        default:
+          $codigo_pais = '0420';
+      }
+
       $csv = array('referencia_envio' => $pedido->numero_albaran,
                     'peso' => $inputs['kg-mrw'],
                     'bultos' => $inputs['bultos-mrw'],
@@ -1911,6 +1922,7 @@ class PedidosNewController extends Controller
                     'codigo_pais' => $inputs['pais-mrw'],
                     'telefono' => $inputs['telefono-mrw'],
                     'email' => ''.$pedido->cliente->email.'',
+                    'código país' => ''.$codigo_pais.''
                     );
 
       return Excel::create('szendex_csv_'.$pedido->numero_albaran , function($excel) use($csv) {
@@ -1923,8 +1935,8 @@ class PedidosNewController extends Controller
 
         $excel->sheet('pedido', function($sheet) use($csv) {
           // headers del documento xls
-          $header = [];
-          $row = 1;
+          $header = array('referencia_envio', 'peso', 'bultos', 'fecha_recogida', 'observacion', 'nombre_apellido', 'direccion', 'cp', 'poblacion', 'codigo_pais', 'telefono', 'email', 'tipo_servicio');
+          $row = 2;
           //Crear headers
           //añadimos las rows
           //dd($productos_amazon);
@@ -1933,7 +1945,7 @@ class PedidosNewController extends Controller
           //dd($csv3);
           $sheet->row($row , $csv);
           //$header = array_map('strtoupper', $header_valor);
-          $sheet->fromArray('', null, 'A1', true);
+          $sheet->fromArray($header, null, 'A1', true);
           //$sheet->getStyle("A1:D1")->getFont()->setBold(true);
         });
       })->export('xlsx');

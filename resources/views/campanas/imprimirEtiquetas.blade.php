@@ -19,13 +19,13 @@
 			width: 200px;
 		}
 		.nombreProductoBarcode{
-			font-size: 14px;
+			font-size: 11px;
 		}
 		.referenciaProductoBarcode{
-			height: 20px;
+			height: 12px;
 		}
 		.nombreProductoBarcode{
-			height: 20px;
+			height: 10px;
 		}
 		@media print {
 		      .page-break{
@@ -51,6 +51,7 @@
 				    <img src="data:image/png;base64,{{DNS1D::getBarcodePNG($productos_palets->producto->producto->ean, 'C128')}}" class="imgBarcode" alt="barcode" />
 						<p class="nombreProductoBarcode">{{$productos_palets->producto->producto->ean}}</p>
 				    <p class="nombreProductoBarcode">{{$productos_palets->producto->producto->nombre}}</p>
+						<p class="nombreProductoBarcode sub">{{$productos_palets->producto->producto->largo}} x {{$productos_palets->producto->producto->alto}} x {{$productos_palets->producto->producto->ancho}}</p>
 				    <p class="referenciaProductoBarcode">REF: {{$productos_palets->producto->producto->referencia}}</p>
 			    </div>
 				@if($contadorEtiquetas>=8)

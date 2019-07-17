@@ -63,7 +63,7 @@
 											<h3 class="modal-title" id="confirmacion_modalLabel">Confirmación</h3>
 										</div>
 										<div class="modal-body">
-											<h5>¿Estás seguro de que desea eliminar el Acabado <strong>{{$campana->nombre}}</strong>?</h5>
+											<h5>¿Estás seguro de que desea eliminar la campaña <strong>{{$campana->nombre}}</strong>?</h5>
 										</div>
 										<div class="modal-footer">
 											<button type="button" class="btn btn-secondary" data-dismiss="modal" style="margin-right: 10px;">Cancelar</button>

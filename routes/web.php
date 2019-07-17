@@ -114,6 +114,7 @@ Route::group(['middleware' => 'auth'], function() {
 
 		Route::get('/campanas', 'CampController@inicio');
 		Route::get('/campanas/crear', 'CampController@crear');
+		Route::post('/campanas/crear', 'CampController@crear_POST');
 		Route::get('/campanas/productos/{id_campana}', 'CampController@viewProductos');
 		Route::get('/campanas/palets/{id_campana}', 'CampController@viewPalets');
 

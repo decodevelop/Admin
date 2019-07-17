@@ -111,6 +111,74 @@ class CampController extends Controller
     }
   }
 
+  public function editar($id){
+    $origenes = Origen_pedidos::get();
+    $campana = Campanas::find($id);
+
+    return View::make('campanas/editar', array('origenes' => $origenes, 'campana' => $campana));
+  }
+
+  public function editar_POST($id, Request $request){
+    $ok = true;
+    $errors = array();
+    $campana = Campanas::find($id);
+    //dd($campana);
+
+    // Validamos que el nombre no sea nulo.
+    $nombre = $request->input('nombre');
+    if(strlen($nombre) == 0) {
+      $ok = false;
+      array_push($errors,'Error: El campo Nombre no puede estar vacío.');
+    }
+
+    // Validamos que el nombre no este repetido.
+    if(Campanas::where('nombre','=',$nombre)
+    ->where('nombre','!=',$campana->nombre)
+    ->exists()){
+      $ok = false;
+      array_push($errors,'Error: Ya existen Campañas con el nombre indicado.');
+    }
+
+
+    if($request['selectpickmult_origen'] == ''){
+      $ok = false;
+      array_push($errors, 'Error: El campo Origen és obligatorio.');
+    }
+
+    if($request['fecha_inicio'] > $request['fecha_fin']) {
+      $ok = false;
+      array_push($errors, 'Error: La Fecha de inicio no puede ser mayor a la Fecha final.');
+    }
+
+    if($ok) { // Si todo está ok, igualamos los atributos y guardamos, por último volvemos a la vista de Acabados.
+      $campana->referencia = $request['referencia'];
+      $campana->nombre = $request['nombre'];
+      $campana->fecha_inicio = $request['fecha_inicio'];
+      $campana->fecha_fin = $request['fecha_fin'];
+      $campana->total = $request['total'];
+      $campana->origen_id = $request['selectpickmult_origen'];
+      $campana->nombre_envio = $request['nombre_envio'];
+      $campana->direccion_envio = $request['direccion_envio'];
+      $campana->ciudad_envio = $request['ciudad_envio'];
+      $campana->estado_envio = $request['estado_envio'];
+      $campana->pais_envio = $request['pais_envio'];
+      $campana->cp_envio = $request['cp_envio'];
+      $campana->save();
+
+      return redirect('campanas');
+
+    } else { //Si algo no és correcto, enviamos los errores, el acabado erroneo y volvemos al formulario.
+      return back()->with(array('errors' => $errors));
+    }
+  }
+
+  public function eliminar($id){
+  $campana = Campanas::find($id);
+  $campana->delete();
+
+  return redirect('campanas');
+}
+
   public function viewProductos($id_campana,Request $request){
     /*-------------- ORDENACIONES --------------*/
     $getParams = $request->query();

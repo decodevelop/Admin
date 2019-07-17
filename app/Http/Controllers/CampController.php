@@ -60,6 +60,7 @@ class CampController extends Controller
   public function crear_POST(Request $request){
     $ok = true;
     $errors = array();
+    $success = array();
     //dd($request);
 
     // Validamos que el nombre no sea nulo.
@@ -100,9 +101,15 @@ class CampController extends Controller
     $campana->cp_envio = $request['cp_envio'];
 
     if($ok) { // Si todo está ok, igualamos los atributos y guardamos, por último volvemos a la vista de Acabados.
-      $campana->save();
+      if($campana->save()){
+        array_push($success,'Campaña creada correctamente.');
+      }
 
-      return redirect('campanas');
+      $vaciar_form = new Campanas;
+      Session::put('campanaErr',$vaciar_form);
+      Session::put('success',$success);
+
+      return back();
 
     } else { //Si algo no és correcto, enviamos los errores, el acabado erroneo y volvemos al formulario.
       Session::put('campanaErr',$campana);
@@ -121,6 +128,7 @@ class CampController extends Controller
   public function editar_POST($id, Request $request){
     $ok = true;
     $errors = array();
+    $success = array();
     $campana = Campanas::find($id);
     //dd($campana);
 
@@ -151,6 +159,7 @@ class CampController extends Controller
     }
 
     if($ok) { // Si todo está ok, igualamos los atributos y guardamos, por último volvemos a la vista de Acabados.
+
       $campana->referencia = $request['referencia'];
       $campana->nombre = $request['nombre'];
       $campana->fecha_inicio = $request['fecha_inicio'];
@@ -163,9 +172,15 @@ class CampController extends Controller
       $campana->estado_envio = $request['estado_envio'];
       $campana->pais_envio = $request['pais_envio'];
       $campana->cp_envio = $request['cp_envio'];
-      $campana->save();
 
-      return redirect('campanas');
+      if($campana->save()){
+        array_push($success,'Cambios guardados correctamente.');
+      }
+
+      Session::put('success',$success);
+      Session::put('campana',$campana);
+
+      return back();
 
     } else { //Si algo no és correcto, enviamos los errores, el acabado erroneo y volvemos al formulario.
       return back()->with(array('errors' => $errors));

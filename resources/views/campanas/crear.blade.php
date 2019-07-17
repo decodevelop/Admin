@@ -20,6 +20,24 @@
 @endsection
 
 @section('contenido')
+	@if (\Session::has('success'))
+		@php($success = \Session::pull('success'))
+	@endif
+
+	@if (\Session::has('success'))
+		@php($success = \Session::pull('success'))
+	@endif
+
+	@if(isset($success) && count($success)>0)
+		<div class="pad margin no-print">
+			<div class="callout callout-success" style="margin-bottom: 0!important;">
+				@foreach ($success as $s)
+					<p><i class="fa fa-check"></i> {{$s}}</p>
+				@endforeach
+			</div>
+		</div>
+	@endif
+
 	@if (\Session::has('campanaErr'))
 		@php($campanaErr = \Session::pull('campanaErr'))
 	@endif

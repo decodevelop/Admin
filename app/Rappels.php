@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Rappel extends Model
+class Rappels extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -14,6 +14,9 @@ class Rappel extends Model
     protected $fillable = [
         'id', 'id_proveedor', 'condiciones', 'max', 'min'
     ];
+
+    public $timestamps = false;
+
 
 		 /**
      * Get the post that owns the comment.

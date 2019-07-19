@@ -32,7 +32,7 @@
 			</div>
 		</div>
 	@endif
-	
+
 	@if (count($errors)>0)
 		<div class="pad margin no-print">
 			<div class="callout callout-danger" style="margin-bottom: 0!important;">
@@ -50,7 +50,7 @@
 		<div class="row">
 			<div class="col-xs-12">
 				<h2 class="page-header">
-					<i class="fa fa-globe"></i>&nbsp; Crear nueva campaña<small class="pull-right"></small>
+					<i class="fa fa-globe"></i>&nbsp; Modificando {{$campana->id}}. {{$campana->nombre}}<small class="pull-right"></small>
 				</h2>
 			</div>
 		</div>

@@ -32,13 +32,13 @@
 		<table class="table table-bordered">
 			<thead>
 				<tr>
-					<th >Origen</th>
-					<th >Nombre campaña</th>
+					<th>Origen</th>
+					<th>Nombre campaña</th>
 					<th>Palets</th>
-					<th >Fecha inicio</th>
-					<th >Fecha fin</th>
-					<th >Total</th>
-					<th >Opciones</th>
+					<th>Fecha inicio</th>
+					<th>Fecha fin</th>
+					<th>Total</th>
+					<th>Opciones</th>
 					<tr>
 					</thead>
 					<tbody>

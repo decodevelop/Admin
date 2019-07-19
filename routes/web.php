@@ -168,6 +168,21 @@ Route::group(['middleware' => 'auth'], function() {
 
 		Route::post('/campanas/palets/eliminarProductoPalet' , 'CampController@eliminarProductoPalet');
 
+		// PROVEEDORES
+		Route::get('/proveedores', 'ProveedoresController@inicio');
+		Route::get('/proveedores/detalle/{id}', 'ProveedoresController@detalle'); // vista detalle proveedor
+		Route::get('/proveedores/nuevo', 'ProveedoresController@nuevo');
+		Route::post('/proveedores/nuevo', 'ProveedoresController@nuevo_POST');
+		Route::get('/proveedores/modificar/{id}', 'ProveedoresController@modificar_proveedor');
+		Route::post('/proveedores/modificar/{id}', 'ProveedoresController@modificar_proveedor_POST');
+		Route::get('/proveedores/{id_proveedor}/rappels/modificar/{id_rappel}', 'ProveedoresController@modificar_rappel');
+		Route::post('/proveedores/{id_proveedor}/rappels/modificar/{id_rappel}', 'ProveedoresController@modificar_rappel_POST');
+		Route::get('/proveedores/{id}/rappels/nuevo', 'ProveedoresController@nuevo_rappel');
+		Route::post('/proveedores/{id}/rappels/nuevo', 'ProveedoresController@nuevo_rappel_POST');
+		Route::get('/proveedores/{id_proveedor}/rappels/eliminar/{id_rappel}', 'ProveedoresController@eliminar_rappel');
+//		Route::get('/proveedores/eliminar/{id}', 'ProveedoresController@eliminar');
+		//Route::get('/proveedores/productos/{id_campana}', 'ProveedoresController@viewProductos');
+
 		Route::get('/pruebacron', 'PedidosNewController@pruebacron'); // Inicio Productos
 
 		/* new pedidos */

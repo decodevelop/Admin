@@ -46,7 +46,6 @@ class ProveedoresController extends Controller
   */
 
   public function inicio(Request $request){
-
     $proveedores = Proveedores::get();
 
     return View::make('proveedores/inicio', array('proveedores' => $proveedores));
@@ -94,6 +93,7 @@ class ProveedoresController extends Controller
       $proveedor->logistica = $request['logistica'];
       $proveedor->contrato = $request['contrato'];
       $proveedor->observaciones = $request['observaciones'];
+      $proveedor->ultima_visita = $request['ultima_visita'];
 
       if((strlen($proveedor->plazo_entrega) > 0) && (strlen($proveedor->envio) > 0) && (strlen($proveedor->metodo_pago) > 0)) {
         $proveedor->listo_para_vender = true;
@@ -170,6 +170,7 @@ class ProveedoresController extends Controller
       $proveedor->logistica = $request['logistica'];
       $proveedor->contrato = $request['contrato'];
       $proveedor->observaciones = $request['observaciones'];
+      $proveedor->ultima_visita = $request['ultima_visita'];
 
       if((strlen($proveedor->plazo_entrega) > 0) && (strlen($proveedor->envio) > 0) && (strlen($proveedor->metodo_pago) > 0)) {
         $proveedor->listo_para_vender = true;

@@ -112,6 +112,10 @@
                         <td><input name="contrato" class="form-control" value="{{$proveedor->contrato}}"></td>
                       </tr>
                       <tr>
+                        <td>Última visita:</td>
+                        <td><input type="date" name="ultima_visita" class="form-control" value="{{$proveedor->ultima_visita}}"></td>
+                      </tr>
+                      <tr>
                         <td>Observaciones:</td>
                         <td>
                             <!--<div contenteditable="true" data-inputname="observaciones" class="textarea-transform-init textarea-observaciones" rows="3" cols="20" >-->

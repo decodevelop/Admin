@@ -64,6 +64,10 @@
 						<td><span>{{$proveedor->contrato}}</span></td>
 					</tr>
 					<tr>
+						<td><strong>Última visita:</strong></td>
+						<td><span>{{$proveedor->ultima_visita}}</span></td>
+					</tr>
+					<tr>
 						<td><strong>Observaciones:</strong></td>
 						<td><span>{{$proveedor->observaciones}}</span></td>
 					</tr>

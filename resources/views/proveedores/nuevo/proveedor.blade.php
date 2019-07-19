@@ -41,6 +41,10 @@
               <td><input name="contrato" class="form-control" value="@if(isset($requestErr)){{$requestErr['contrato']}}@endif"></td>
             </tr>
             <tr>
+              <td>Última visita:</td>
+              <td><input type="date" name="ultima_visita" class="form-control" value="@if(isset($requestErr)){{$requestErr['ultima_visita']}}@endif"></td>
+            </tr>
+            <tr>
               <td>Observaciones:</td>
               <td>
                 @if(isset($requestErr['observaciones']))

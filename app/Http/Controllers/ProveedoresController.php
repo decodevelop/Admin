@@ -15,6 +15,7 @@ use App\Origen_pedidos;
 use App\User;
 use App\Proveedores;
 use App\Rappels;
+use App\Seguimiento_proveedores;
 Use Validator;
 use Input;
 use DateTime;
@@ -54,8 +55,10 @@ class ProveedoresController extends Controller
   public function detalle($id){
     $proveedor = Proveedores::find($id);
     $rappel = Rappels::where('id_proveedor', '=', $id)->get();
-    //dd($rappel);
-    return View::make('proveedores/detalle', array('proveedor' => $proveedor, 'rappel' => $rappel));
+    $seguimiento = Seguimiento_proveedores::where('id_proveedor','=',$id)->get();
+    $usuarios = User::get();
+
+    return View::make('proveedores/detalle', array('proveedor' => $proveedor, 'rappel' => $rappel, 'seguimiento' => $seguimiento, 'usuarios' => $usuarios));
   }
 
   public function nuevo(){
@@ -249,6 +252,31 @@ class ProveedoresController extends Controller
     $rappel->delete();
 
     return redirect('/proveedores/detalle/'.$id_proveedor);
+  }
+
+  public function seguimiento_proveedores($id, Request $request){
+    $post = $request->all();
+    //var_dump($post);
+    //echo '<script>console.log('.$post["comentario_seguimiento"].');</script>';
+
+    try {
+      $proveedor = Proveedores::find($id);
+      $seguimiento = new Seguimiento_proveedores;
+
+      $seguimiento->id_proveedor =  $proveedor->id;
+      $seguimiento->mensaje = $post["comentario_seguimiento"];
+      //$seguimiento->created_at = date('Y-m-d H:i:s');
+      $seguimiento->id_usuario = Auth::user()->id;
+      //dd($seguimiento);
+      $seguimiento->save();
+
+    } catch(Exception $e) {
+      echo "<script>console.log('hola');</script>";
+      return "No se ha podido actualizar, contactar con el administrador developer@decowood.es";
+    }
+
+    echo "<script>console.log('adios');</script>";
+    return "Actualizado.";
   }
 
   public function viewProductos($id_campana,Request $request){

@@ -90,6 +90,9 @@ class CampController extends Controller
           $header = array('Nombre' ,
                           'Referencia' ,
                           'Codigo EAN' ,
+                          'largo',
+                          'alto',
+                          'ancho',
                           'Cantidad' );
 
 
@@ -102,6 +105,9 @@ class CampController extends Controller
                 $producto->producto->nombre,
                 $producto->producto->referencia,
                 $producto->producto->ean,
+                $producto->producto->largo,
+                $producto->producto->alto,
+                $producto->producto->ancho,
                 $producto->comanda
               );
               $sheet->row($row, $product_excel);

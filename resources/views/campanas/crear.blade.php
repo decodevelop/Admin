@@ -73,7 +73,7 @@
 					Nombre de la campaña: <input type="text" class="form-control input-sm form-margin" name="nombre" value="@if(isset($campanaErr)){{$campanaErr->nombre}}@endif"/>
 					Fecha de inicio: <input type="date" class="form-control input-sm form-margin" name="fecha_inicio" value="@if(isset($campanaErr)){{$campanaErr->fecha_inicio}}@endif"/>
 					Fecha de finalización: <input type="date" class="form-control input-sm form-margin" name="fecha_fin" value="@if(isset($campanaErr)){{$campanaErr->fecha_fin}}@endif"/>
-					Total: <input data-type="number" step="any" class="form-control input-sm form-margin" name="total" value="@if(isset($campanaErr)){{$campanaErr->total}}@endif"/>
+					Total: <input  type="number" step="any" class="form-control input-sm form-margin" name="total" value="@if(isset($campanaErr)){{$campanaErr->total}}@endif"/>
 
 					Origen:
 					<select class="form-control selectpicker form-margin" data-live-search="true" data-width="100%" name="selectpickmult_origen" title="origen">

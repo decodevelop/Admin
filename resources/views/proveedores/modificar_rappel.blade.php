@@ -75,12 +75,12 @@
                   <table class="table">
                     <tbody>
                       <tr>
-                        <td>Max:</td>
-                        <td><input name="max" class="form-control" value="{{$rappel->max}}"></td>
+                        <td>Máximo:</td>
+                        <td><input name="max" class="form-control" type="number" step="any" value="{{$rappel->max}}"></td>
                       </tr>
                       <tr>
-                        <td>Min:</td>
-                        <td><input name="min" class="form-control" value="{{$rappel->min}}"></td>
+                        <td>Mínimo:</td>
+                        <td><input name="min" class="form-control" type="number" step="any" value="{{$rappel->min}}"></td>
                       </tr>
                       <tr>
                         <td>Condiciones:</td>

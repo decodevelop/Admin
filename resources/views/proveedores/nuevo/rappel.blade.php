@@ -8,20 +8,16 @@
               <table class="table">
                 <tbody>
                   <tr>
-                    <td>Max:</td>
-                    <td><input name="max[]" class="form-control" value="{{$requestErr['max'][$i]}}"></td>
+                    <td>Máximo:</td>
+                    <td><input name="max[]" class="form-control" type="number" step="any" value="{{$requestErr['max'][$i]}}"></td>
                   </tr>
                   <tr>
-                    <td>Min:</td>
-                    <td><input name="min[]" class="form-control" value="{{$requestErr['min'][$i]}}"></td>
+                    <td>Mínimo:</td>
+                    <td><input name="min[]" class="form-control" type="number" step="any" value="{{$requestErr['min'][$i]}}"></td>
                   </tr>
                   <tr>
                     <td>Condiciones:</td>
-                    <td>
-                      <div contenteditable="true" data-inputname="condiciones[]" class="textarea-transform-init textarea-condiciones" rows="3" cols="20">
-                        {!! $requestErr['condiciones'][$i] !!}
-                      </div>
-                    </td>
+                    <td><input name="condiciones[]" data-type="text" class="form-control" value="{{$requestErr['condiciones'][$i]}}"></td>
                   </tr>
                 </tbody>
               </table>
@@ -34,18 +30,16 @@
             <table class="table">
               <tbody>
                 <tr>
-                  <td>Max:</td>
-                  <td><input name="max[]" class="form-control"></td>
+                  <td>Máximo:</td>
+                  <td><input name="max[]" class="form-control" type="number" step="any"></td>
                 </tr>
                 <tr>
-                  <td>Min:</td>
-                  <td><input name="min[]" class="form-control"></td>
+                  <td>Mínimo:</td>
+                  <td><input name="min[]"class="form-control" type="number" step="any"></td>
                 </tr>
                 <tr>
                   <td>Condiciones:</td>
-                  <td>
-                    <textarea data-inputname="condiciones[]" class="textarea-transform-init textarea-condiciones-combi" rows="3" cols="80"></textarea>
-                  </td>
+                  <td><input name="condiciones[]" data-type="text" class="form-control"></td>
                 </tr>
               </tbody>
             </table>
@@ -55,7 +49,9 @@
     </div>
   </div>
   <div class="col-xs-12">
-    <button type="button" name="addCombi" data-count="1" class="addCombi"> Añadir otro rappel</button>
+    <button data-placement="top" data-toggle="tooltip" title="Nuevo Rappel" type="button" id="verButton" class="addCombi btn btn-default">
+      <i class="fa fa-plus"></i> Añadir otro rappel
+    </button>
   </div>
 </div>
 </div>

@@ -75,12 +75,12 @@
                   <table class="table">
                     <tbody>
                       <tr>
-                        <td>Max:</td>
-                        <td><input name="max" class="form-control" value=""></td>
+                        <td>Máximo:</td>
+                        <td><input name="max" class="form-control"  type="number" step="any" value=""></td>
                       </tr>
                       <tr>
-                        <td>Min:</td>
-                        <td><input name="min" class="form-control" value=""></td>
+                        <td>Mínimo:</td>
+                        <td><input name="min" class="form-control"  type="number" step="any" value=""></td>
                       </tr>
                       <tr>
                         <td>Condiciones:</td>

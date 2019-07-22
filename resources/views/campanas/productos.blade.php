@@ -228,6 +228,7 @@
 
 				<!-- /.box-body -->
 				<div class="box-footer clearfix">
+          <a href="/campanas/generar_excel_campana/{{$id_campana}}" class="btn btn-success btn-sm">Descargar excel campaña</a>
 					<ul class="pagination pagination-sm no-margin pull-right">
 						<!-- $paginacion->links('pedidos.pagination',["test" => "test"] ) -->
 						{!! $productos->appends($_GET)->links() !!}

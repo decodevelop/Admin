@@ -77,6 +77,47 @@ class CampController extends Controller
     return View::make('campanas/productos', array('productos' => $productos, 'id_campana' => $id_campana));
   }
 
+  public function generar_excel_campana($id_campana){
+
+
+
+    return Excel::create('campaña_'.$id_campana, function($excel) use($id_campana) {
+        $excel->sheet('Sheetname', function($sheet) use($id_campana) {
+          // headers del documento xls
+          $header = [];
+          $row = 1;
+
+          $header = array('Nombre' ,
+                          'Referencia' ,
+                          'Codigo EAN' ,
+                          'Cantidad' );
+
+
+          $productos = Productos_campana::where('id_campana','=',$id_campana)->get();
+
+          foreach ($productos as $producto) {
+
+              $row++;
+              $product_excel = array(
+                $producto->producto->nombre,
+                $producto->producto->referencia,
+                $producto->producto->ean,
+                $producto->comanda
+              );
+              $sheet->row($row, $product_excel);
+
+
+
+
+          }
+          $sheet->fromArray($header, null, 'A1', true);
+        });
+
+    })->export('xls');
+
+
+  }
+
   public function viewPalets($id_campana,Request $request){
 
     $palets = Palets::where('id_campana','=',$id_campana)->paginate(40);

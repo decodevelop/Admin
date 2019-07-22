@@ -116,6 +116,8 @@ Route::group(['middleware' => 'auth'], function() {
 		Route::get('/campanas/crear', 'CampController@crear');
 		Route::get('/campanas/productos/{id_campana}', 'CampController@viewProductos');
 		Route::get('/campanas/palets/{id_campana}', 'CampController@viewPalets');
+		//generar_excel_campana
+		Route::get('/campanas/generar_excel_campana/{id_campana}', 'CampController@generar_excel_campana');
 
 		Route::get('/campanas/subirExcelVp', 'CampController@subirProductosVP'); // subida excel
 		Route::post('/campanas/subirExcelVp', 'CampController@subirProductosVP_post');

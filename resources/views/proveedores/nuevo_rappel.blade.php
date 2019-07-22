@@ -85,8 +85,7 @@
                       <tr>
                         <td>Condiciones:</td>
                         <td>
-                          <!--<div contenteditable="true" data-inputname="condiciones" class="textarea-transform-init textarea-condiciones" rows="3" cols="20" >-->
-                          <textarea name="condiciones" rows="8" cols="80"></textarea>
+                          <div contenteditable="true" data-inputname="condiciones" class="textarea-transform-init textarea-condiciones" rows="3" cols="20" >
                         </td>
                       </tr>
                     </tbody>
@@ -114,44 +113,5 @@
 @endsection
 
 @section('scripts')
-  <script type="text/javascript">
-  jQuery(document).ready(function($){
-    /*
-    $('.input-transform').click(function(){
-    input_transform(this);
-  });
-
-  $('.textarea-transform').click(function(){
-  textarea_transform(this);
-
-
-});
-
-$('.textarea-transform-init').each(function(){
-textarea_transform(this);
-});
-*/
-$(".addCombi").click(function(){
-  var clone = $(".product-combi").first().clone();
-
-  clone.appendTo("#product-combis");
-});
-});
-/*
-function textarea_transform(thisInput){
-$(thisInput).hide('fast');
-
-$("<textarea>" ,{
-'class': 'form-control textarea-'+$(thisInput).data('inputname'),
-'style': 'display:none',
-'text': $.trim($(thisInput).html()),
-'name': $(thisInput).data('inputname'),
-'rows': $(thisInput).data('rows'),
-'cols': $(thisInput).data('cols'),
-
-}).appendTo($(thisInput).parent()).delay(400).show('slow').richText();
-}
-*/
-</script>
 
 @endsection

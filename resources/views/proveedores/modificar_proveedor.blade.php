@@ -118,10 +118,9 @@
                       <tr>
                         <td>Observaciones:</td>
                         <td>
-                            <!--<div contenteditable="true" data-inputname="observaciones" class="textarea-transform-init textarea-observaciones" rows="3" cols="20" >-->
-                            <textarea name="observaciones" rows="8" cols="80">
+                            <div contenteditable="true" data-inputname="observaciones" class="textarea-transform-init textarea-observaciones" rows="3" cols="20" >
                               {!! $proveedor->observaciones !!}
-                            </textarea>
+                            </div>
                         </td>
                       </tr>
                     </tbody>

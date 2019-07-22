@@ -85,10 +85,9 @@
                       <tr>
                         <td>Condiciones:</td>
                         <td>
-                          <!--<div contenteditable="true" data-inputname="condiciones" class="textarea-transform-init textarea-condiciones" rows="3" cols="20" >-->
-                          <textarea name="condiciones" rows="8" cols="80">
+                          <div contenteditable="true" data-inputname="condiciones" class="textarea-transform-init textarea-condiciones" rows="3" cols="20" >
                             {!! $rappel->condiciones !!}
-                          </textarea>
+                          </div>
                         </td>
                       </tr>
                     </tbody>

@@ -109,7 +109,7 @@ class ProveedoresController extends Controller
       }
 
       foreach ($request['condiciones'] as $key => $value) {
-        if((strlen($request['condiciones'][$key]) > 0) || (strlen($request['max'][$key]) > 0) || (strlen($request['min'][$key]) > 0)){
+        if((strlen($request['condiciones'][$key]) > 0 && $request['condiciones'][$key] != "<div><br></div>") || (strlen($request['max'][$key]) > 0) || (strlen($request['min'][$key]) > 0)){
 
           $rappel = new Rappels;
           $rappel->id_proveedor = $proveedor->id;
@@ -182,7 +182,7 @@ class ProveedoresController extends Controller
       }
 
       if($proveedor->save()){
-        array_push($success,'Proveedor creado correctamente.');
+        array_push($success,'Proveedor actualizado correctamente.');
       }
 
       Session::put('success',$success);
@@ -229,7 +229,7 @@ class ProveedoresController extends Controller
   public function nuevo_rappel_POST($id_proveedor, Request $request){
     $success = array();
 
-    if((strlen($request['condiciones']) > 0) || (strlen($request['max']) > 0) || (strlen($request['min']) > 0)){
+    if((strlen($request['condiciones']) > 0 && $request['condiciones'] != "<div><br></div>") || (strlen($request['max']) > 0) || (strlen($request['min']) > 0)){
       $rappel = new Rappels;
       $rappel->id_proveedor = $id_proveedor;
       $rappel->condiciones = $request['condiciones'];

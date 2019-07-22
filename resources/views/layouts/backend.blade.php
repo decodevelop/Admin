@@ -32,6 +32,10 @@
   <link rel="stylesheet" href="{{url('/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css')}}">
   <!-- Apprise css -->
   <link rel="stylesheet" href="{{url('/css/apprise.min.css')}}" type="text/css" />
+
+  <link rel="stylesheet" href="{{url('/css/richtext/richtext.min.css')}}" type="text/css" />
+
+
   <style>
   .appriseOuter {
     top: 45% !important;
@@ -713,6 +717,9 @@ $.widget.bridge('uibutton', $.ui.button);
 <!-- AdminLTE App -->
 <script src="{{url('/js/app.min.js')}}"></script>
 <!-- Apprise APP -->
+<script src="{{url('/js/richtext/richtext.min.js')}}"></script>
+<script type="text/javascript" src="{{url('/js/adminDW.js')}}"></script>
+
 <script type="text/javascript" src="{{url('/js/apprise.min.js')}}"></script>
 <!-- JS Mejoras 18/7/2017 by Carlos -->
 <script type="text/javascript" src="{{url('/js/functionsDW.js')}}"></script>

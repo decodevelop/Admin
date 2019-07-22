@@ -18,10 +18,9 @@
                   <tr>
                     <td>Condiciones:</td>
                     <td>
-                      <!--<div contenteditable="true" data-inputname="condiciones" class="textarea-transform-init textarea-condiciones" rows="3" cols="20" >-->
-                      <textarea name="condiciones[]" rows="8" cols="80">
+                      <div contenteditable="true" data-inputname="condiciones[]" class="textarea-transform-init textarea-condiciones" rows="3" cols="20">
                         {!! $requestErr['condiciones'][$i] !!}
-                      </textarea>
+                      </div>
                     </td>
                   </tr>
                 </tbody>
@@ -45,8 +44,7 @@
                 <tr>
                   <td>Condiciones:</td>
                   <td>
-                    <!--<textarea data-inputname="condiciones[]" class="textarea-transform-init textarea-condiciones-combi" rows="3" cols="80"></textarea>-->
-                    <textarea name="condiciones[]" rows="8" cols="80"></textarea>
+                    <textarea data-inputname="condiciones[]" class="textarea-transform-init textarea-condiciones-combi" rows="3" cols="80"></textarea>
                   </td>
                 </tr>
               </tbody>
@@ -57,7 +55,7 @@
     </div>
   </div>
   <div class="col-xs-12">
-    <button type="button" name="addCombi" data-count="1" class="addCombi"> Añadir rappel</button>
+    <button type="button" name="addCombi" data-count="1" class="addCombi"> Añadir otro rappel</button>
   </div>
 </div>
 </div>

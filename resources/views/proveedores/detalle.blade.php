@@ -69,8 +69,8 @@
 						<td class="text-left"><span>{{$proveedor->ultima_visita}}</span></td>
 					</tr>
 					<tr>
-						<td class="text-left"><strong>Observaciones:</strong></td>
-						<td class="text-left"><span>{{$proveedor->observaciones}}</span></td>
+						<td class="text-left" style="vertical-align: top!important"><strong>Observaciones:</strong></td>
+						<td class="text-left" style="vertical-align: top!important"><div>{!! $proveedor->observaciones !!}</div></td>
 					</tr>
 					<tr>
 						<td class="text-left"><strong>Listo para vender:</strong></td>
@@ -110,19 +110,19 @@
 							<th class=text-left>Condiciones</th>
 							<th class=text-left style="width:10%">Max</th>
 							<th class=text-left style="width:10%">Min</th>
-							<th class=text-left style="width:10%"></th>
+							<th class=text-right style="width:10%;padding-right: 25px;">Opciones</th>
 						</tr>
 					</thead>
 					<tbody>
 						@foreach ($rappel as $r)
 							<tr>
-								<td class="text-left">{{$r->id}}</td>
-								<td class="text-left">{!! $r->condiciones !!}</td>
-								<td class="text-left">{{$r->max}}</td>
-								<td class="text-left">{{$r->min}}</td>
-								<td class="text-left">
-									<div data-placement="top" data-toggle="tooltip" title="Eliminar" class="pull-right"><button type="button" id="eliminarButton" class="btn btn-danger" data-toggle="modal" data-target="#confirmacion_modal_{{$r->id}}"><i class="fa fa-trash"></i></button></div>
-									<a href="/proveedores/{{$proveedor->id}}/rappels/modificar/{{$r->id}}"><button data-placement="top" data-toggle="tooltip" title="Editar" type="button" id="editarButton" class="btn btn-success pull-right" style="margin: 0 10px;"><i class="fa fa-edit"></i></button></a>
+								<td class="text-left" style="vertical-align:top!important">{{$r->id}}</td>
+								<td class="text-left" style="vertical-align:top!important">{!! $r->condiciones !!}</td>
+								<td class="text-left" style="vertical-align:top!important">{{$r->max}}</td>
+								<td class="text-left" style="vertical-align:top!important">{{$r->min}}</td>
+								<td class="text-left" style="vertical-align:top!important">
+									<div data-placement="top" data-toggle="tooltip" title="Eliminar" class="pull-right"><button type="button" id="eliminarButton" class="btn btn-github" data-toggle="modal" data-target="#confirmacion_modal_{{$r->id}}"><i class="fa fa-trash"></i></button></div>
+									<a href="/proveedores/{{$proveedor->id}}/rappels/modificar/{{$r->id}}"><button data-placement="top" data-toggle="tooltip" title="Editar" type="button" id="editarButton" class="btn btn-primary pull-right" style="margin: 0 10px;"><i class="fa fa-edit"></i></button></a>
 								</td>
 							</tr>
 							<!-- Modal -->
@@ -147,7 +147,7 @@
 						<tr>
 							<td colspan="5">
 								<a href="/proveedores/{{$proveedor->id}}/rappels/nuevo">
-									<button data-placement="top" data-toggle="tooltip" title="Nuevo Rappel" type="button" id="verButton" class="btn btn-primary pull-right">
+									<button data-placement="top" data-toggle="tooltip" title="Nuevo Rappel" type="button" id="verButton" class="btn btn-default pull-right">
 										<i class="fa fa-plus"></i>
 									</button>
 								</a>

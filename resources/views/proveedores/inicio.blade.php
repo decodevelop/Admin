@@ -36,8 +36,8 @@
 					<th>Proveedor</th>
 					<th>E-Mail</th>
 					<th>Teléfono</th>
-					<th>Valoración</th>
 					<th>Listo para vender</th>
+					<th>Valoración</th>
 					<th style="width: 10%">Opciones</th>
 				</tr>
 			</thead>
@@ -49,12 +49,13 @@
 						<td>{{$proveedor->email}}</td>
 						<td>{{$proveedor->telefono}}</td>
 						<td>
-							<span style="margin-right:10px">
-								@php
-								echo round($proveedor->valoracion_media, 2).' / 5';
-								@endphp
-							</span>
-
+							@if ($proveedor->listo_para_vender)
+								<span style="color:green; font-size:20px;"><i class="fa fa-check"></i></span>
+							@else
+								<span style="color:#d80101; font-size:20px;"><i class="fa fa-times"></i></span>
+							@endif
+						</td>
+						<td>
 							<span class="rating-stars-def">
 								<span class="rating-stars-container-def">
 
@@ -72,13 +73,6 @@
 
 								</span>
 							</span>
-						</td>
-						<td>
-							@if ($proveedor->listo_para_vender)
-								<span style="color:green; font-size:20px;"><i class="fa fa-check"></i></span>
-							@else
-								<span style="color:#d80101; font-size:20px;"><i class="fa fa-times"></i></span>
-							@endif
 						</td>
 						<td>
 							<a href="/proveedores/detalle/{{$proveedor->id}}">

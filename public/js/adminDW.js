@@ -36,6 +36,9 @@ jQuery(document).ready(function($){
     });
 
 
+    $(".rating-stars").ratingStars();
+
+
 });
 
 

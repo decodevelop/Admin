@@ -34,6 +34,7 @@
   <link rel="stylesheet" href="{{url('/css/apprise.min.css')}}" type="text/css" />
 
   <link rel="stylesheet" href="{{url('/css/richtext/richtext.min.css')}}" type="text/css" />
+  <link rel="stylesheet" href="{{url('/css/ratingstars/ratingstars.css')}}" type="text/css" />
 
 
   <style>
@@ -718,6 +719,10 @@ $.widget.bridge('uibutton', $.ui.button);
 <script src="{{url('/js/app.min.js')}}"></script>
 <!-- Apprise APP -->
 <script src="{{url('/js/richtext/richtext.min.js')}}"></script>
+
+<script src="{{url('/js/ratingstars/jquery.rating-stars.js')}}"></script>
+<script src="{{url('/js/ratingstars/jquery.rating-stars.min.js')}}"></script>
+
 <script type="text/javascript" src="{{url('/js/adminDW.js')}}"></script>
 
 <script type="text/javascript" src="{{url('/js/apprise.min.js')}}"></script>

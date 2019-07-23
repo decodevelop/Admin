@@ -1,0 +1,36 @@
+.rating-stars, .rating-stars-def {
+  width: 100%;
+  text-align: center;
+}
+
+.rating-stars .rating-stars-container,
+.rating-stars-def .rating-stars-container-def {
+  font-size: 0px;
+}
+
+.rating-stars-def .rating-stars-container-def .rating-star-def-act,
+.rating-stars-def .rating-stars-container-def .rating-star-def-des  {
+  display: inline-block;
+  font-size: 20px;
+  color: #555555;
+  padding: 5px 7px;
+}
+
+.rating-stars .rating-stars-container .rating-star {
+  display: inline-block;
+  font-size: 20px;
+  color: #555555;
+  cursor: pointer;
+  padding: 5px 7px;
+}
+
+.rating-stars .rating-stars-container .rating-star.is--active,
+.rating-stars .rating-stars-container .rating-star.is--hover,
+.rating-stars-def .rating-stars-container-def .rating-star-def-act {
+  color: #f1c40f;
+}
+
+.rating-stars .rating-stars-container .rating-star.is--no-hover,
+.rating-stars-def .rating-stars-container-def .rating-star-def-des{
+  color: #555555;
+}

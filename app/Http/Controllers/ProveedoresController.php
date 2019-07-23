@@ -16,6 +16,7 @@ use App\User;
 use App\Proveedores;
 use App\Rappels;
 use App\Seguimiento_proveedores;
+use App\Valoraciones_proveedores;
 Use Validator;
 use Input;
 use DateTime;
@@ -56,9 +57,14 @@ class ProveedoresController extends Controller
     $proveedor = Proveedores::find($id);
     $rappel = Rappels::where('id_proveedor', '=', $id)->get();
     $seguimiento = Seguimiento_proveedores::where('id_proveedor','=',$id)->get();
+    $valoraciones = Valoraciones_proveedores::where('id_proveedor','=',$id)->get();
     $usuarios = User::get();
 
-    return View::make('proveedores/detalle', array('proveedor' => $proveedor, 'rappel' => $rappel, 'seguimiento' => $seguimiento, 'usuarios' => $usuarios));
+    return View::make('proveedores/detalle', array('proveedor' => $proveedor,
+                                                   'rappel' => $rappel,
+                                                   'seguimiento' => $seguimiento,
+                                                   'valoraciones' => $valoraciones,
+                                                   'usuarios' => $usuarios));
   }
 
   public function nuevo(){
@@ -256,8 +262,6 @@ class ProveedoresController extends Controller
 
   public function seguimiento_proveedores($id, Request $request){
     $post = $request->all();
-    //var_dump($post);
-    //echo '<script>console.log('.$post["comentario_seguimiento"].');</script>';
 
     try {
       $proveedor = Proveedores::find($id);
@@ -271,11 +275,42 @@ class ProveedoresController extends Controller
       $seguimiento->save();
 
     } catch(Exception $e) {
-      echo "<script>console.log('hola');</script>";
       return "No se ha podido actualizar, contactar con el administrador developer@decowood.es";
     }
 
-    echo "<script>console.log('adios');</script>";
+    return "Actualizado.";
+  }
+
+  public function valoracion_proveedores($id, Request $request){
+    $post = $request->all();
+    //dd($post);
+
+    try {
+      $proveedor = Proveedores::find($id);
+      $valoracion = new Valoraciones_proveedores;
+
+      $valoracion->id_proveedor =  $proveedor->id;
+      $valoracion->comentario = $post["comentario_valoracion"];
+      $valoracion->puntuacion = $post["puntuacion"];
+      //$valoracion->created_at = date('Y-m-d H:i:s');
+      $valoracion->id_usuario = Auth::user()->id;
+      //dd($valoracion);
+      $valoracion->save();
+
+      $valoraciones = Valoraciones_proveedores::where('id_proveedor', '=', $id)->get();
+      $total = 0;
+
+      foreach ($valoraciones as $v) {
+        $total += $v->puntuacion;
+      }
+
+      $proveedor->valoracion_media = $total / count($valoraciones);
+      $proveedor->save();
+
+    } catch(Exception $e) {
+      return "No se ha podido actualizar, contactar con el administrador developer@decowood.es";
+    }
+
     return "Actualizado.";
   }
 

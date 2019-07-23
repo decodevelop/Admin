@@ -36,6 +36,7 @@
 					<th>Proveedor</th>
 					<th>E-Mail</th>
 					<th>Teléfono</th>
+					<th>Valoración</th>
 					<th>Listo para vender</th>
 					<th style="width: 10%">Opciones</th>
 				</tr>
@@ -47,6 +48,31 @@
 						<td><a href="/proveedores/detalle/{{$proveedor->id}}">{{$proveedor->nombre}}</a></td>
 						<td>{{$proveedor->email}}</td>
 						<td>{{$proveedor->telefono}}</td>
+						<td>
+							<span style="margin-right:10px">
+								@php
+								echo round($proveedor->valoracion_media, 2).' / 5';
+								@endphp
+							</span>
+
+							<span class="rating-stars-def">
+								<span class="rating-stars-container-def">
+
+									@for ($i=0; $i < round($proveedor->valoracion_media); $i++)
+										<div class="rating-star-def-act">
+											<i class="fa fa-star"></i>
+										</div>
+									@endfor
+
+									@for ($i=0; $i < 5 - round($proveedor->valoracion_media); $i++)
+										<div class="rating-star-def-des">
+											<i class="fa fa-star"></i>
+										</div>
+									@endfor
+
+								</span>
+							</span>
+						</td>
 						<td>
 							@if ($proveedor->listo_para_vender)
 								<span style="color:green; font-size:20px;"><i class="fa fa-check"></i></span>
@@ -69,36 +95,36 @@
 
 							<!--
 							<span data-placement="top" data-toggle="tooltip" title="Eliminar">
-								<button type="button" id="eliminarButton" class="btn btn-github" data-toggle="modal" data-target="#confirmacion_modal_{{$proveedor->id}}">
-									<i class="fa fa-trash"></i>
-								</button>
-							</span>
-						-->
-						</td>
-					</tr>
-					<!-- Modal
-					<div class="modal fade" id="confirmacion_modal_{{$proveedor->id}}" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-						<div class="modal-dialog" role="document">
-							<div class="modal-content">
-								<div class="modal-header">
-									<h3 class="modal-title" id="confirmacion_modalLabel">Confirmación</h3>
-								</div>
-								<div class="modal-body">
-									<h5>¿Estás seguro de que desea eliminar el Proveedor <strong>{{$proveedor->id }}. {{$proveedor->nombre}}</strong>?</h5>
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-secondary" data-dismiss="modal" style="margin-right: 10px;">Cancelar</button>
-									<a href=""><button type="button" class="btn btn-primary">Sí, estoy seguro</button></a>
-								</div>
-							</div>
-						</div>
-					</div> -->
-					<!-- Modal End -->
-				@endforeach
-			</tbody>
-		</table>
+							<button type="button" id="eliminarButton" class="btn btn-github" data-toggle="modal" data-target="#confirmacion_modal_{{$proveedor->id}}">
+							<i class="fa fa-trash"></i>
+						</button>
+					</span>
+				-->
+			</td>
+		</tr>
+		<!-- Modal
+		<div class="modal fade" id="confirmacion_modal_{{$proveedor->id}}" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+		<div class="modal-content">
+		<div class="modal-header">
+		<h3 class="modal-title" id="confirmacion_modalLabel">Confirmación</h3>
 	</div>
-	<!-- /.row -->
+	<div class="modal-body">
+	<h5>¿Estás seguro de que desea eliminar el Proveedor <strong>{{$proveedor->id }}. {{$proveedor->nombre}}</strong>?</h5>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal" style="margin-right: 10px;">Cancelar</button>
+<a href=""><button type="button" class="btn btn-primary">Sí, estoy seguro</button></a>
+</div>
+</div>
+</div>
+</div> -->
+<!-- Modal End -->
+@endforeach
+</tbody>
+</table>
+</div>
+<!-- /.row -->
 </section>
 <!-- /.box-body -->
 @endsection

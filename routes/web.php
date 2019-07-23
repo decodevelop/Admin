@@ -188,6 +188,7 @@ Route::group(['middleware' => 'auth'], function() {
 		Route::get('/proveedores/{id_proveedor}/rappels/eliminar/{id_rappel}', 'ProveedoresController@eliminar_rappel');
 
 		Route::post('/proveedores/seguimiento/{id}', 'ProveedoresController@seguimiento_proveedores');
+		Route::post('/proveedores/valoracion/{id}', 'ProveedoresController@valoracion_proveedores');
 
 //		Route::get('/proveedores/eliminar/{id}', 'ProveedoresController@eliminar');
 		//Route::get('/proveedores/productos/{id_campana}', 'ProveedoresController@viewProductos');

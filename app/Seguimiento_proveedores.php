@@ -12,7 +12,7 @@ class Seguimiento_proveedores extends Model
      * @var array
      */
     protected $fillable = [
-        'id', 'id_proveedor', 'id_usuario', 'mensaje'
+        'id', 'id_proveedor', 'id_usuario', 'mensaje', 'destacado'
     ];
 
 

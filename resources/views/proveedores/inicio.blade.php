@@ -36,8 +36,9 @@
 					<th>Proveedor</th>
 					<th>E-Mail</th>
 					<th>Teléfono</th>
-					<th>Listo para vender</th>
+					<th style="width: 20%">Seguimiento destacado</th>
 					<th>Valoración</th>
+					<th>Listo para vender</th>
 					<th style="width: 10%">Opciones</th>
 				</tr>
 			</thead>
@@ -49,11 +50,12 @@
 						<td>{{$proveedor->email}}</td>
 						<td>{{$proveedor->telefono}}</td>
 						<td>
-							@if ($proveedor->listo_para_vender)
-								<span style="color:green; font-size:20px;"><i class="fa fa-check"></i></span>
-							@else
-								<span style="color:#d80101; font-size:20px;"><i class="fa fa-times"></i></span>
-							@endif
+							@foreach ($seguimientos as $seg)
+								@if ($seg->id_proveedor == $proveedor->id)
+									<strong>{{$usuarios[$seg->id_usuario-1]->apodo}}:</strong>
+									"{{$seg->mensaje}}"
+								@endif
+							@endforeach
 						</td>
 						<td>
 							<span class="rating-stars-def">
@@ -73,6 +75,13 @@
 
 								</span>
 							</span>
+						</td>
+						<td>
+							@if ($proveedor->listo_para_vender)
+								<span style="color:green; font-size:20px;"><i class="fa fa-check"></i></span>
+							@else
+								<span style="color:#d80101; font-size:20px;"><i class="fa fa-times"></i></span>
+							@endif
 						</td>
 						<td>
 							<a href="/proveedores/detalle/{{$proveedor->id}}">

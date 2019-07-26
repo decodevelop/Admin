@@ -77,7 +77,7 @@
 						<td class="text-left" style="vertical-align: top!important">
 							<span style="margin-right:10px">
 								@php
-									echo round($proveedor->valoracion_media, 2).' / 5';
+								echo round($proveedor->valoracion_media, 2).' / 5';
 								@endphp
 							</span>
 
@@ -218,6 +218,14 @@
 												<div class="mensaje"> {{$seg->mensaje}} </div>
 											</div>
 										</div>
+
+										@if ($seg->destacado)
+											<input type="radio" id="{{$seg->id}}" class="seguimiento_destacado" onclick="comentario_destacado(this);" name="destacado" value="{{$seg->id_proveedor}}" checked>
+											<label for="{{$seg->id}}" class="pull-right"></label>
+										@else
+											<input type="radio" id="{{$seg->id}}" class="seguimiento_destacado" onclick="comentario_destacado(this);" name="destacado" value="{{$seg->id_proveedor}}">
+											<label for="{{$seg->id}}" class="pull-right"></label>
+										@endif
 									</div>
 								@endforeach
 							@endif
@@ -378,7 +386,36 @@
 	.panel-title p.lead {
 		margin-bottom: 5px !important;
 	}
-	</style>
+
+
+	input[type=radio].seguimiento_destacado{
+	border: 0;
+	clip: rect(0 0 0 0);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	width: 1px;
+}
+
+input[type=radio].seguimiento_destacado + label:before{
+	font-family: FontAwesome;
+	display: inline-block;
+	content: "\f08d";
+	letter-spacing: 10px;
+	font-size: 1.5em;
+	color: grey;
+	width: 1.4em;
+}
+
+input[type=radio].seguimiento_destacado:checked + label:before{
+	content: "\f08d";
+	font-size: 1.5em;
+	color: #b00505;
+	letter-spacing: 5px;
+}
+</style>
 @endsection
 
 @section('scripts')
@@ -406,7 +443,7 @@
 				//apprise(msg);
 				location.reload(true);
 			});
-		})
+		});
 
 		$("#form_valoracion").submit(function(e){
 			e.preventDefault();
@@ -428,7 +465,24 @@
 				//apprise(msg);
 				location.reload(true);
 			});
-		})
+		});
 	});
+
+	function	comentario_destacado(destacado){
+		//console.log(destacado.value);
+		//		destacado.preventDefault();
+
+		$('.loader-dw').show();
+		//ajax
+		$.ajax({
+			url: "/proveedores/seguimiento/" + destacado.value + "/destacado",
+			method: "POST",
+			data: {"_token": "{{ csrf_token() }}", "destacado": destacado.id}
+		}).done(function(msg){
+			//$('.loader-dw').hide();
+			//apprise(msg);
+			location.reload(true);
+		});
+	}
 </script>
 @endsection

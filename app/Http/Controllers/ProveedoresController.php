@@ -49,8 +49,10 @@ class ProveedoresController extends Controller
 
   public function inicio(Request $request){
     $proveedores = Proveedores::get();
+    $seguimientos = Seguimiento_proveedores::where('destacado', '=', true)->get();
+    $usuarios = User::get();
 
-    return View::make('proveedores/inicio', array('proveedores' => $proveedores));
+    return View::make('proveedores/inicio', array('proveedores' => $proveedores, 'seguimientos' => $seguimientos, 'usuarios' => $usuarios));
   }
 
   public function detalle($id){
@@ -61,10 +63,10 @@ class ProveedoresController extends Controller
     $usuarios = User::get();
 
     return View::make('proveedores/detalle', array('proveedor' => $proveedor,
-                                                   'rappel' => $rappel,
-                                                   'seguimiento' => $seguimiento,
-                                                   'valoraciones' => $valoraciones,
-                                                   'usuarios' => $usuarios));
+    'rappel' => $rappel,
+    'seguimiento' => $seguimiento,
+    'valoraciones' => $valoraciones,
+    'usuarios' => $usuarios));
   }
 
   public function nuevo(){
@@ -278,6 +280,24 @@ class ProveedoresController extends Controller
       return "No se ha podido actualizar, contactar con el administrador developer@decowood.es";
     }
 
+    return "Actualizado.";
+  }
+
+  public function seguimiento_destacado($id, Request $request) {
+    try {
+      $seguimientos = Seguimiento_proveedores::where('id_proveedor','=',$id)->get();
+
+      foreach ($seguimientos as $s) {
+        $s->destacado = false;
+        $s->save();
+      }
+
+      $seguimiento = Seguimiento_proveedores::find($request['destacado']);
+      $seguimiento->destacado = true;
+      $seguimiento->save();
+    } catch(Exception $e) {
+      return "No se ha podido actualizar, contactar con el administrador developer@decowood.es";
+    }
     return "Actualizado.";
   }
 

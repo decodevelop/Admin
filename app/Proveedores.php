@@ -12,7 +12,9 @@ class Proveedores extends Model
      * @var array
      */
     protected $fillable = [
-        'nombre','email','telefono'
+        'id','nombre','email','telefono', 'plazo_entrega', 'envio',
+        'metodo_pago', 'precio_esp_campana',
+        'logistica', 'contrato', 'ultima_visita', 'observaciones', 'valoracion_media', 'listo_para_vender'
     ];
 
 		 /**

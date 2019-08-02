@@ -9,13 +9,13 @@
 @endsection
 
 @section('contenido')
-<style>
-tr:nth-child(2n) {
-    background-color: #f9fafc;
-}
-thead {
-    background: #7eb5c1;
-}
+	<style>
+	tr:nth-child(2n) {
+		background-color: #f9fafc;
+	}
+	thead {
+		background: #7eb5c1;
+	}
 </style>
 <section class="invoice">
 	<!-- title row -->
@@ -27,34 +27,74 @@ thead {
 		</div>
 	</div>
 	<!-- /.box-header -->
-		<!-- info row -->
-		<div class="row invoice-info">
-		   <table class="table table-bordered">
-         <thead>
-           <tr>
-             <th >Origen</th>
-             <th >Nombre campaña</th>
-						 <th>Palets</th>
-             <th >Fecha inicio</th>
-             <th >Fecha fin</th>
-             <th >Total</th>
-           <tr>
-         </thead>
-         <tbody>
-					 @foreach ($campanas as $campana)
-						 <tr>
-              <td>{{$origenes->find($campana->origen_id)->nombre}}</td>
-              <td><a href="/campanas/productos/{{$campana->id}}">{{$campana->nombre}}</a></td>
-							<td><a href="/campanas/palets/{{$campana->id}}">Ver</a> // <a href="/campanas/palets/excel/{{$campana->id}}">Descargar Excel</a> </td>
-							<td>{{$campana->fecha_inicio}}</td>
-              <td>{{$campana->fecha_fin}}</td>
-              <td>{{$campana->total}}</td>
-           </tr>
-					 @endforeach
-         </tbody>
-       </table>
-		</div>
-		<!-- /.row -->
+	<!-- info row -->
+	<div class="row invoice-info">
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>Origen</th>
+					<th>Nombre campaña</th>
+					<th>Palets</th>
+					<th>Fecha inicio</th>
+					<th>Fecha fin</th>
+					<th>Total</th>
+					<th style="width: 10%">Opciones</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach ($campanas as $campana)
+					<tr>
+						<td>{{$origenes->find($campana->origen_id)->nombre}}</td>
+						<td><a href="/campanas/productos/{{$campana->id}}">{{$campana->nombre}}</a></td>
+						<td><a href="/campanas/palets/{{$campana->id}}">Ver</a> // <a href="/campanas/palets/excel/{{$campana->id}}">Descargar Excel</a> </td>
+						<td>{{$campana->fecha_inicio}}</td>
+						<td>{{$campana->fecha_fin}}</td>
+						<td>{{$campana->total}}</td>
+						<td>
+							<a href="/campanas/productos/{{$campana->id}}">
+								<button data-placement="top" data-toggle="tooltip" title="Ver productos" type="button" id="verButton" class="btn btn-default">
+									<i class="fa fa-eye"></i>
+								</button>
+							</a>
+
+							<a href="/campanas/editar/{{$campana->id}}">
+								<button data-placement="top" data-toggle="tooltip" title="Editar" type="button" id="editarButton" class="btn btn-primary"style="margin: 0 2px;">
+									<i class="fa fa-edit"></i>
+								</button>
+							</a>
+
+							<span data-placement="top" data-toggle="tooltip" title="Eliminar">
+								<button type="button" id="eliminarButton" class="btn btn-github" data-toggle="modal" data-target="#confirmacion_modal_{{$campana->id}}">
+									<i class="fa fa-trash"></i>
+								</button>
+							</span>
+
+						</td>
+					</tr>
+					<!-- Modal -->
+					<div class="modal fade" id="confirmacion_modal_{{$campana->id}}" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h3 class="modal-title" id="confirmacion_modalLabel">Confirmación</h3>
+								</div>
+								<div class="modal-body">
+									<h5>¿Estás seguro de que desea eliminar la campaña <strong>{{$campana->nombre}}</strong>?</h5>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-dismiss="modal" style="margin-right: 10px;">Cancelar</button>
+									<a href="/campanas/eliminar/{{$campana->id}}"><button type="button" class="btn btn-primary">Sí, estoy seguro</button></a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Modal End -->
+				</tr>
+			@endforeach
+		</tbody>
+	</table>
+</div>
+<!-- /.row -->
 </section>
 <!-- /.box-body -->
 @endsection

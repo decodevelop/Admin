@@ -96,7 +96,7 @@
 .seg-left, .seg.right {
     /*float: left;*/
 }
-#collapse-seguimiento .fecha {
+#collapse-seguimiento .fecha, #collapse-valoracion .fecha {
     font-size: 0.7em;
     color: #444444;
 }
@@ -115,6 +115,11 @@ textarea#comentario_seguimiento {
     border: 1px solid #7dbbb6;
     background: #ffffff00;
 }
+
+textarea#comentario_valoracion {
+    border: 1px solid #96b52f;
+    background: #ffffff00;
+}
 .fila-seguimiento {
     box-shadow: 7px 4px 17px 0px #000000b8;
     padding: 10px 5px;
@@ -126,10 +131,15 @@ div#collapse-seguimiento {
     background: #7dbbb6;
     padding: 20px 3%;
 }
+
+div#collapse-valoracion {
+    background: #96b52f;
+    padding: 20px 3%;
+}
 .seg-left {
     margin-right: 30px;
 }
-#collapse-seguimiento .enviar {
+#collapse-seguimiento .enviar, #collapse-valoracion .enviar {
     text-align: right;
     padding: 0px 25%;
 }

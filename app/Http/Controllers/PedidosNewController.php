@@ -1904,7 +1904,7 @@ class PedidosNewController extends Controller
           $codigo_pais = '0050';
           break;
         case 'PORTUGAL':
-          $codigo_pais = '0050';
+          $codigo_pais = '0004'; 
           break;
         default:
           $codigo_pais = '0420';

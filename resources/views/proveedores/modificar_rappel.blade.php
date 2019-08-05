@@ -74,20 +74,21 @@
                 <div class="col-sm-12">
                   <table class="table">
                     <tbody>
-                      <tr>
-                        <td>Máximo:</td>
-                        <td><input name="max" class="form-control" type="number" step="any" value="{{$rappel->max}}"></td>
-                      </tr>
+
                       <tr>
                         <td>Mínimo:</td>
                         <td><input name="min" class="form-control" type="number" step="any" value="{{$rappel->min}}"></td>
                       </tr>
                       <tr>
-                        <td>Condiciones:</td>
+                        <td>Máximo:</td>
+                        <td><input name="max" class="form-control" type="number" step="any" value="{{$rappel->max}}"></td>
+                      </tr>
+                      <tr>
+                        <td>Porcetaje:</td>
                         <td>
-                          <div contenteditable="true" data-inputname="condiciones" class="textarea-transform-init textarea-condiciones" rows="3" cols="20" >
-                            {!! $rappel->condiciones !!}
-                          </div>
+
+                          <input name="condiciones" class="form-control" type="number" step="any" value="{{$rappel->condiciones}}">
+
                         </td>
                       </tr>
                     </tbody>

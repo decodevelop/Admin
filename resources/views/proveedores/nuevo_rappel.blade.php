@@ -75,17 +75,18 @@
                   <table class="table">
                     <tbody>
                       <tr>
-                        <td>Máximo:</td>
-                        <td><input name="max" class="form-control"  type="number" step="any" value=""></td>
-                      </tr>
-                      <tr>
                         <td>Mínimo:</td>
                         <td><input name="min" class="form-control"  type="number" step="any" value=""></td>
                       </tr>
                       <tr>
-                        <td>Condiciones:</td>
+                        <td>Máximo:</td>
+                        <td><input name="max" class="form-control"  type="number" step="any" value=""></td>
+                      </tr>
+
+                      <tr>
+                        <td>Porcentaje:</td>
                         <td>
-                          <div contenteditable="true" data-inputname="condiciones" class="textarea-transform-init textarea-condiciones" rows="3" cols="20" >
+                          <input name="condiciones" class="form-control" type="number" step="any" value="">
                         </td>
                       </tr>
                     </tbody>

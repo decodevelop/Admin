@@ -134,20 +134,18 @@
 				<table class="table table-striped">
 					<thead>
 						<tr>
-							<th class=text-left style="width:5%">ID</th>
-							<th class=text-left>Condiciones</th>
-							<th class=text-left style="width:10%">Máximo</th>
-							<th class=text-left style="width:10%">Mínimo</th>
-							<th class=text-right style="width:10%;padding-right: 25px;">Opciones</th>
+							<th class=text-left style="">Mínimo</th>
+							<th class=text-left style="">Máximo</th>
+							<th class=text-left>Porcentaje</th>
+							<th class=text-right style="width:20%;padding-right: 25px;">Opciones</th>
 						</tr>
 					</thead>
 					<tbody>
 						@foreach ($rappel as $r)
 							<tr>
-								<td class="text-left" style="vertical-align:top!important">{{$r->id}}</td>
-								<td class="text-left" style="vertical-align:top!important">{!! $r->condiciones !!}</td>
-								<td class="text-left" style="vertical-align:top!important">{{$r->max}}</td>
 								<td class="text-left" style="vertical-align:top!important">{{$r->min}}</td>
+								<td class="text-left" style="vertical-align:top!important">{{$r->max}}</td>
+								<td class="text-left" style="vertical-align:top!important">{{$r->condiciones}} %</td>
 								<td class="text-left" style="vertical-align:top!important">
 									<div data-placement="top" data-toggle="tooltip" title="Eliminar" class="pull-right">
 										<button type="button" id="eliminarButton" class="btn btn-github" data-toggle="modal" data-target="#confirmacion_modal_{{$r->id}}">

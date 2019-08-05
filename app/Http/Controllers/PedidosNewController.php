@@ -413,7 +413,7 @@ class PedidosNewController extends Controller
         if($registros==0){$registros++;continue;}
 
         // Para evitar uploads de csv erroneos, comprobamos si en la casilla 32 el origen existe y obtenemos el objeto origen
-        $origen = $this->get_origen_by_reference($fila[29],$fila[32],$fila[34]);
+        $origen = $this->get_origen_by_reference($fila[29],$fila[32],$fila[34],$fila[4]);
 
         if(is_null($origen)){
           return back()
@@ -629,7 +629,7 @@ class PedidosNewController extends Controller
 
     }
 
-    private function get_origen_by_reference($metodo_pago,$referencia,$id_shop){
+    private function get_origen_by_reference($metodo_pago,$referencia,$id_shop,$pais){
       if($referencia == 'CN'){
         switch ($id_shop) {
           case 2:
@@ -654,7 +654,10 @@ class PedidosNewController extends Controller
         $referencia = 'PM';
 
 
+      }elseif ($referencia == 'DW' && $pais == 'FR' ) {
+        $referencia = 'DF';
       }
+
       $origen = Origen_pedidos::where('referencia','=',$referencia)->first();
 
       return $origen;
@@ -1904,7 +1907,7 @@ class PedidosNewController extends Controller
           $codigo_pais = '0050';
           break;
         case 'PORTUGAL':
-          $codigo_pais = '0004'; 
+          $codigo_pais = '0004';
           break;
         default:
           $codigo_pais = '0420';

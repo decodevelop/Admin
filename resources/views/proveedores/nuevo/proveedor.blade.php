@@ -37,8 +37,11 @@
                             <td><input name="logistica" class="form-control" value="@if(isset($requestErr)){{$requestErr['logistica']}}@endif"></td>
                             </tr>
                             <tr>
-                              <td>Contrato:</td>
+                              <td rowspan="2">Contrato:</td>
                               <td><input name="contrato" class="form-control" value="@if(isset($requestErr)){{$requestErr['contrato']}}@endif"></td>
+                              </tr>
+                              <tr>
+                                <td><input type="file" name="contrato_pdf" accept="application/pdf"></td>
                               </tr>
                               <tr>
                                 <td>Última visita:</td>
@@ -51,14 +54,14 @@
                                       <div contenteditable="true" data-inputname="observaciones" class="textarea-transform-init textarea-observaciones" rows="3" cols="20">
                                         {!! $requestErr['observaciones'] !!}
                                       </div>
-                                      @else
-                                        <textarea data-inputname="observaciones" class="textarea-transform-init textarea-observaciones" rows="3" cols="20"></textarea>
-                                      @endif
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
+                                    @else
+                                      <textarea data-inputname="observaciones" class="textarea-transform-init textarea-observaciones" rows="3" cols="20"></textarea>
+                                    @endif
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
                           </div>
                         </div>
                       </div>
+                    </div>

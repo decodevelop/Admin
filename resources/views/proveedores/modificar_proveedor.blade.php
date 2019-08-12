@@ -58,12 +58,12 @@
   @endif
   <section class="invoice">
     <div class="row">
-			<div class="col-xs-12">
-				<h2 class="page-header">
-					<i class="fa fa-briefcase"></i>&nbsp; Modificando {{$proveedor->id}}. {{$proveedor->nombre}}<small class="pull-right"></small>
-				</h2>
-			</div>
-		</div>
+      <div class="col-xs-12">
+        <h2 class="page-header">
+          <i class="fa fa-briefcase"></i>&nbsp; Modificando {{$proveedor->id}}. {{$proveedor->nombre}}<small class="pull-right"></small>
+        </h2>
+      </div>
+    </div>
     <div class="row">
       <div class="box-body">
         <form class="" action="" method="post" enctype="multipart/form-data">
@@ -108,8 +108,13 @@
                         <td><input name="logistica" class="form-control" value="{{$proveedor->logistica}}"></td>
                       </tr>
                       <tr>
-                        <td>Contrato:</td>
+                        <td rowspan="2">Contrato:</td>
                         <td><input name="contrato" class="form-control" value="{{$proveedor->contrato}}"></td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <input type="file" name="contrato_pdf" accept="application/pdf">
+                        </td>
                       </tr>
                       <tr>
                         <td>Última visita:</td>
@@ -118,16 +123,16 @@
                       <tr>
                         <td>Observaciones:</td>
                         <td>
-                            <div contenteditable="true" data-inputname="observaciones" class="textarea-transform-init textarea-observaciones" rows="3" cols="20" >
-                              {!! $proveedor->observaciones !!}
-                            </div>
+                          <div contenteditable="true" data-inputname="observaciones" class="textarea-transform-init textarea-observaciones" rows="3" cols="20" >
+                            {!! $proveedor->observaciones !!}
+                          </div>
                         </td>
                       </tr>
                     </tbody>
                   </table>
                 </div>
+              </div>
             </div>
-          </div>
           </div>
 
           <button type="submit" name="enviar" class="btn btn-success pull-right">
@@ -150,42 +155,42 @@
 @section('scripts')
   <script type="text/javascript">
   jQuery(document).ready(function($){
-/*
+    /*
     $('.input-transform').click(function(){
-      input_transform(this);
-    });
-
-    $('.textarea-transform').click(function(){
-      textarea_transform(this);
-
-
-    });
-
-    $('.textarea-transform-init').each(function(){
-      textarea_transform(this);
-    });
-*/
-    $(".addCombi").click(function(){
-      var clone = $(".product-combi").first().clone();
-
-      clone.appendTo("#product-combis");
-    });
+    input_transform(this);
   });
-/*
-  function textarea_transform(thisInput){
-    $(thisInput).hide('fast');
 
-    $("<textarea>" ,{
-      'class': 'form-control textarea-'+$(thisInput).data('inputname'),
-      'style': 'display:none',
-      'text': $.trim($(thisInput).html()),
-      'name': $(thisInput).data('inputname'),
-      'rows': $(thisInput).data('rows'),
-      'cols': $(thisInput).data('cols'),
+  $('.textarea-transform').click(function(){
+  textarea_transform(this);
 
-    }).appendTo($(thisInput).parent()).delay(400).show('slow').richText();
-  }
+
+});
+
+$('.textarea-transform-init').each(function(){
+textarea_transform(this);
+});
 */
-  </script>
+$(".addCombi").click(function(){
+  var clone = $(".product-combi").first().clone();
+
+  clone.appendTo("#product-combis");
+});
+});
+/*
+function textarea_transform(thisInput){
+$(thisInput).hide('fast');
+
+$("<textarea>" ,{
+'class': 'form-control textarea-'+$(thisInput).data('inputname'),
+'style': 'display:none',
+'text': $.trim($(thisInput).html()),
+'name': $(thisInput).data('inputname'),
+'rows': $(thisInput).data('rows'),
+'cols': $(thisInput).data('cols'),
+
+}).appendTo($(thisInput).parent()).delay(400).show('slow').richText();
+}
+*/
+</script>
 
 @endsection

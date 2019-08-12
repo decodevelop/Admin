@@ -14,7 +14,8 @@ class Proveedores extends Model
     protected $fillable = [
         'id','nombre','email','telefono', 'plazo_entrega', 'envio',
         'metodo_pago', 'precio_esp_campana',
-        'logistica', 'contrato', 'ultima_visita', 'observaciones', 'valoracion_media', 'listo_para_vender'
+        'logistica', 'contrato', 'ultima_visita', 'observaciones',
+        'valoracion_media', 'listo_para_vender', 'contrato_pdf'
     ];
 
 		 /**

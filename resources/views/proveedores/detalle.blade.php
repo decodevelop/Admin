@@ -62,7 +62,14 @@
 					</tr>
 					<tr>
 						<td class="text-left"><strong>Contrato:</strong></td>
-						<td class="text-left"><span>{{$proveedor->contrato}}</span></td>
+						<td class="text-left">
+							<span>{{$proveedor->contrato}}&nbsp;&nbsp;</span>
+							@if($proveedor->contrato_pdf)
+								<a href="/PDFs/contratos/{{$proveedor->id}}/{{$proveedor->id}}_contrato.pdf" target=_blank>
+									<i class="fa fa-file-pdf-o"></i> Ver contrato
+								</a>
+							@endif
+						</td>
 					</tr>
 					<tr>
 						<td class="text-left"><strong>Última visita:</strong></td>
@@ -387,32 +394,32 @@
 
 
 	input[type=radio].seguimiento_destacado{
-	border: 0;
-	clip: rect(0 0 0 0);
-	height: 1px;
-	margin: -1px;
-	overflow: hidden;
-	padding: 0;
-	position: absolute;
-	width: 1px;
-}
+		border: 0;
+		clip: rect(0 0 0 0);
+		height: 1px;
+		margin: -1px;
+		overflow: hidden;
+		padding: 0;
+		position: absolute;
+		width: 1px;
+	}
 
-input[type=radio].seguimiento_destacado + label:before{
-	font-family: FontAwesome;
-	display: inline-block;
-	content: "\f08d";
-	letter-spacing: 10px;
-	font-size: 1.5em;
-	color: grey;
-	width: 1.4em;
-}
+	input[type=radio].seguimiento_destacado + label:before{
+		font-family: FontAwesome;
+		display: inline-block;
+		content: "\f08d";
+		letter-spacing: 10px;
+		font-size: 1.5em;
+		color: grey;
+		width: 1.4em;
+	}
 
-input[type=radio].seguimiento_destacado:checked + label:before{
-	content: "\f08d";
-	font-size: 1.5em;
-	color: #b00505;
-	letter-spacing: 5px;
-}
+	input[type=radio].seguimiento_destacado:checked + label:before{
+		content: "\f08d";
+		font-size: 1.5em;
+		color: #b00505;
+		letter-spacing: 5px;
+	}
 </style>
 @endsection
 

@@ -77,6 +77,8 @@ class ProveedoresController extends Controller
     $ok = true;
     $errors = array();
     $success = array();
+    $alerts = array();
+    $inputs = $request->all();
     //dd($request);
 
     // Validamos que el nombre no sea nulo.
@@ -116,6 +118,21 @@ class ProveedoresController extends Controller
         array_push($success,'Proveedor creado correctamente.');
       }
 
+      // Subir PDF
+      if(isset($inputs['contrato_pdf'])){
+        $dir = __DIR__.'/../../../public/PDFs/contratos/'.$proveedor->id.'/';
+        $nombreArchivo = $proveedor->id.'_contrato.pdf';
+
+        if($this->subirPDF($dir, $nombreArchivo,'contrato_pdf')){
+          array_push($success , 'Contrato subido correctamente.');
+          $proveedor->contrato_pdf = true;
+          $proveedor->save();
+
+        } else {
+          array_push($errors , 'Error al subir el contrato, por favor contacte con un desarrollador.');
+        }
+      }
+
       foreach ($request['condiciones'] as $key => $value) {
         if((strlen($request['condiciones'][$key]) > 0 && $request['condiciones'][$key] != "<div><br></div>") || (strlen($request['max'][$key]) > 0) || (strlen($request['min'][$key]) > 0)){
 
@@ -135,7 +152,14 @@ class ProveedoresController extends Controller
       return back();
 
     } else {
+      if(isset($inputs['contrato_pdf'])){
+        array_push($alerts , 'Recuerde volver a subir los PDFs.');
+      }
+
+      Session::put('alerts',$alerts);
+
       $requestErr = $request->all();
+      unset($requestErr['contrato_pdf']);
       //dd($requestErr);
       Session::put('request',$requestErr);
       return back()->with(array('errors' => $errors));
@@ -152,6 +176,7 @@ class ProveedoresController extends Controller
     $ok = true;
     $errors = array();
     $success = array();
+    $alerts = array();
     $proveedor = Proveedores::find($id);
     //dd($campana);
 
@@ -189,6 +214,20 @@ class ProveedoresController extends Controller
         $proveedor->listo_para_vender = false;
       }
 
+      // Subir PDF
+      if(isset($request['contrato_pdf'])){
+        $dir = __DIR__.'/../../../public/PDFs/contratos/'.$proveedor->id.'/';
+        $nombreArchivo = $proveedor->id.'_contrato.pdf';
+
+        if($this->subirPDF($dir, $nombreArchivo,'contrato_pdf')){
+          array_push($success , 'Contrato subido correctamente.');
+          $proveedor->contrato_pdf = true;
+
+        } else {
+          array_push($errors , 'Error al subir el contrato, por favor contacte con un desarrollador.');
+        }
+      }
+
       if($proveedor->save()){
         array_push($success,'Proveedor actualizado correctamente.');
       }
@@ -199,6 +238,12 @@ class ProveedoresController extends Controller
       return back();
 
     } else {
+      if(isset($request['contrato_pdf'])){
+        array_push($alerts , 'Recuerde volver a subir los PDFs.');
+      }
+
+      Session::put('alerts',$alerts);
+
       return back()->with(array('errors' => $errors));
     }
   }
@@ -332,6 +377,29 @@ class ProveedoresController extends Controller
     }
 
     return "Actualizado.";
+  }
+
+  function subirPDF($dir, $nombreArchivo, $fileName){
+    try {
+      if(file_exists($dir.$nombreArchivo)){ //Si ya existe un pdf, lo borramos
+        unlink($dir.$nombreArchivo);
+
+      } else { //Si no, comprobamos que exista la carpeta y la creamos.
+        if(!file_exists($dir)){
+          mkdir($dir, 0777, true);
+        }
+      }
+
+      if (move_uploaded_file($_FILES[$fileName]['tmp_name'], $dir.$nombreArchivo)) {
+        return true;
+
+      } else {
+        return false;
+      }
+
+    } catch(Exception $e){
+      return false;
+    }
   }
 
   public function viewProductos($id_campana,Request $request){

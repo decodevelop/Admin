@@ -69,6 +69,7 @@
         <ul class="nav nav-tabs">
           <li class="active"><a data-toggle="tab" href="#tab-proveedor">Proveedor</a></li>
           <li><a data-toggle="tab" href="#tab-rappel">Rappels</a></li>
+          <li><a data-toggle="tab" href="#tab-personal">Personal de contacto</a></li>
         </ul>
 
         <form class="" action="" method="post" enctype="multipart/form-data">
@@ -81,6 +82,10 @@
 
             <div id="tab-rappel" class="tab-pane fade in">
               @includeIf('proveedores.nuevo.rappel')
+            </div>
+
+            <div id="tab-personal" class="tab-pane fade in">
+              @includeIf('proveedores.nuevo.personal')
             </div>
           </div>
 
@@ -97,7 +102,7 @@
 
 @section('scripts')
   <script type="text/javascript">
-  
+
   </script>
 
 @endsection

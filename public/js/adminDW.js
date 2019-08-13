@@ -1,4 +1,9 @@
 jQuery(document).ready(function($){
+  $('#añadirPersonalButton').click(function(){
+    var personal_code = "<div  class=\"col-xs-12 product-combi\"><div class=\"col-sm-6 mt-5\"><table class=\"table\"><tbody><tr><td>Cargo:<\/td><td><input name=\"pers_cargo[]\" type=\"text\" class=\"form-control\"><\/td><\/tr><tr><td>Nombre:<\/td><td><input name=\"pers_nombre[]\" type=\"text\" class=\"form-control\"><\/td><\/tr><tr><td>Correo:<\/td><td><input name=\"pers_correo[]\" data-type=\"text\" class=\"form-control\"><\/td><\/tr><tr><td>Teléfono:<\/td><td><input name=\"pers_telefono[]\" data-type=\"number\" class=\"form-control\"><\/td><\/tr><\/tbody><\/table><\/div><\/div>";
+
+    $("#personal").append(personal_code);
+  });
 
   $('.input-transform').click(function(){
     input_transform(this);

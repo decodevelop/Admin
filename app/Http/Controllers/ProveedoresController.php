@@ -16,6 +16,8 @@ use App\User;
 use App\Proveedores;
 use App\Rappels;
 use App\Seguimiento_proveedores;
+use App\Personal_proveedores;
+use App\Horario_proveedores;
 use App\Valoraciones_proveedores;
 Use Validator;
 use Input;
@@ -58,12 +60,14 @@ class ProveedoresController extends Controller
   public function detalle($id){
     $proveedor = Proveedores::find($id);
     $rappel = Rappels::where('id_proveedor', '=', $id)->get();
+    $personal = Personal_proveedores::where('id_proveedor', '=', $id)->get();
     $seguimiento = Seguimiento_proveedores::where('id_proveedor','=',$id)->get();
     $valoraciones = Valoraciones_proveedores::where('id_proveedor','=',$id)->get();
     $usuarios = User::get();
 
     return View::make('proveedores/detalle', array('proveedor' => $proveedor,
     'rappel' => $rappel,
+    'personal' => $personal,
     'seguimiento' => $seguimiento,
     'valoraciones' => $valoraciones,
     'usuarios' => $usuarios));
@@ -97,6 +101,14 @@ class ProveedoresController extends Controller
     if($request['vacaciones_inicio'] > $request['vacaciones_fin']) {
       $ok = false;
       array_push($errors, 'Error: La fecha de inicio de vacaciones no puede ser mayor a la fecha final.');
+    }
+
+    foreach ($request['pers_cargo'] as $key => $value) {
+      if($request['pers_cargo'][$key] == '') {
+        $ok = false;
+        array_push($errors, 'Error: El campo cargo es obligatorio.');
+        break;
+      }
     }
 
     if($ok) {
@@ -151,6 +163,16 @@ class ProveedoresController extends Controller
           $rappel->min = $request['min'][$key];
           $rappel->save();
         }
+      }
+
+      foreach ($request['pers_cargo'] as $key => $value) {
+        $personal = new Personal_proveedores;
+        $personal->id_proveedor = $proveedor->id;
+        $personal->cargo = $request['pers_cargo'][$key];
+        $personal->nombre = $request['pers_nombre'][$key];
+        $personal->correo = $request['pers_correo'][$key];
+        $personal->telefono = $request['pers_telefono'][$key];
+        $personal->save();
       }
 
       $vaciar_form = new Proveedores;
@@ -417,6 +439,55 @@ class ProveedoresController extends Controller
       return false;
     }
   }
+
+  public function nuevo_personal($id_proveedor){
+    $proveedor = Proveedores::find($id_proveedor);
+
+    return View::make('proveedores/nuevo_personal', array('proveedor' => $proveedor));
+  }
+
+  public function nuevo_personal_POST($id_proveedor, Request $request){
+    $ok = true;
+    $errors = array();
+    $success = array();
+    $alerts = array();
+    $inputs = $request->all();
+    //dd($request);
+
+    if($request['pers_cargo'] == '') {
+      $ok = false;
+      array_push($errors, 'Error: El campo Cargo es obligatorio.');
+    }
+
+    if($ok) {
+
+      $personal = new Personal_proveedores;
+      $personal->id_proveedor = $id_proveedor;
+      $personal->cargo = $request['pers_cargo'];
+      $personal->nombre = $request['pers_nombre'];
+      $personal->correo = $request['pers_correo'];
+      $personal->telefono = $request['pers_telefono'];
+
+      if($personal->save()){
+        array_push($success, 'Personal creado correctamente.');
+      }
+
+      $vaciar_form = new Personal_proveedores;
+      Session::put('request',$vaciar_form);
+      Session::put('success',$success);
+
+      return back();
+
+    } else {
+      Session::put('alerts',$alerts);
+
+      $requestErr = $request->all();
+      //dd($requestErr);
+      Session::put('request',$requestErr);
+      return back()->with(array('errors' => $errors));
+    }
+  }
+
 
   public function viewProductos($id_campana,Request $request){
     /*-------------- ORDENACIONES --------------*/

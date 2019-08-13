@@ -80,3 +80,9 @@
     </table>
   </div>
 </div>
+
+<style media="screen">
+  .richText .richText-editor {
+    height: 220px;
+  }
+</style>

@@ -150,20 +150,27 @@
             </div>
           </div>
         </div>
+        <div style="margin-right: 20px">
+          <button type="submit" name="enviar" class="btn btn-success pull-right">
+            <i class="fa fa-save"></i> Guardar cambios
+          </button>
+
+          <button style="margin-right: 10px" type="button" class="btn btn-primary pull-right" onclick="window.location.href='{{Url('/proveedores/detalle/'.$proveedor->id)}}'">
+            <i class="fa fa-arrow-left"></i> Volver
+          </button>
+        </div>
       </div>
-
-      <button type="submit" name="enviar" class="btn btn-success pull-right">
-        <i class="fa fa-save"></i> Guardar cambios
-      </button>
-
-      <button style="margin-right: 10px" type="button" class="btn btn-primary pull-right" onclick="window.location.href='{{Url('/proveedores/detalle/'.$proveedor->id)}}'">
-        <i class="fa fa-arrow-left"></i> Volver
-      </button>
-
     </form>
   </div>
 
 </div>
+
+
+<style media="screen">
+  .richText .richText-editor {
+    height: 220px;
+  }
+</style>
 
 </section>
 <!-- /.box-body -->

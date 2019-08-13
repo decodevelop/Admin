@@ -189,6 +189,14 @@ Route::group(['middleware' => 'auth'], function() {
 
 		Route::get('/proveedores/{id_proveedor}/rappels/eliminar/{id_rappel}', 'ProveedoresController@eliminar_rappel');
 
+		Route::get('/proveedores/{id_proveedor}/personal/modificar/{id_personal}', 'ProveedoresController@modificar_personal');
+		Route::post('/proveedores/{id_proveedor}/personal/modificar/{id_personal}', 'ProveedoresController@modificar_personal_POST');
+
+		Route::get('/proveedores/{id}/personal/nuevo', 'ProveedoresController@nuevo_personal');
+		Route::post('/proveedores/{id}/personal/nuevo', 'ProveedoresController@nuevo_personal_POST');
+
+		Route::get('/proveedores/{id_proveedor}/personal/eliminar/{id_personal}', 'ProveedoresController@eliminar_personal');
+
 		Route::post('/proveedores/seguimiento/{id}', 'ProveedoresController@seguimiento_proveedores');
 		Route::post('/proveedores/seguimiento/{id}/destacado', 'ProveedoresController@seguimiento_destacado');
 		Route::post('/proveedores/valoracion/{id}', 'ProveedoresController@valoracion_proveedores');

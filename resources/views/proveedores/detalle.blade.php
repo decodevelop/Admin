@@ -95,8 +95,10 @@
 						<td class="text-left">
 							<span>
 								@php
+								if(isset($proveedor->ultima_visita)){
 									$u_visita = explode('-', $proveedor->ultima_visita);
 									$proveedor->ultima_visita = $u_visita[2].'/'.$u_visita[1].'/'.$u_visita[0];
+								}
 								@endphp
 								{{$proveedor->ultima_visita}}
 							</span>
@@ -107,15 +109,23 @@
 						<td class="text-left">
 							<span>
 								@php
+
+								if(isset($proveedor->vacaciones_inicio)){
 									$v_inicio = explode('-', $proveedor->vacaciones_inicio);
 									$proveedor->vacaciones_inicio = $v_inicio[2].'/'.$v_inicio[1].'/'.$v_inicio[0];
+								}
 
+								if(isset($proveedor->vacaciones_fin)){
 									$v_fin = explode('-', $proveedor->vacaciones_fin);
 									$proveedor->vacaciones_fin = $v_fin[2].'/'.$v_fin[1].'/'.$v_fin[0];
+								}
 								@endphp
-							{{$proveedor->vacaciones_inicio}} - {{$proveedor->vacaciones_fin}}
+
+								@if(isset($proveedor->vacaciones_inicio) || isset($proveedor->vacaciones_fin))
+									{{$proveedor->vacaciones_inicio}} - {{$proveedor->vacaciones_fin}}
+								@endif
 							</span>
-					</td>
+						</td>
 					</tr>
 					<tr>
 						<td class="text-left" style=""><strong>Valoración media:</strong></td>
@@ -159,6 +169,86 @@
 					<i class="fa fa-edit"></i> Modificar
 				</button>
 			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-xs-12">
+				<p class="page-header" style="font-size: 18px;">
+					<i class="fa fa-users"></i> Personal de contacto
+				</p>
+			</div>
+		</div>
+
+		<!-- Table row -->
+		<div class="row">
+			<div class="col-xs-12 table-responsive">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th class=text-left style="">Cargo</th>
+							<th class=text-left style="">Nombre</th>
+							<th class=text-left>Correo</th>
+							<th class=text-left>Teléfono</th>
+							<th class=text-right style="width:20%;padding-right: 25px;">Opciones</th>
+						</tr>
+					</thead>
+					<tbody>
+						@php($contP = 0)
+						@foreach ($personal as $p)
+							@php($contP = $contP + 1)
+							<tr>
+								<td class="text-left" style="vertical-align:top!important">{{$p->cargo}}</td>
+								<td class="text-left" style="vertical-align:top!important">{{$p->nombre}}</td>
+								<td class="text-left" style="vertical-align:top!important">{{$p->correo}}</td>
+								<td class="text-left" style="vertical-align:top!important">{{$p->telefono}}</td>
+								<td class="text-left" style="vertical-align:top!important">
+									@if($contP > 3)
+									<div data-placement="top" data-toggle="tooltip" title="Eliminar" class="pull-right">
+										<button type="button" id="eliminarButton" class="btn btn-github" data-toggle="modal" data-target="#confirmacion_modal_pers_{{$p->id}}">
+											<i class="fa fa-trash"></i>
+										</button>
+									</div>
+								@endif
+
+									<a href="/proveedores/{{$proveedor->id}}/personal/modificar/{{$p->id}}">
+										<button data-placement="top" data-toggle="tooltip" title="Editar" type="button" id="editarButton" class="btn btn-primary pull-right" style="margin: 0 10px;">
+											<i class="fa fa-edit"></i>
+										</button>
+									</a>
+								</td>
+							</tr>
+							<!-- Modal -->
+							<div class="modal fade" id="confirmacion_modal_pers_{{$p->id}}" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+								<div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h3 class="modal-title" id="confirmacion_modalLabel">Confirmación</h3>
+										</div>
+										<div class="modal-body">
+											<h5>¿Estás seguro de que desea eliminar el Personal <strong>{{$p->id }}</strong>?</h5>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal" style="margin-right: 10px;">Cancelar</button>
+											<a href="/proveedores/{{$proveedor->id}}/personal/eliminar/{{$p->id}}"><button type="button" class="btn btn-primary">Sí, estoy seguro</button></a>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- Modal End -->
+						@endforeach
+						<tr>
+							<td colspan="5">
+								<a href="/proveedores/{{$proveedor->id}}/personal/nuevo">
+									<button data-placement="top" data-toggle="tooltip" title="Nuevo Personal" type="button" id="verButton" class="btn btn-default pull-right">
+										<i class="fa fa-plus"></i>
+									</button>
+								</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<!-- /.col -->
 		</div>
 
 		<div class="row">

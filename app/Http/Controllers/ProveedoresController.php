@@ -94,12 +94,18 @@ class ProveedoresController extends Controller
       array_push($errors,'Error: Ya existen Proveedores con el nombre indicado.');
     }
 
+    if($request['vacaciones_inicio'] > $request['vacaciones_fin']) {
+      $ok = false;
+      array_push($errors, 'Error: La fecha de inicio de vacaciones no puede ser mayor a la fecha final.');
+    }
+
     if($ok) {
       $proveedor = new Proveedores;
       $proveedor->nombre = $request['nombre'];
       $proveedor->email = $request['email'];
       $proveedor->telefono = $request['telefono'];
       $proveedor->plazo_entrega = $request['plazo_entrega'];
+      $proveedor->plazo_entrega_web = $request['plazo_entrega_web'];
       $proveedor->envio = $request['envio'];
       $proveedor->metodo_pago = $request['metodo_pago'];
       $proveedor->precio_esp_campana = $request['precio_esp_campana'];
@@ -107,6 +113,8 @@ class ProveedoresController extends Controller
       $proveedor->contrato = $request['contrato'];
       $proveedor->observaciones = $request['observaciones'];
       $proveedor->ultima_visita = $request['ultima_visita'];
+      $proveedor->vacaciones_inicio = $request['vacaciones_inicio'];
+      $proveedor->vacaciones_fin = $request['vacaciones_fin'];
 
       if((strlen($proveedor->plazo_entrega) > 0) && (strlen($proveedor->envio) > 0) && (strlen($proveedor->metodo_pago) > 0)) {
         $proveedor->listo_para_vender = true;
@@ -195,11 +203,17 @@ class ProveedoresController extends Controller
       array_push($errors,'Error: Ya existen Proveedores con el nombre indicado.');
     }
 
+    if($request['vacaciones_inicio'] > $request['vacaciones_fin']) {
+      $ok = false;
+      array_push($errors, 'Error: La fecha de inicio de vacaciones no puede ser mayor a la fecha final.');
+    }
+
     if($ok) {
       $proveedor->nombre = $request['nombre'];
       $proveedor->email = $request['email'];
       $proveedor->telefono = $request['telefono'];
       $proveedor->plazo_entrega = $request['plazo_entrega'];
+      $proveedor->plazo_entrega_web = $request['plazo_entrega_web'];
       $proveedor->envio = $request['envio'];
       $proveedor->metodo_pago = $request['metodo_pago'];
       $proveedor->precio_esp_campana = $request['precio_esp_campana'];
@@ -207,6 +221,8 @@ class ProveedoresController extends Controller
       $proveedor->contrato = $request['contrato'];
       $proveedor->observaciones = $request['observaciones'];
       $proveedor->ultima_visita = $request['ultima_visita'];
+      $proveedor->vacaciones_inicio = $request['vacaciones_inicio'];
+      $proveedor->vacaciones_fin = $request['vacaciones_fin'];
 
       if((strlen($proveedor->plazo_entrega) > 0) && (strlen($proveedor->envio) > 0) && (strlen($proveedor->metodo_pago) > 0)) {
         $proveedor->listo_para_vender = true;

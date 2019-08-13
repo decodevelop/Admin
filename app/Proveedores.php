@@ -15,7 +15,7 @@ class Proveedores extends Model
         'id','nombre','email','telefono', 'plazo_entrega', 'plazo_entrega_web',
         'envio', 'metodo_pago', 'precio_esp_campana', 'logistica',
         'contrato', 'ultima_visita', 'observaciones', 'valoracion_media',
-        'listo_para_vender', 'contrato_pdf', 'vacaciones'
+        'listo_para_vender', 'contrato_pdf', 'vacaciones_inicio', 'vacaciones_fin'
     ];
 
 		 /**

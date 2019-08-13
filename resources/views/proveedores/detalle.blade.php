@@ -21,8 +21,8 @@
 			</div>
 		</div>
 
-		<div class="col-sm-12">
-			<table class="table">
+		<div class="col-xs-12 col-lg-6">
+			<table class="table table-proveedores">
 				<tbody>
 					<tr>
 						<td class="text-left" style="width:20%"><strong>ID:</strong></td>
@@ -43,6 +43,10 @@
 					<tr>
 						<td class="text-left"><strong>Plazo de entrega:</strong></td>
 						<td class="text-left"><span>{{$proveedor->plazo_entrega}}</span></td>
+					</tr>
+					<tr>
+						<td class="text-left"><strong>Plazo de entrega Web:</strong></td>
+						<td class="text-left"><span>{{$proveedor->plazo_entrega_web}}</span></td>
 					</tr>
 					<tr>
 						<td class="text-left"><strong>Envío:</strong></td>
@@ -72,16 +76,50 @@
 						</td>
 					</tr>
 					<tr>
+						<td class="text-left" style="width:20%"><strong>Listo para vender:</strong></td>
+						@if ($proveedor->listo_para_vender)
+							<td class="text-left"><span style="color:green; font-size:20px;"><i class="fa fa-check"></i></span></td>
+						@else
+							<td class="text-left"><span style="color:#d80101; font-size:20px;"><i class="fa fa-times"></i></span></td>
+						@endif
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="col-xs-12 col-lg-6">
+			<table class="table table-proveedores">
+				<tbody>
+					<tr>
 						<td class="text-left"><strong>Última visita:</strong></td>
-						<td class="text-left"><span>{{$proveedor->ultima_visita}}</span></td>
+						<td class="text-left">
+							<span>
+								@php
+									$u_visita = explode('-', $proveedor->ultima_visita);
+									$proveedor->ultima_visita = $u_visita[2].'/'.$u_visita[1].'/'.$u_visita[0];
+								@endphp
+								{{$proveedor->ultima_visita}}
+							</span>
+						</td>
 					</tr>
 					<tr>
-						<td class="text-left" style="vertical-align: top!important"><strong>Observaciones:</strong></td>
-						<td class="text-left" style="vertical-align: top!important"><div>{!! $proveedor->observaciones !!}</div></td>
+						<td class="text-left"><strong>Vacaciones:</strong></td>
+						<td class="text-left">
+							<span>
+								@php
+									$v_inicio = explode('-', $proveedor->vacaciones_inicio);
+									$proveedor->vacaciones_inicio = $v_inicio[2].'/'.$v_inicio[1].'/'.$v_inicio[0];
+
+									$v_fin = explode('-', $proveedor->vacaciones_fin);
+									$proveedor->vacaciones_fin = $v_fin[2].'/'.$v_fin[1].'/'.$v_fin[0];
+								@endphp
+							{{$proveedor->vacaciones_inicio}} - {{$proveedor->vacaciones_fin}}
+							</span>
+					</td>
 					</tr>
 					<tr>
-						<td class="text-left" style="vertical-align: top!important"><strong>Valoración media:</strong></td>
-						<td class="text-left" style="vertical-align: top!important">
+						<td class="text-left" style=""><strong>Valoración media:</strong></td>
+						<td class="text-left" style="">
 							<span style="margin-right:10px">
 								@php
 								echo round($proveedor->valoracion_media, 2).' / 5';
@@ -108,12 +146,8 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="text-left"><strong>Listo para vender:</strong></td>
-						@if ($proveedor->listo_para_vender)
-							<td class="text-left"><span style="color:green; font-size:20px;"><i class="fa fa-check"></i></span></td>
-						@else
-							<td class="text-left"><span style="color:#d80101; font-size:20px;"><i class="fa fa-times"></i></span></td>
-						@endif
+						<td class="text-left" style="vertical-align: top!important"><strong>Observaciones:</strong></td>
+						<td class="text-left" style="vertical-align: top!important"><div>{!! $proveedor->observaciones !!}</div></td>
 					</tr>
 				</tbody>
 			</table>
@@ -342,6 +376,10 @@
 		</div>
 	</section>
 	<style>
+
+	.table-proveedores td {
+		height: 57px;
+	}
 
 	input[name='bultos'] {
 		width: 50% !important;

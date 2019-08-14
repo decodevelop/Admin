@@ -200,7 +200,7 @@
 								<td class="text-left" style="vertical-align:top!important">{{$p->cargo}}</td>
 								<td class="text-left" style="vertical-align:top!important">{{$p->nombre}}</td>
 								<td class="text-left" style="vertical-align:top!important">{{$p->correo}}</td>
-								<td class="text-left" style="vertical-align:top!important">{{$p->telefono}}</td>
+								<td class="text-left" style="vertical-align:top!important">@if($p->telefono != 0){{$p->telefono}}@endif</td>
 								<td class="text-left" style="vertical-align:top!important">
 									@if($contP > 3)
 									<div data-placement="top" data-toggle="tooltip" title="Eliminar" class="pull-right">

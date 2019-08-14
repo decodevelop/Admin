@@ -83,7 +83,7 @@ class ProveedoresController extends Controller
     $success = array();
     $alerts = array();
     $inputs = $request->all();
-    //dd($request);
+    //dd($request['pers_cargo']);
 
     // Validamos que el nombre no sea nulo.
     $nombre = $request->input('nombre');
@@ -108,6 +108,22 @@ class ProveedoresController extends Controller
         $ok = false;
         array_push($errors, 'Error: El campo cargo es obligatorio.');
         break;
+      }
+    }
+
+    for ($i=0; $i < count($request['pers_cargo']); $i++) {
+      $cont = 0;
+
+      for ($j=0; $j < count($request['pers_cargo']); $j++) {
+        if($request['pers_cargo'][$j] == $request['pers_cargo'][$i]){
+          $cont = $cont + 1;
+
+          if($cont == 2){
+            $ok = false;
+            array_push($errors,'Error: El nuevo Personal no puede contener el mismo cargo.');
+            break 2;
+          }
+        }
       }
     }
 
@@ -459,6 +475,16 @@ class ProveedoresController extends Controller
       array_push($errors, 'Error: El campo Cargo es obligatorio.');
     }
 
+    $personalExist = Personal_proveedores::where('id_proveedor','=',$id_proveedor)->get();
+
+    foreach ($personalExist as $p) {
+      if($p->cargo == $request['pers_cargo']){
+        $ok = false;
+        array_push($errors,'Error: Ya existe Personal con el cargo indicado.');
+        break;
+      }
+    }
+
     if($ok) {
 
       $personal = new Personal_proveedores;
@@ -488,6 +514,68 @@ class ProveedoresController extends Controller
     }
   }
 
+  public function modificar_personal($id_proveedor, $id_personal){
+    $personal = Personal_proveedores::find($id_personal);
+    $proveedor = Proveedores::find($id_proveedor);
+
+    return View::make('proveedores/modificar_personal', array('personal' => $personal, 'proveedor' => $proveedor));
+  }
+
+  public function modificar_personal_POST($id_proveedor, $id_personal, Request $request){
+    $ok = true;
+    $errors = array();
+    $success = array();
+    $alerts = array();
+    $personal = Personal_proveedores::find($id_personal);
+    //dd($request);
+
+    if($request['pers_cargo'] == '') {
+      $ok = false;
+      array_push($errors, 'Error: El campo Cargo es obligatorio.');
+    }
+
+    $personalExist = Personal_proveedores::where('id_proveedor','=',$id_proveedor)->where('id', '!=', $personal->id)->get();
+
+    foreach ($personalExist as $p) {
+      if($p->cargo == $request['pers_cargo']){
+        $ok = false;
+        array_push($errors, 'Error: Ya existe Personal con el cargo indicado.');
+        break;
+      }
+    }
+
+
+    if($ok) {
+
+      $personal->id_proveedor = $id_proveedor;
+      $personal->cargo = $request['pers_cargo'];
+      $personal->nombre = $request['pers_nombre'];
+      $personal->correo = $request['pers_correo'];
+      $personal->telefono = $request['pers_telefono'];
+
+      if($personal->save()){
+        array_push($success, 'Personal actualizado correctamente.');
+      }
+
+      Session::put('success',$success);
+
+      return back();
+
+    } else {
+      Session::put('alerts',$alerts);
+
+      $requestErr = $request->all();
+      //dd($requestErr);
+      return back()->with(array('errors' => $errors));
+    }
+  }
+
+  function eliminar_personal($id_proveedor, $id_personal){
+    $personal = Personal_proveedores::find($id_personal);
+    $personal->delete();
+
+    return redirect('/proveedores/detalle/'.$id_proveedor);
+  }
 
   public function viewProductos($id_campana,Request $request){
     /*-------------- ORDENACIONES --------------*/

@@ -61,6 +61,7 @@ class ProveedoresController extends Controller
     $proveedor = Proveedores::find($id);
     $rappel = Rappels::where('id_proveedor', '=', $id)->get();
     $personal = Personal_proveedores::where('id_proveedor', '=', $id)->get();
+    $horario = Horario_proveedores::where('id_proveedor', '=', $id)->first();
     $seguimiento = Seguimiento_proveedores::where('id_proveedor','=',$id)->get();
     $valoraciones = Valoraciones_proveedores::where('id_proveedor','=',$id)->get();
     $usuarios = User::get();
@@ -68,6 +69,7 @@ class ProveedoresController extends Controller
     return View::make('proveedores/detalle', array('proveedor' => $proveedor,
     'rappel' => $rappel,
     'personal' => $personal,
+    'horario' => $horario,
     'seguimiento' => $seguimiento,
     'valoraciones' => $valoraciones,
     'usuarios' => $usuarios));

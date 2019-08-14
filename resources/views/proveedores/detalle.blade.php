@@ -76,7 +76,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="text-left" style="width:20%"><strong>Listo para vender:</strong></td>
+						<td class="text-left"><strong>Listo para vender:</strong></td>
 						@if ($proveedor->listo_para_vender)
 							<td class="text-left"><span style="color:green; font-size:20px;"><i class="fa fa-check"></i></span></td>
 						@else
@@ -91,7 +91,7 @@
 			<table class="table table-proveedores">
 				<tbody>
 					<tr>
-						<td class="text-left"><strong>Última visita:</strong></td>
+						<td class="text-left" style="width:20%"><strong>Última visita:</strong></td>
 						<td class="text-left">
 							<span>
 								@php
@@ -156,6 +156,87 @@
 						</td>
 					</tr>
 					<tr>
+						<td class="text-left" style="vertical-align: top!important; padding-top:18px"><strong>Horario:</strong></td>
+						<td class="text-left" style="vertical-align: top!important; padding-top:18px">
+							@if ($horario != null)
+								<span>
+									<a class="collapse-horario collapsed" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+										@php
+										switch (date("l")) {
+											case 'Monday':
+												echo "Lunes: $horario->lunes";
+												break;
+
+											case 'Tuesday':
+												echo "Martes: $horario->martes";
+												break;
+
+											case 'Wednesday':
+												echo "Miércoles: $horario->miercoles";
+												break;
+
+											case 'Thursday':
+												echo "Jueves: $horario->jueves";
+												break;
+
+											case 'Friday':
+												echo "Viernes: $horario->viernes";
+												break;
+
+											case 'Saturday':
+												echo "Sábado: $horario->sabado";
+												break;
+
+											case 'Sunday':
+												echo "Domingo: $horario->domingo";
+												break;
+										}
+										@endphp
+									</a>
+								</span>
+								<div class="collapse" id="collapseExample">
+									<div class="card card-body">
+										<div class="horario-cont">
+											<table class="horario-table">
+												<tbody>
+													<tr>
+														<td><strong>Lunes </strong></td>
+														<td style="text-align: right!important">{{$horario->lunes}}</td>
+													</tr>
+													<tr>
+														<td><strong>Martes </strong></td>
+														<td style="text-align: right!important">{{$horario->martes}}</td>
+													</tr>
+													<tr>
+														<td><strong>Miércoles </strong></td>
+														<td style="text-align: right!important">{{$horario->miercoles}}</td>
+													</tr>
+													<tr>
+														<td><strong>Jueves </strong></td>
+														<td style="text-align: right!important">{{$horario->jueves}}</td>
+													</tr>
+													<tr>
+														<td><strong>Viernes </strong></td>
+														<td style="text-align: right!important">{{$horario->viernes}}</td>
+													</tr>
+													<tr>
+														<td><strong>Sábado </strong></td>
+														<td style="text-align: right!important">{{$horario->sabado}}</td>
+													</tr>
+													<tr>
+														<td><strong>Domingo </strong></td>
+														<td style="text-align: right!important">{{$horario->domingo}}</td>
+													</tr>
+
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							@endif
+						</td>
+					</tr>
+					<tr>
 						<td class="text-left" style="vertical-align: top!important"><strong>Observaciones:</strong></td>
 						<td class="text-left" style="vertical-align: top!important"><div>{!! $proveedor->observaciones !!}</div></td>
 					</tr>
@@ -201,421 +282,451 @@
 								<td class="text-left" style="vertical-align:top!important">{{$p->nombre}}</td>
 								<td class="text-left" style="vertical-align:top!important">{{$p->correo}}</td>
 								<td class="text-left" style="vertical-align:top!important">@if($p->telefono != 0){{$p->telefono}}@endif</td>
-								<td class="text-left" style="vertical-align:top!important">
-									@if($contP > 3)
-									<div data-placement="top" data-toggle="tooltip" title="Eliminar" class="pull-right">
-										<button type="button" id="eliminarButton" class="btn btn-github" data-toggle="modal" data-target="#confirmacion_modal_pers_{{$p->id}}">
-											<i class="fa fa-trash"></i>
-										</button>
-									</div>
-								@endif
-
-									<a href="/proveedores/{{$proveedor->id}}/personal/modificar/{{$p->id}}">
-										<button data-placement="top" data-toggle="tooltip" title="Editar" type="button" id="editarButton" class="btn btn-primary pull-right" style="margin: 0 10px;">
-											<i class="fa fa-edit"></i>
-										</button>
-									</a>
-								</td>
-							</tr>
-							<!-- Modal -->
-							<div class="modal fade" id="confirmacion_modal_pers_{{$p->id}}" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-								<div class="modal-dialog" role="document">
-									<div class="modal-content">
-										<div class="modal-header">
-											<h3 class="modal-title" id="confirmacion_modalLabel">Confirmación</h3>
-										</div>
-										<div class="modal-body">
-											<h5>¿Estás seguro de que desea eliminar el Personal <strong>{{$p->id }}</strong>?</h5>
-										</div>
-										<div class="modal-footer">
-											<button type="button" class="btn btn-secondary" data-dismiss="modal" style="margin-right: 10px;">Cancelar</button>
-											<a href="/proveedores/{{$proveedor->id}}/personal/eliminar/{{$p->id}}"><button type="button" class="btn btn-primary">Sí, estoy seguro</button></a>
-										</div>
-									</div>
-								</div>
-							</div>
-							<!-- Modal End -->
-						@endforeach
-						<tr>
-							<td colspan="5">
-								<a href="/proveedores/{{$proveedor->id}}/personal/nuevo">
-									<button data-placement="top" data-toggle="tooltip" title="Nuevo Personal" type="button" id="verButton" class="btn btn-default pull-right">
-										<i class="fa fa-plus"></i>
-									</button>
-								</a>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			<!-- /.col -->
-		</div>
-
-		<div class="row">
-			<div class="col-xs-12">
-				<p class="page-header" style="font-size: 18px;">
-					<i class="fa fa-tags"></i> Rappels
-				</p>
-			</div>
-		</div>
-
-		<!-- Table row -->
-		<div class="row">
-			<div class="col-xs-12 table-responsive">
-				<table class="table table-striped">
-					<thead>
-						<tr>
-							<th class=text-left style="">Mínimo</th>
-							<th class=text-left style="">Máximo</th>
-							<th class=text-left>Porcentaje</th>
-							<th class=text-right style="width:20%;padding-right: 25px;">Opciones</th>
-						</tr>
-					</thead>
-					<tbody>
-						@foreach ($rappel as $r)
-							<tr>
-								<td class="text-left" style="vertical-align:top!important">{{$r->min}}</td>
-								<td class="text-left" style="vertical-align:top!important">{{$r->max}}</td>
-								<td class="text-left" style="vertical-align:top!important">{{$r->condiciones}} %</td>
-								<td class="text-left" style="vertical-align:top!important">
-									<div data-placement="top" data-toggle="tooltip" title="Eliminar" class="pull-right">
-										<button type="button" id="eliminarButton" class="btn btn-github" data-toggle="modal" data-target="#confirmacion_modal_{{$r->id}}">
-											<i class="fa fa-trash"></i>
-										</button>
-									</div>
-
-									<a href="/proveedores/{{$proveedor->id}}/rappels/modificar/{{$r->id}}">
-										<button data-placement="top" data-toggle="tooltip" title="Editar" type="button" id="editarButton" class="btn btn-primary pull-right" style="margin: 0 10px;">
-											<i class="fa fa-edit"></i>
-										</button>
-									</a>
-								</td>
-							</tr>
-							<!-- Modal -->
-							<div class="modal fade" id="confirmacion_modal_{{$r->id}}" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-								<div class="modal-dialog" role="document">
-									<div class="modal-content">
-										<div class="modal-header">
-											<h3 class="modal-title" id="confirmacion_modalLabel">Confirmación</h3>
-										</div>
-										<div class="modal-body">
-											<h5>¿Estás seguro de que desea eliminar el Rappel <strong>{{$r->id }}</strong>?</h5>
-										</div>
-										<div class="modal-footer">
-											<button type="button" class="btn btn-secondary" data-dismiss="modal" style="margin-right: 10px;">Cancelar</button>
-											<a href="/proveedores/{{$proveedor->id}}/rappels/eliminar/{{$r->id}}"><button type="button" class="btn btn-primary">Sí, estoy seguro</button></a>
-										</div>
-									</div>
-								</div>
-							</div>
-							<!-- Modal End -->
-						@endforeach
-						<tr>
-							<td colspan="5">
-								<a href="/proveedores/{{$proveedor->id}}/rappels/nuevo">
-									<button data-placement="top" data-toggle="tooltip" title="Nuevo Rappel" type="button" id="verButton" class="btn btn-default pull-right">
-										<i class="fa fa-plus"></i>
-									</button>
-								</a>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			<!-- /.col -->
-		</div>
-		<!-- /.row -->
-		<div class="row">
-			<div class="col-xs-6 " style="margin-bottom: 20px;">
-				<div class="panel-group">
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h4 class="panel-title">
-								<a data-toggle="collapse" href="#collapse-seguimiento"><p class="lead">Seguimiento:</p></a>
-							</h4>
-						</div>
-						<div id="collapse-seguimiento" class="col-xs-12 panel-collapse collapse in">
-							@if (count($seguimiento) > 0)
-								@foreach ($seguimiento as $seg)
-									<div class="fila-seguimiento col-xs-8 @if($seg->id_usuario == Auth::user()->id) propietario  @endif">
-										<div class="seg-left col-xs-3">
-											<div class="usuario"> <i class="fa fa-user" aria-hidden="true"></i> {{$usuarios[$seg->id_usuario-1]->apodo}}</div>
-											<div class="fecha">{{$seg->created_at}}</div>
-										</div>
-										<div class="seg-right col-xs-5">
-											<div class="comentario">
-												<div class="mensaje"> {{$seg->mensaje}} </div>
+									<td class="text-left" style="vertical-align:top!important">
+										@if($contP > 3)
+											<div data-placement="top" data-toggle="tooltip" title="Eliminar" class="pull-right">
+												<button type="button" id="eliminarButton" class="btn btn-github" data-toggle="modal" data-target="#confirmacion_modal_pers_{{$p->id}}" style="margin-left: 10px;">
+													<i class="fa fa-trash"></i>
+												</button>
 											</div>
-										</div>
-
-										@if ($seg->destacado)
-											<input type="radio" id="{{$seg->id}}" class="seguimiento_destacado" onclick="comentario_destacado(this);" name="destacado" value="{{$seg->id_proveedor}}" checked>
-											<label for="{{$seg->id}}" class="pull-right"></label>
-										@else
-											<input type="radio" id="{{$seg->id}}" class="seguimiento_destacado" onclick="comentario_destacado(this);" name="destacado" value="{{$seg->id_proveedor}}">
-											<label for="{{$seg->id}}" class="pull-right"></label>
 										@endif
-									</div>
-								@endforeach
-							@endif
-							<div class="fila-seguimiento col-xs-8">
-								<div class="seg-left col-xs-3">
-									<div class="usuario"> <i class="fa fa-commenting" aria-hidden="true"></i> {{Auth::user()->apodo}}:</div>
-									<div class="fecha"><?php echo date('Y-m-d H:i:s'); ?></div>
-								</div>
-								<div class="seg-right col-xs-5">
-									<form id="form_seguimiento">
-										{{ csrf_field() }}
-										<div class="comentario">
-											<textarea class="callout callout-default" name="comentario_seguimiento" id="comentario_seguimiento" style=""></textarea>
+
+										<a href="/proveedores/{{$proveedor->id}}/personal/modificar/{{$p->id}}">
+											<button data-placement="top" data-toggle="tooltip" title="Editar" type="button" id="editarButton" class="btn btn-primary pull-right">
+												<i class="fa fa-edit"></i>
+											</button>
+										</a>
+									</td>
+								</tr>
+								<!-- Modal -->
+								<div class="modal fade" id="confirmacion_modal_pers_{{$p->id}}" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+									<div class="modal-dialog" role="document">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h3 class="modal-title" id="confirmacion_modalLabel">Confirmación</h3>
+											</div>
+											<div class="modal-body">
+												<h5>¿Estás seguro de que desea eliminar el Personal <strong>{{$p->id }}</strong>?</h5>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-secondary" data-dismiss="modal" style="margin-right: 10px;">Cancelar</button>
+												<a href="/proveedores/{{$proveedor->id}}/personal/eliminar/{{$p->id}}"><button type="button" class="btn btn-primary">Sí, estoy seguro</button></a>
+											</div>
 										</div>
-										<input type="hidden" name="id_pedido_seguimiento" id="id_pedido_seguimiento" value="{{$proveedor->id}}">
-										<div class="enviar"><button type="submit" id="enviar_seguimiento">Enviar</button></div>
-									</form>
+									</div>
+								</div>
+								<!-- Modal End -->
+							@endforeach
+							<tr>
+								<td colspan="5">
+									<a href="/proveedores/{{$proveedor->id}}/personal/nuevo">
+										<button data-placement="top" data-toggle="tooltip" title="Nuevo Personal" type="button" id="verButton" class="btn btn-default pull-right">
+											<i class="fa fa-plus"></i>
+										</button>
+									</a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<!-- /.col -->
+			</div>
+
+			<div class="row">
+				<div class="col-xs-12">
+					<p class="page-header" style="font-size: 18px;">
+						<i class="fa fa-tags"></i> Rappels
+					</p>
+				</div>
+			</div>
+
+			<!-- Table row -->
+			<div class="row">
+				<div class="col-xs-12 table-responsive">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th class=text-left style="">Mínimo</th>
+								<th class=text-left style="">Máximo</th>
+								<th class=text-left>Porcentaje</th>
+								<th class=text-right style="width:20%;padding-right: 25px;">Opciones</th>
+							</tr>
+						</thead>
+						<tbody>
+							@foreach ($rappel as $r)
+								<tr>
+									<td class="text-left" style="vertical-align:top!important">{{$r->min}}</td>
+									<td class="text-left" style="vertical-align:top!important">{{$r->max}}</td>
+									<td class="text-left" style="vertical-align:top!important">{{$r->condiciones}} %</td>
+									<td class="text-left" style="vertical-align:top!important">
+										<div data-placement="top" data-toggle="tooltip" title="Eliminar" class="pull-right">
+											<button type="button" id="eliminarButton" class="btn btn-github" data-toggle="modal" data-target="#confirmacion_modal_{{$r->id}}">
+												<i class="fa fa-trash"></i>
+											</button>
+										</div>
+
+										<a href="/proveedores/{{$proveedor->id}}/rappels/modificar/{{$r->id}}">
+											<button data-placement="top" data-toggle="tooltip" title="Editar" type="button" id="editarButton" class="btn btn-primary pull-right" style="margin: 0 10px;">
+												<i class="fa fa-edit"></i>
+											</button>
+										</a>
+									</td>
+								</tr>
+								<!-- Modal -->
+								<div class="modal fade" id="confirmacion_modal_{{$r->id}}" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+									<div class="modal-dialog" role="document">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h3 class="modal-title" id="confirmacion_modalLabel">Confirmación</h3>
+											</div>
+											<div class="modal-body">
+												<h5>¿Estás seguro de que desea eliminar el Rappel <strong>{{$r->id }}</strong>?</h5>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-secondary" data-dismiss="modal" style="margin-right: 10px;">Cancelar</button>
+												<a href="/proveedores/{{$proveedor->id}}/rappels/eliminar/{{$r->id}}"><button type="button" class="btn btn-primary">Sí, estoy seguro</button></a>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- Modal End -->
+							@endforeach
+							<tr>
+								<td colspan="5">
+									<a href="/proveedores/{{$proveedor->id}}/rappels/nuevo">
+										<button data-placement="top" data-toggle="tooltip" title="Nuevo Rappel" type="button" id="verButton" class="btn btn-default pull-right">
+											<i class="fa fa-plus"></i>
+										</button>
+									</a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<!-- /.col -->
+			</div>
+			<!-- /.row -->
+			<div class="row">
+				<div class="col-xs-12 col-md-6" style="margin-bottom: 20px;">
+					<div class="panel-group">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h4 class="panel-title">
+									<a data-toggle="collapse" href="#collapse-seguimiento"><p class="lead">Seguimiento:</p></a>
+								</h4>
+							</div>
+							<div id="collapse-seguimiento" class="col-xs-12 panel-collapse collapse in">
+								@if (count($seguimiento) > 0)
+									@foreach ($seguimiento as $seg)
+										<div class="fila-seguimiento col-md-8 col-xs-12 @if($seg->id_usuario == Auth::user()->id) propietario  @endif">
+											<div class="seg-left col-md-3 col-xs-12">
+												<div class="usuario"> <i class="fa fa-user" aria-hidden="true"></i> {{$usuarios[$seg->id_usuario-1]->apodo}}</div>
+												<div class="fecha">{{$seg->created_at}}</div>
+											</div>
+											<div class="seg-right col-md-5 col-xs-12">
+												<div class="comentario">
+													<div class="mensaje"> {{$seg->mensaje}} </div>
+												</div>
+											</div>
+
+											@if ($seg->destacado)
+												<input type="radio" id="{{$seg->id}}" class="seguimiento_destacado" onclick="comentario_destacado(this);" name="destacado" value="{{$seg->id_proveedor}}" checked>
+												<label for="{{$seg->id}}" class="pull-right"></label>
+											@else
+												<input type="radio" id="{{$seg->id}}" class="seguimiento_destacado" onclick="comentario_destacado(this);" name="destacado" value="{{$seg->id_proveedor}}">
+												<label for="{{$seg->id}}" class="pull-right"></label>
+											@endif
+										</div>
+									@endforeach
+								@endif
+								<div class="fila-seguimiento col-md-8 col-xs-12">
+									<div class="seg-left col-md-3 col-xs-12">
+										<div class="usuario"> <i class="fa fa-commenting" aria-hidden="true"></i> {{Auth::user()->apodo}}:</div>
+										<div class="fecha"><?php echo date('Y-m-d H:i:s'); ?></div>
+									</div>
+									<div class="seg-right col-md-5 col-xs-12">
+										<form id="form_seguimiento">
+											{{ csrf_field() }}
+											<div class="comentario">
+												<textarea class="callout callout-default" name="comentario_seguimiento" id="comentario_seguimiento" style=""></textarea>
+											</div>
+											<input type="hidden" name="id_pedido_seguimiento" id="id_pedido_seguimiento" value="{{$proveedor->id}}">
+											<div class="enviar"><button type="submit" id="enviar_seguimiento">Enviar</button></div>
+										</form>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
 
-			<div class="col-xs-6 " style="margin-bottom: 20px;">
-				<div class="panel-group">
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h4 class="panel-title">
-								<a data-toggle="collapse" href="#collapse-valoracion"><p class="lead">Valoraciones:</p></a>
-							</h4>
-						</div>
-						<div id="collapse-valoracion" class="col-xs-12 panel-collapse collapse in">
-							@if (count($valoraciones) > 0)
-								@foreach ($valoraciones as $val)
-									<div class="fila-seguimiento col-xs-8 @if($val->id_usuario == Auth::user()->id) propietario  @endif">
-										<div class="seg-left col-xs-3">
-											<div class="usuario"> <i class="fa fa-user" aria-hidden="true"></i> {{$usuarios[$val->id_usuario-1]->apodo}}</div>
-											<div class="fecha">{{$val->created_at}}</div>
-										</div>
-										<div class="seg-right col-xs-5">
-											<div class="rating-stars-def">
-												<div class="rating-stars-container-def">
+				<div class="col-xs-12 col-md-6 " style="margin-bottom: 20px;">
+					<div class="panel-group">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h4 class="panel-title">
+									<a data-toggle="collapse" href="#collapse-valoracion"><p class="lead">Valoraciones:</p></a>
+								</h4>
+							</div>
+							<div id="collapse-valoracion" class="col-xs-12 panel-collapse collapse in">
+								@if (count($valoraciones) > 0)
+									@foreach ($valoraciones as $val)
+										<div class="fila-seguimiento col-md-8 col-xs-12 @if($val->id_usuario == Auth::user()->id) propietario  @endif">
+											<div class="seg-left col-md-3 col-xs-12">
+												<div class="usuario"> <i class="fa fa-user" aria-hidden="true"></i> {{$usuarios[$val->id_usuario-1]->apodo}}</div>
+												<div class="fecha">{{$val->created_at}}</div>
+											</div>
+											<div class="seg-right col-md-5 col-xs-12">
+												<div class="rating-stars-def">
+													<div class="rating-stars-container-def">
 
-													@for ($i=0; $i < $val->puntuacion; $i++)
-														<div class="rating-star-def-act">
-															<i class="fa fa-star"></i>
-														</div>
-													@endfor
+														@for ($i=0; $i < $val->puntuacion; $i++)
+															<div class="rating-star-def-act">
+																<i class="fa fa-star"></i>
+															</div>
+														@endfor
 
-													@for ($i=0; $i < (5 - $val->puntuacion); $i++)
-														<div class="rating-star-def-des">
-															<i class="fa fa-star"></i>
-														</div>
-													@endfor
+														@for ($i=0; $i < (5 - $val->puntuacion); $i++)
+															<div class="rating-star-def-des">
+																<i class="fa fa-star"></i>
+															</div>
+														@endfor
 
+													</div>
 												</div>
+
+												<div class="comentario">
+													<div class="mensaje"> {{$val->comentario}} </div>
+												</div>
+											</div>
+										</div>
+									@endforeach
+								@endif
+								<div class="fila-seguimiento col-md-8 col-xs-12">
+									<div class="seg-left col-md-3 col-xs-12">
+										<div class="usuario"> <i class="fa fa-commenting" aria-hidden="true"></i> {{Auth::user()->apodo}}:</div>
+										<div class="fecha"><?php echo date('Y-m-d H:i:s'); ?></div>
+									</div>
+									<div class="seg-right col-md-5 col-xs-12">
+										<form id="form_valoracion">
+											{{ csrf_field() }}
+											<div class="rating-stars">
+												<div class="rating-stars-container">
+													<div class="rating-star">
+														<i class="fa fa-star"></i>
+													</div>
+													<div class="rating-star">
+														<i class="fa fa-star"></i>
+													</div>
+													<div class="rating-star">
+														<i class="fa fa-star"></i>
+													</div>
+													<div class="rating-star">
+														<i class="fa fa-star"></i>
+													</div>
+													<div class="rating-star">
+														<i class="fa fa-star"></i>
+													</div>
+												</div>
+
+												<input type="number" readonly="readonly" class="rating-value hidden" name="puntuacion" id="rating-stars-value">
 											</div>
 
 											<div class="comentario">
-												<div class="mensaje"> {{$val->comentario}} </div>
+												<textarea class="callout callout-default" name="comentario_valoracion" id="comentario_valoracion" style=""></textarea>
 											</div>
-										</div>
+											<input type="hidden" name="id_valoracion" id="id_valoracion" value="{{$proveedor->id}}">
+											<div class="enviar"><button type="submit" id="enviar_valoracion">Enviar</button></div>
+										</form>
 									</div>
-								@endforeach
-							@endif
-							<div class="fila-seguimiento col-xs-8">
-								<div class="seg-left col-xs-3">
-									<div class="usuario"> <i class="fa fa-commenting" aria-hidden="true"></i> {{Auth::user()->apodo}}:</div>
-									<div class="fecha"><?php echo date('Y-m-d H:i:s'); ?></div>
-								</div>
-								<div class="seg-right col-xs-5">
-									<form id="form_valoracion">
-										{{ csrf_field() }}
-										<div class="rating-stars">
-											<div class="rating-stars-container">
-												<div class="rating-star">
-													<i class="fa fa-star"></i>
-												</div>
-												<div class="rating-star">
-													<i class="fa fa-star"></i>
-												</div>
-												<div class="rating-star">
-													<i class="fa fa-star"></i>
-												</div>
-												<div class="rating-star">
-													<i class="fa fa-star"></i>
-												</div>
-												<div class="rating-star">
-													<i class="fa fa-star"></i>
-												</div>
-											</div>
-
-											<input type="number" readonly="readonly" class="rating-value hidden" name="puntuacion" id="rating-stars-value">
-										</div>
-
-										<div class="comentario">
-											<textarea class="callout callout-default" name="comentario_valoracion" id="comentario_valoracion" style=""></textarea>
-										</div>
-										<input type="hidden" name="id_valoracion" id="id_valoracion" value="{{$proveedor->id}}">
-										<div class="enviar"><button type="submit" id="enviar_valoracion">Enviar</button></div>
-									</form>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-	</section>
-	<style>
+		</section>
+		<style>
+		.collapse-horario:hover {
+			font-weight: bold;
+		}
 
-	.table-proveedores td {
-		height: 57px;
-	}
+		.collapse-horario:after {
+			font-family: 'FontAwesome';
+			content: "\f0d8";
+			color: #000000;
+			font-size: 20px;
+			line-height: 12px;
+			padding-left: 20px;
+		}
 
-	input[name='bultos'] {
-		width: 50% !important;
-	}
-	div#collapse-incidencia {
-		padding: 20px 15px;
-	}
-	.lead {
-		margin-bottom: 20px;
-		font-size: 16px;
-		font-weight: 600;
-		line-height: 1.4;
-	}
-	.panel-default>.panel-heading {
-		color: #000;
-		background-color: #f4f4f4;
-		border-color: #480101;
-	}
-	.panel-default>.panel-heading.warning{
-		background-color: #f9b0b0;
-	}
-	select[name=estado_incidencia], select[name=desplegable_mensaje_incidencia], select[name=desplegable_gestion_incidencia] {
-		width: 155px;
-		margin-right: 80%;
-		border-radius: 4px;
-	}
-	a[data-toggle=collapse]:hover{
-		color: black;
-	}
-	textarea#mensaje_incidencia, #gestion_incidencia {
-		margin-bottom: 15px !important;
-	}
-	a[data-toggle=collapse] {
-		color: black;
-	}
-	inspector-stylesheet:1
-	a[data-toggle=collapse]:hover {
-		color: white !important;
-	}
-	select[multiple], select[size] {
-		height: auto;
-		width: 20%;
-		margin: 6px 0px;
-		border-radius: 6px;
-		padding: 7px;
-	}
-	.panel-title p.lead {
-		margin-bottom: 5px !important;
-	}
+		.collapse-horario.collapsed:after {
+			font-family: 'FontAwesome';
+			content: "\f0d7";
+		}
+
+		.horario-cont {
+			margin-top: 20px;
+			margin-bottom: 20px;
+		}
+
+		.horario-table td{
+			height: 20px!important;
+			text-align: left;
+			width: 30%;
+			border-bottom: 1px solid #f4f4f4;
+			padding: 5px;
+		}
+
+		.table-proveedores td {
+			height: 57px;
+		}
+
+		input[name='bultos'] {
+			width: 50% !important;
+		}
+		div#collapse-incidencia {
+			padding: 20px 15px;
+		}
+		.lead {
+			margin-bottom: 20px;
+			font-size: 16px;
+			font-weight: 600;
+			line-height: 1.4;
+		}
+		.panel-default>.panel-heading {
+			color: #000;
+			background-color: #f4f4f4;
+			border-color: #480101;
+		}
+		.panel-default>.panel-heading.warning{
+			background-color: #f9b0b0;
+		}
+		select[name=estado_incidencia], select[name=desplegable_mensaje_incidencia], select[name=desplegable_gestion_incidencia] {
+			width: 155px;
+			margin-right: 80%;
+			border-radius: 4px;
+		}
+		a[data-toggle=collapse]:hover{
+			color: black;
+		}
+		textarea#mensaje_incidencia, #gestion_incidencia {
+			margin-bottom: 15px !important;
+		}
+		a[data-toggle=collapse] {
+			color: black;
+		}
+		inspector-stylesheet:1
+		a[data-toggle=collapse]:hover {
+			color: white !important;
+		}
+		select[multiple], select[size] {
+			height: auto;
+			width: 20%;
+			margin: 6px 0px;
+			border-radius: 6px;
+			padding: 7px;
+		}
+		.panel-title p.lead {
+			margin-bottom: 5px !important;
+		}
 
 
-	input[type=radio].seguimiento_destacado{
-		border: 0;
-		clip: rect(0 0 0 0);
-		height: 1px;
-		margin: -1px;
-		overflow: hidden;
-		padding: 0;
-		position: absolute;
-		width: 1px;
-	}
+		input[type=radio].seguimiento_destacado{
+			border: 0;
+			clip: rect(0 0 0 0);
+			height: 1px;
+			margin: -1px;
+			overflow: hidden;
+			padding: 0;
+			position: absolute;
+			width: 1px;
+		}
 
-	input[type=radio].seguimiento_destacado + label:before{
-		font-family: FontAwesome;
-		display: inline-block;
-		content: "\f08d";
-		letter-spacing: 10px;
-		font-size: 1.5em;
-		color: grey;
-		width: 1.4em;
-	}
+		input[type=radio].seguimiento_destacado + label:before{
+			font-family: FontAwesome;
+			display: inline-block;
+			content: "\f08d";
+			letter-spacing: 10px;
+			font-size: 1.5em;
+			color: grey;
+			width: 1.4em;
+		}
 
-	input[type=radio].seguimiento_destacado:checked + label:before{
-		content: "\f08d";
-		font-size: 1.5em;
-		color: #b00505;
-		letter-spacing: 5px;
-	}
-</style>
-@endsection
+		input[type=radio].seguimiento_destacado:checked + label:before{
+			content: "\f08d";
+			font-size: 1.5em;
+			color: #b00505;
+			letter-spacing: 5px;
+		}
+		</style>
+	@endsection
 
-@section('scripts')
-	<!-- DataTables -->
-	<script src="{{url('/plugins/datatables/jquery.dataTables.min.js')}}"></script>
-	<script src="{{url('/plugins/datatables/dataTables.bootstrap.min.js')}}"></script>
-	<script>
-	$(document).ready(function(e){
-		$("#form_seguimiento").submit(function(e){
-			e.preventDefault();
-			var idped = $( '#id_pedido_seguimiento' ).val();
-			var mensaje_seguimiento = $('#comentario_seguimiento').val();
+	@section('scripts')
+		<!-- DataTables -->
+		<script src="{{url('/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+		<script src="{{url('/plugins/datatables/dataTables.bootstrap.min.js')}}"></script>
+		<script>
+		$(document).ready(function(e){
+			$("#form_seguimiento").submit(function(e){
+				e.preventDefault();
+				var idped = $( '#id_pedido_seguimiento' ).val();
+				var mensaje_seguimiento = $('#comentario_seguimiento').val();
 
-			//console.log($("#form_seguimiento").serialize());
-			//console.log(mensaje_seguimiento);
+				//console.log($("#form_seguimiento").serialize());
+				//console.log(mensaje_seguimiento);
+
+				$('.loader-dw').show();
+				//ajax
+				$.ajax({
+					url: "/proveedores/seguimiento/" + idped,
+					method: "POST",
+					data: $("#form_seguimiento").serialize()
+				}).done(function(msg){
+					//$('.loader-dw').hide();
+					//apprise(msg);
+					location.reload(true);
+				});
+			});
+
+			$("#form_valoracion").submit(function(e){
+				e.preventDefault();
+				var idped = $( '#id_valoracion' ).val();
+				var mensaje_valoracion = $('#comentario_valoracion').val();
+				var puntuacion_valoracion = $('#rating-stars-value').val();
+
+				//console.log($("#form_valoracion").serialize());
+				//console.log(mensaje_valoracion);
+
+				$('.loader-dw').show();
+				//ajax
+				$.ajax({
+					url: "/proveedores/valoracion/" + idped,
+					method: "POST",
+					data: $("#form_valoracion").serialize()
+				}).done(function(msg){
+					//$('.loader-dw').hide();
+					//apprise(msg);
+					location.reload(true);
+				});
+			});
+		});
+
+		function	comentario_destacado(destacado){
+			//console.log(destacado.value);
+			//		destacado.preventDefault();
 
 			$('.loader-dw').show();
 			//ajax
 			$.ajax({
-				url: "/proveedores/seguimiento/" + idped,
+				url: "/proveedores/seguimiento/" + destacado.value + "/destacado",
 				method: "POST",
-				data: $("#form_seguimiento").serialize()
+				data: {"_token": "{{ csrf_token() }}", "destacado": destacado.id}
 			}).done(function(msg){
 				//$('.loader-dw').hide();
 				//apprise(msg);
 				location.reload(true);
 			});
-		});
-
-		$("#form_valoracion").submit(function(e){
-			e.preventDefault();
-			var idped = $( '#id_valoracion' ).val();
-			var mensaje_valoracion = $('#comentario_valoracion').val();
-			var puntuacion_valoracion = $('#rating-stars-value').val();
-
-			//console.log($("#form_valoracion").serialize());
-			//console.log(mensaje_valoracion);
-
-			$('.loader-dw').show();
-			//ajax
-			$.ajax({
-				url: "/proveedores/valoracion/" + idped,
-				method: "POST",
-				data: $("#form_valoracion").serialize()
-			}).done(function(msg){
-				//$('.loader-dw').hide();
-				//apprise(msg);
-				location.reload(true);
-			});
-		});
-	});
-
-	function	comentario_destacado(destacado){
-		//console.log(destacado.value);
-		//		destacado.preventDefault();
-
-		$('.loader-dw').show();
-		//ajax
-		$.ajax({
-			url: "/proveedores/seguimiento/" + destacado.value + "/destacado",
-			method: "POST",
-			data: {"_token": "{{ csrf_token() }}", "destacado": destacado.id}
-		}).done(function(msg){
-			//$('.loader-dw').hide();
-			//apprise(msg);
-			location.reload(true);
-		});
-	}
-</script>
-@endsection
+		}
+		</script>
+	@endsection

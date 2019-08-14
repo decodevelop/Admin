@@ -130,12 +130,15 @@
                     <td><input type="date" name="ultima_visita" class="form-control" value="{{$proveedor->ultima_visita}}"></td>
                   </tr>
                   <tr>
-                    <td>Vacaciones inicio:</td>
-                    <td><input type="date" name="vacaciones_inicio" class="form-control" value="{{$proveedor->vacaciones_inicio}}"></td>
-                  </tr>
-                  <tr>
-                    <td>Vacaciones fin:</td>
-                    <td><input type="date" name="vacaciones_fin" class="form-control" value="{{$proveedor->vacaciones_fin}}"></td>
+                    <td>Vacaciones:</td>
+                    <td>
+                      <div class="col-xs-6" style="padding-left: 0!important">
+                        <span style="float: left;line-height: 30px;">Desde: </span><input style="width: 80%;float: right;" type="date" name="vacaciones_inicio" class="form-control" value="{{$proveedor->vacaciones_inicio}}">
+                      </div>
+                      <div class="col-xs-6" style="padding-right: 0!important">
+                        <span style="float: left;line-height: 30px;">Hasta: </span><input style="width: 80%;float: right;" type="date" name="vacaciones_fin" class="form-control" value="{{$proveedor->vacaciones_fin}}">
+                      </div>
+                    </td>
                   </tr>
                   <tr>
                     <td>Observaciones:</td>
@@ -152,7 +155,7 @@
             <div class="row">
               <div class="col-xs-12">
                 <p class="page-header" style="font-size: 18px;">
-                  <i class="fa fa-users"></i> Horario
+                  <i class="fa fa-calendar"></i> Horario
                 </p>
               </div>
             </div>
@@ -218,7 +221,7 @@
 
 <style media="screen">
   .richText .richText-editor {
-    height: 220px;
+    height: 275px;
   }
 </style>
 

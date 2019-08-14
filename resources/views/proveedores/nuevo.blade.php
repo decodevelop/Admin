@@ -70,6 +70,7 @@
           <li class="active"><a data-toggle="tab" href="#tab-proveedor">Proveedor</a></li>
           <li><a data-toggle="tab" href="#tab-rappel">Rappels</a></li>
           <li><a data-toggle="tab" href="#tab-personal">Personal de contacto</a></li>
+          <li><a data-toggle="tab" href="#tab-horario">Horario</a></li>
         </ul>
 
         <form class="" action="" method="post" enctype="multipart/form-data">
@@ -86,6 +87,10 @@
 
             <div id="tab-personal" class="tab-pane fade in">
               @includeIf('proveedores.nuevo.personal')
+            </div>
+
+            <div id="tab-horario" class="tab-pane fade in">
+              @includeIf('proveedores.nuevo.horario')
             </div>
           </div>
 

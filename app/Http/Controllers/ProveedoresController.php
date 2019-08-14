@@ -191,6 +191,17 @@ class ProveedoresController extends Controller
         $personal->save();
       }
 
+      $horario = new Horario_proveedores;
+      $horario->id_proveedor = $proveedor->id;
+      $horario->lunes = $request['hor_lunes'];
+      $horario->martes = $request['hor_martes'];
+      $horario->miercoles = $request['hor_miercoles'];
+      $horario->jueves = $request['hor_jueves'];
+      $horario->viernes = $request['hor_viernes'];
+      $horario->sabado = $request['hor_sabado'];
+      $horario->domingo = $request['hor_domingo'];
+      $horario->save();
+
       $vaciar_form = new Proveedores;
       Session::put('request',$vaciar_form);
       Session::put('success',$success);
@@ -214,8 +225,9 @@ class ProveedoresController extends Controller
 
   public function modificar_proveedor($id){
     $proveedor = Proveedores::find($id);
-
-    return View::make('proveedores/modificar_proveedor', array('proveedor' => $proveedor));
+    $horario = Horario_proveedores::where('id_proveedor', '=', $id)->first();
+    //dd($horario);
+    return View::make('proveedores/modificar_proveedor', array('proveedor' => $proveedor, 'horario' => $horario));
   }
 
   public function modificar_proveedor_POST($id, Request $request){
@@ -267,6 +279,23 @@ class ProveedoresController extends Controller
       } else {
         $proveedor->listo_para_vender = false;
       }
+
+      // Horario
+      $horario = Horario_proveedores::where('id_proveedor', '=', $id)->first();
+
+      if($horario == null){
+        $horario = new Horario_proveedores;
+      }
+
+      $horario->id_proveedor = $id;
+      $horario->lunes = $request['hor_lunes'];
+      $horario->martes = $request['hor_martes'];
+      $horario->miercoles = $request['hor_miercoles'];
+      $horario->jueves = $request['hor_jueves'];
+      $horario->viernes = $request['hor_viernes'];
+      $horario->sabado = $request['hor_sabado'];
+      $horario->domingo = $request['hor_domingo'];
+      $horario->save();
 
       // Subir PDF
       if(isset($request['contrato_pdf'])){

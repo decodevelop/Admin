@@ -2,7 +2,11 @@
 @section('titulo','Nuevo proveedor ')
 @section('titulo_h1','Nuevo proveedor ')
 @section('estilos')
-
+  <style media="screen">
+    .table td {
+      vertical-align: middle!important;
+    }
+  </style>
 @endsection
 
 @section('contenido')
@@ -69,6 +73,8 @@
         <ul class="nav nav-tabs">
           <li class="active"><a data-toggle="tab" href="#tab-proveedor">Proveedor</a></li>
           <li><a data-toggle="tab" href="#tab-rappel">Rappels</a></li>
+          <li><a data-toggle="tab" href="#tab-personal">Personal de contacto</a></li>
+          <li><a data-toggle="tab" href="#tab-horario">Horario</a></li>
         </ul>
 
         <form class="" action="" method="post" enctype="multipart/form-data">
@@ -82,6 +88,14 @@
             <div id="tab-rappel" class="tab-pane fade in">
               @includeIf('proveedores.nuevo.rappel')
             </div>
+
+            <div id="tab-personal" class="tab-pane fade in">
+              @includeIf('proveedores.nuevo.personal')
+            </div>
+
+            <div id="tab-horario" class="tab-pane fade in">
+              @includeIf('proveedores.nuevo.horario')
+            </div>
           </div>
 
           <button type="submit" name="enviar" class="btn btn-success pull-right" style="position: fixed;bottom: 5%;right: 5%;font-size: 20px;">Añadir</button>
@@ -91,13 +105,16 @@
 
     </div>
 
+
   </section>
   <!-- /.box-body -->
 @endsection
 
+
+
 @section('scripts')
   <script type="text/javascript">
-  
+
   </script>
 
 @endsection

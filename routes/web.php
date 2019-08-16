@@ -290,6 +290,9 @@ Route::group(['middleware' => 'auth'], function() {
 		Route::get('/development/generador_etiquetas', 'ToolsController@generador_etiquetas');
 		Route::post('/development/generador_etiquetas', 'ToolsController@etiquetas_almacen');
 
+		Route::get('/development/generador_etiquetas_pers', 'CampController@etiquetasPersonalizadas');
+		Route::post('/development/generador_etiquetas_pers', 'CampController@etiquetasPersonalizadas_post');
+
 
 		Route::post('/development', 'ToolsController@generarConsultaEan');
 

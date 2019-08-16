@@ -726,6 +726,8 @@ class CampController extends Controller
     return View::make('campanas/imprimirEtiquetasCampana', array('productos' => $productos));
   }
 
+
+
   public function eliminarPalet($id_palet){
 
     $palet = Palets::find($id_palet);
@@ -744,4 +746,53 @@ class CampController extends Controller
     return back()->with('success','Palet eliminado');
 
   }
+
+
+  public function etiquetasPersonalizadas(){
+    return View::make('herramientas/importar_excel_vp');
+  }
+
+  public function etiquetasPersonalizadas_post(Request $request){
+
+      if(isset($request["inputSeguridad"]) && $request["inputSeguridad"]=='565dsad4874#@3sfasf' && $request['csv']!=NULL){ //Controlamos que no venga vacío el fichero
+      // 1. Validar formato documento importado
+      if(strtolower($request['csv']->getClientOriginalExtension())=='xlsx'){ //Controlamos la extensión del fichero.
+        // 2. Generar nombre del fichero
+        $nombreFichero = 'excel_vp_ventas_'.date('d-m-Y_H-i-s').'.'.$request->csv->getClientOriginalExtension();
+        // 3. Subir fichero al directorio de archivos
+        $request->csv->move(public_path('documentos/vp_ventas'), $nombreFichero);
+        // Paso 3.1: Eliminar documentos anteriores a 1 semana. (esto está en pedidos también)
+        //* Hay que crear un CRON en el sistema para que elimine cierto numero cada semana, aunque se puede hacer
+        //* el cleanup aquí mismo al cargar un nuevo fichero.
+
+        // Paso 5: Bucle donde iremos subiendo los productos uno a uno.
+
+        //  $productosexistentes = Productos::get();
+
+        $contHechos = 0;
+        $result = Excel::load('documentos/vp_ventas/'.$nombreFichero, function($archivo) {
+
+          $result=$archivo->get();
+          //dd($result);
+/*
+          foreach($result as $key => $value){
+            // falta leer el archivos
+            // si no consigues pasar la variable productos a la vista utiliza Session.
+
+
+          }
+
+*/
+
+
+        })->get();
+
+        //dd($result);
+
+      }
+    }
+
+    return View::make('campanas/imprimirEtiquetasCampanaPers', array('productos' => $result));
+  }
+
 }

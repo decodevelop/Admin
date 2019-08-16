@@ -2,7 +2,11 @@
 @section('titulo','Nuevo proveedor ')
 @section('titulo_h1','Nuevo proveedor ')
 @section('estilos')
-
+  <style media="screen">
+    .table td {
+      vertical-align: middle!important;
+    }
+  </style>
 @endsection
 
 @section('contenido')
@@ -101,9 +105,12 @@
 
     </div>
 
+
   </section>
   <!-- /.box-body -->
 @endsection
+
+
 
 @section('scripts')
   <script type="text/javascript">

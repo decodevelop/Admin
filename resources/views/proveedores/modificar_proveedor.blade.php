@@ -110,7 +110,7 @@
                     <td><input name="logistica" class="form-control" value="{{$proveedor->logistica}}"></td>
                   </tr>
                   <tr>
-                    <td rowspan="2">Contrato:</td>
+                    <td rowspan="2" style="vertical-align: top!important;padding-top: 15px;">Contrato:</td>
                     <td><input name="contrato" class="form-control" value="{{$proveedor->contrato}}"></td>
                   </tr>
                   <tr>
@@ -130,18 +130,18 @@
                     <td><input type="date" name="ultima_visita" class="form-control" value="{{$proveedor->ultima_visita}}"></td>
                   </tr>
                   <tr>
-                    <td>Vacaciones:</td>
+                    <td>Vacaciones</td>
                     <td>
                       <div class="col-xs-6" style="padding-left: 0!important">
-                        <span style="float: left;line-height: 30px;">Desde: </span><input style="width: 80%;float: right;" type="date" name="vacaciones_inicio" class="form-control" value="{{$proveedor->vacaciones_inicio}}">
+                        <span style="float: left;padding-top: 7px;">desde: </span><input style="width: 80%;float: right;" type="date" name="vacaciones_inicio" class="form-control" value="{{$proveedor->vacaciones_inicio}}">
                       </div>
                       <div class="col-xs-6" style="padding-right: 0!important">
-                        <span style="float: left;line-height: 30px;">Hasta: </span><input style="width: 80%;float: right;" type="date" name="vacaciones_fin" class="form-control" value="{{$proveedor->vacaciones_fin}}">
+                        <span style="float: left;padding-top: 7px;">hasta: </span><input style="width: 80%;float: right;" type="date" name="vacaciones_fin" class="form-control" value="{{$proveedor->vacaciones_fin}}">
                       </div>
                     </td>
                   </tr>
                   <tr>
-                    <td>Observaciones:</td>
+                    <td style="vertical-align: top!important;padding-top: 15px;">Observaciones:</td>
                     <td>
                       <div contenteditable="true" data-inputname="observaciones" class="textarea-transform-init textarea-observaciones" rows="3" cols="20" >
                         {!! $proveedor->observaciones !!}
@@ -222,6 +222,10 @@
 <style media="screen">
   .richText .richText-editor {
     height: 275px;
+  }
+
+  .table td {
+    vertical-align: middle!important;
   }
 </style>
 

@@ -39,7 +39,7 @@
           <td><input name="logistica" class="form-control" value="@if(isset($requestErr)){{$requestErr['logistica']}}@endif"></td>
         </tr>
         <tr>
-          <td rowspan="2">Contrato:</td>
+          <td rowspan="2" style="vertical-align: top!important;padding-top: 15px;">Contrato:</td>
           <td><input name="contrato" class="form-control" value="@if(isset($requestErr)){{$requestErr['contrato']}}@endif"></td>
         </tr>
         <tr>
@@ -57,18 +57,18 @@
           <td><input type="date" name="ultima_visita" class="form-control" value="@if(isset($requestErr)){{$requestErr['ultima_visita']}}@endif"></td>
         </tr>
         <tr>
-          <td>Vacaciones:</td>
+          <td>Vacaciones</td>
           <td>
             <div class="col-xs-6" style="padding-left: 0!important">
-              <span style="float: left;line-height: 30px;">Desde: </span><input style="width: 80%;float: right;" type="date" name="vacaciones_inicio" class="form-control" value="@if(isset($requestErr)){{$requestErr['vacaciones_inicio']}}@endif">
+              <span style="float: left;padding-top:7px;">desde: </span><input style="width: 80%;float: right;" type="date" name="vacaciones_inicio" class="form-control" value="@if(isset($requestErr)){{$requestErr['vacaciones_inicio']}}@endif">
             </div>
             <div class="col-xs-6" style="padding-right: 0!important">
-              <span style="float: left;line-height: 30px;">Hasta: </span><input style="width: 80%;float: right;" type="date" name="vacaciones_fin" class="form-control" value="@if(isset($requestErr)){{$requestErr['vacaciones_fin']}}@endif">
+              <span style="float: left;padding-top:7px;">hasta: </span><input style="width: 80%;float: right;" type="date" name="vacaciones_fin" class="form-control" value="@if(isset($requestErr)){{$requestErr['vacaciones_fin']}}@endif">
             </div>
           </td>
         </tr>
         <tr>
-          <td>Observaciones:</td>
+          <td style="vertical-align: top!important;padding-top: 15px;">Observaciones:</td>
           <td>
             @if(isset($requestErr['observaciones']))
               <div contenteditable="true" data-inputname="observaciones" class="textarea-transform-init textarea-observaciones" rows="3" cols="20">

@@ -50,7 +50,7 @@ class ProveedoresController extends Controller
   */
 
   public function inicio(Request $request){
-    $proveedores = Proveedores::where('nombre', '!=', '')->get();
+    $proveedores = Proveedores::where('nombre', '!=', 'NULL')->get();
     $seguimientos = Seguimiento_proveedores::where('destacado', '=', true)->get();
     $usuarios = User::get();
 

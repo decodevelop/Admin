@@ -192,11 +192,11 @@
                   </tr>
                   <tr>
                     <td>Sábado:</td>
-                    <td><input name="hor_sabado" class="form-control" value="@if(isset($horario->sabado)){{$horario->sabado}}@endif"></td>
+                    <td><input name="hor_sabado" class="form-control" value="@if(isset($horario->sabado)){{$horario->sabado}} @else Cerrado @endif"></td>
                   </tr>
                   <tr>
                     <td>Domingo:</td>
-                    <td><input name="hor_domingo" class="form-control" value="@if(isset($horario->domingo)){{$horario->domingo}}@endif"></td>
+                    <td><input name="hor_domingo" class="form-control" value="@if(isset($horario->domingo)){{$horario->domingo}} @else Cerrado @endif"></td>
                   </tr>
                 </tbody>
               </table>

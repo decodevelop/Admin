@@ -136,7 +136,7 @@
 								@endphp
 							</span>
 
-							<span class="rating-stars-def">
+							<span class="rating-stars-def" style="text-align:left!important">
 								<span class="rating-stars-container-def">
 
 									@for ($i=0; $i < round($proveedor->valoracion_media); $i++)
@@ -164,32 +164,32 @@
 										@php
 										switch (date("l")) {
 											case 'Monday':
-												echo "Lunes: $horario->lunes";
-												break;
+											echo "Lunes: $horario->lunes";
+											break;
 
 											case 'Tuesday':
-												echo "Martes: $horario->martes";
-												break;
+											echo "Martes: $horario->martes";
+											break;
 
 											case 'Wednesday':
-												echo "Miércoles: $horario->miercoles";
-												break;
+											echo "Miércoles: $horario->miercoles";
+											break;
 
 											case 'Thursday':
-												echo "Jueves: $horario->jueves";
-												break;
+											echo "Jueves: $horario->jueves";
+											break;
 
 											case 'Friday':
-												echo "Viernes: $horario->viernes";
-												break;
+											echo "Viernes: $horario->viernes";
+											break;
 
 											case 'Saturday':
-												echo "Sábado: $horario->sabado";
-												break;
+											echo "Sábado: $horario->sabado";
+											break;
 
 											case 'Sunday':
-												echo "Domingo: $horario->domingo";
-												break;
+											echo "Domingo: $horario->domingo";
+											break;
 										}
 										@endphp
 									</a>
@@ -407,7 +407,7 @@
 			</div>
 			<!-- /.row -->
 			<div class="row">
-				<div class="col-xs-12 col-md-6" style="margin-bottom: 20px;">
+				<div class="col-xs-12 col-lg-6" style="margin-bottom: 20px;">
 					<div class="panel-group">
 						<div class="panel panel-default">
 							<div class="panel-heading">
@@ -419,11 +419,11 @@
 								@if (count($seguimiento) > 0)
 									@foreach ($seguimiento as $seg)
 										<div class="fila-seguimiento col-md-8 col-xs-12 @if($seg->id_usuario == Auth::user()->id) propietario  @endif">
-											<div class="seg-left col-md-3 col-xs-12">
+											<div class="seg-left col-xs-3">
 												<div class="usuario"> <i class="fa fa-user" aria-hidden="true"></i> {{$usuarios[$seg->id_usuario-1]->apodo}}</div>
 												<div class="fecha">{{$seg->created_at}}</div>
 											</div>
-											<div class="seg-right col-md-5 col-xs-12">
+											<div class="seg-right col-xs-8" style="padding-right:0!important">
 												<div class="comentario">
 													<div class="mensaje"> {{$seg->mensaje}} </div>
 												</div>
@@ -440,18 +440,18 @@
 									@endforeach
 								@endif
 								<div class="fila-seguimiento col-md-8 col-xs-12">
-									<div class="seg-left col-md-3 col-xs-12">
+									<div class="seg-left col-xs-3">
 										<div class="usuario"> <i class="fa fa-commenting" aria-hidden="true"></i> {{Auth::user()->apodo}}:</div>
 										<div class="fecha"><?php echo date('Y-m-d H:i:s'); ?></div>
 									</div>
-									<div class="seg-right col-md-5 col-xs-12">
+									<div class="seg-right col-xs-9">
 										<form id="form_seguimiento">
 											{{ csrf_field() }}
-											<div class="comentario">
+											<div class="comentario col-xs-11">
 												<textarea class="callout callout-default" name="comentario_seguimiento" id="comentario_seguimiento" style=""></textarea>
 											</div>
 											<input type="hidden" name="id_pedido_seguimiento" id="id_pedido_seguimiento" value="{{$proveedor->id}}">
-											<div class="enviar"><button type="submit" id="enviar_seguimiento">Enviar</button></div>
+											<div class="enviar col-xs-1"><label for="enviar_seguimiento"><i class="fa fa-paper-plane"></i></label><button type="submit" id="enviar_seguimiento" class="hidden">Enviar</button></div>
 										</form>
 									</div>
 								</div>
@@ -460,7 +460,7 @@
 					</div>
 				</div>
 
-				<div class="col-xs-12 col-md-6 " style="margin-bottom: 20px;">
+				<div class="col-xs-12 col-lg-6 " style="margin-bottom: 20px;">
 					<div class="panel-group">
 						<div class="panel panel-default">
 							<div class="panel-heading">
@@ -472,12 +472,12 @@
 								@if (count($valoraciones) > 0)
 									@foreach ($valoraciones as $val)
 										<div class="fila-seguimiento col-md-8 col-xs-12 @if($val->id_usuario == Auth::user()->id) propietario  @endif">
-											<div class="seg-left col-md-3 col-xs-12">
+											<div class="seg-left col-xs-3">
 												<div class="usuario"> <i class="fa fa-user" aria-hidden="true"></i> {{$usuarios[$val->id_usuario-1]->apodo}}</div>
 												<div class="fecha">{{$val->created_at}}</div>
 											</div>
-											<div class="seg-right col-md-5 col-xs-12">
-												<div class="rating-stars-def">
+											<div class="seg-right col-xs-8" style="padding-right:0!important">
+												<div class="rating-stars-def" style="text-align:left!important">
 													<div class="rating-stars-container-def">
 
 														@for ($i=0; $i < $val->puntuacion; $i++)
@@ -503,14 +503,14 @@
 									@endforeach
 								@endif
 								<div class="fila-seguimiento col-md-8 col-xs-12">
-									<div class="seg-left col-md-3 col-xs-12">
+									<div class="seg-left col-xs-3">
 										<div class="usuario"> <i class="fa fa-commenting" aria-hidden="true"></i> {{Auth::user()->apodo}}:</div>
 										<div class="fecha"><?php echo date('Y-m-d H:i:s'); ?></div>
 									</div>
-									<div class="seg-right col-md-5 col-xs-12">
+									<div class="seg-right col-xs-9">
 										<form id="form_valoracion">
 											{{ csrf_field() }}
-											<div class="rating-stars">
+											<div class="rating-stars" style="text-align:left!important">
 												<div class="rating-stars-container">
 													<div class="rating-star">
 														<i class="fa fa-star"></i>
@@ -532,11 +532,11 @@
 												<input type="number" readonly="readonly" class="rating-value hidden" name="puntuacion" id="rating-stars-value">
 											</div>
 
-											<div class="comentario">
+											<div class="comentario col-xs-11">
 												<textarea class="callout callout-default" name="comentario_valoracion" id="comentario_valoracion" style=""></textarea>
 											</div>
 											<input type="hidden" name="id_valoracion" id="id_valoracion" value="{{$proveedor->id}}">
-											<div class="enviar"><button type="submit" id="enviar_valoracion">Enviar</button></div>
+											<div class="enviar col-xs-1"><label for="enviar_valoracion"><i class="fa fa-paper-plane"></i></label><button type="submit" id="enviar_valoracion" class="hidden">Enviar</button></div>
 										</form>
 									</div>
 								</div>

@@ -152,7 +152,7 @@
 					</table>
 				</div>
 			</div>
-			<div class="col-xs-6 " style="margin-bottom: 20px;">
+			<div class="col-xs-12 col-lg-6 " style="margin-bottom: 20px;">
 
 				<div class="panel-group">
 					<div class="panel panel-default">
@@ -164,12 +164,12 @@
 						<div id="collapse-seguimiento" class="col-xs-12 panel-collapse collapse in">
 							@if (count($seguimiento) > 0)
 								@foreach ($seguimiento as $seg)
-								<div class="fila-seguimiento col-xs-8 @if($seg->id_usuario == Auth::user()->id) propietario  @endif">
+								<div class="fila-seguimiento col-md-8 col-xs-12 @if($seg->id_usuario == Auth::user()->id) propietario  @endif">
 									<div class="seg-left col-xs-3">
 										<div class="usuario"> <i class="fa fa-user" aria-hidden="true"></i> {{$usuarios[$seg->id_usuario-1]->apodo}}</div>
 										<div class="fecha">{{$seg->created_at}}</div>
 									</div>
-									<div class="seg-right col-xs-5">
+									<div class="seg-right col-xs-8" style="padding-right:0!important">
 											<div class="comentario">
 												<div class="mensaje"> {{$seg->mensaje}} </div>
 											</div>
@@ -177,19 +177,19 @@
 								</div>
 								@endforeach
 							@endif
-							<div class="fila-seguimiento col-xs-8">
+							<div class="fila-seguimiento col-md-8 col-xs-12">
 								<div class="seg-left col-xs-3">
 									<div class="usuario"> <i class="fa fa-commenting" aria-hidden="true"></i> {{Auth::user()->apodo}}:</div>
 									<div class="fecha"><?php echo date('Y-m-d H:i:s'); ?></div>
 								</div>
-								<div class="seg-right col-xs-5">
+								<div class="seg-right col-xs-9">
 									<form id="form_seguimiento">
 										{{ csrf_field() }}
-										<div class="comentario">
+										<div class="comentario col-xs-11">
 											<textarea class="callout callout-default" name="comentario_seguimiento" id="comentario_seguimiento" style=""></textarea>
 										</div>
 										<input type="hidden" name="id_pedido_seguimiento" id="id_pedido_seguimiento" value="{{ $pedido->id }}">
-										<div class="enviar"><button type="submit" id="enviar_seguimiento">Enviar</button></div>
+										<div class="enviar col-xs-1"><label for="enviar_seguimiento"><i class="fa fa-paper-plane"></i></label><button type="submit" id="enviar_seguimiento" class="hidden">Enviar</button></div>
 									</form>
 								</div>
 							</div>
@@ -201,7 +201,7 @@
 
 			</div>
 
-			<div class="col-xs-6 " style="margin-bottom: 20px;">
+			<div class="col-xs-12 col-lg-6 " style="margin-bottom: 20px;">
 
 				<div class="panel-group">
 				  <div class="panel panel-default">
@@ -317,6 +317,7 @@ padding: 7px;
 .panel-title p.lead {
     margin-bottom: 5px !important;
 }
+
 </style>
 @endsection
 

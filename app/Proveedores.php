@@ -32,7 +32,13 @@ class Proveedores extends Model
         return $this->hasMany('App\Productos_base', 'id_proveedor');
     }
 
-
+    public function get_url_contrato()
+   {
+     dd(\Storage::disk('pdfs')->getDriver()->getAdapter()->applyPathPrefix($this->id.'_contrato.pdf'));
+     $url = explode('public\\',\Storage::disk('pdfs')->getDriver()->getAdapter()->applyPathPrefix($this->id.'_contrato.pdf'));
+     //dd($url);
+       return $url[1];
+   }
 
 
 }

@@ -709,28 +709,33 @@
     $("#generar_albaranes_pdf").click(function(){
 
       var arrayPedidos = $("[name='pedido']").serializeArray();
-      $("#ids").val(JSON.stringify(arrayPedidos));
 
-      apprise('Generar albarán en A4?', {'verify':true,}, function(r){
+      if(arrayPedidos.length == 0){
+        apprise('Por favor, seleccione al menos un pedido.');
+      } else {
 
-        if(r){
-          apprise('2 copias? ', {'verify':true,}, function(r){
-            if(r){
-              $("#type").val("A4");
-              $("#generar_albaranes_pdf_form").submit();
-            }else{
-              $("#type").val("FA4");
-              $("#generar_albaranes_pdf_form").submit();
-            }
+        $("#ids").val(JSON.stringify(arrayPedidos));
+
+        apprise('Generar albarán en A4?', {'verify':true,}, function(r){
+
+          if(r){
+            apprise('2 copias? ', {'verify':true,}, function(r){
+              if(r){
+                $("#type").val("A4");
+                $("#generar_albaranes_pdf_form").submit();
+              }else{
+                $("#type").val("FA4");
+                $("#generar_albaranes_pdf_form").submit();
+              }
 
 
-          });
-        }else{
-          $("#type").val("etiqueta");
-          $("#generar_albaranes_pdf_form").submit();
-        }
-      });
-
+            });
+          }else{
+            $("#type").val("etiqueta");
+            $("#generar_albaranes_pdf_form").submit();
+          }
+        });
+      }
       /*$.ajax({
       url: "/pedidos/albaranes",
       type:'POST',

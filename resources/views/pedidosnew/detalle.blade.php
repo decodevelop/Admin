@@ -426,7 +426,7 @@
 						//console.log(arrayPedidos.length);
 
 						if(arrayPedidos.length == 0){
-							apprise('Por favor, seleccione al menos un producto.');
+							apprise('Por favor, seleccione al menos un pedido.');
 						} else {
 
 							$("#ids").val(JSON.stringify(arrayPedidos));

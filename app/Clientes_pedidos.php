@@ -12,7 +12,8 @@ class Clientes_pedidos extends Model
      * @var array
      */
     protected $fillable = [
-         'nombre_apellidos','email','telefono_facturacion','email_facturacion','dni',  'telefono', 'nombre_envio', 'recurrente'
+         'nombre_apellidos','email','telefono_facturacion',
+         'email_facturacion','dni',  'telefono', 'nombre_envio', 'recurrente'
     ];
 
 	 /**

@@ -13,7 +13,9 @@ class Direcciones extends Model
      * @var array
      */
     protected $fillable = [
-        'direccion_envio','ciudad_envio','estado_envio','pais_envio','cp_envio','direccion_facturacion','ciudad_facturacion','estado_facturacion','pais_facturacion','cp_facturacion'
+        'direccion_envio','ciudad_envio','estado_envio','pais_envio','cp_envio',
+        'direccion_facturacion','ciudad_facturacion','estado_facturacion',
+        'pais_facturacion','cp_facturacion'
     ];
 		protected $hidden = ['id_cliente'];
 

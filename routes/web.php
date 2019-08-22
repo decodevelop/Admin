@@ -170,10 +170,22 @@ Route::group(['middleware' => 'auth'], function() {
 
 		Route::post('/campanas/palets/eliminarProductoPalet' , 'CampController@eliminarProductoPalet');
 
+		// CLIENTES
+		Route::get('/clientes', 'ClientesController@inicio');
+
+		Route::get('/clientes/detalle/{id}', 'ClientesController@detalle');
+
+		Route::get('/clientes/nuevo', 'ClientesController@nuevo_cliente');
+		Route::post('/clientes/nuevo', 'ClientesController@nuevo_cliente_POST');
+
+		Route::get('/clientes/modificar/{id}', 'ClientesController@modificar_cliente');
+		Route::post('/clientes/modificar/{id}', 'ClientesController@modificar_cliente_POST');
+
+
 		// PROVEEDORES
 		Route::get('/proveedores', 'ProveedoresController@inicio');
 
-		Route::get('/proveedores/detalle/{id}', 'ProveedoresController@detalle'); // vista detalle proveedor
+		Route::get('/proveedores/detalle/{id}', 'ProveedoresController@detalle');
 
 		Route::get('/proveedores/nuevo', 'ProveedoresController@nuevo');
 		Route::post('/proveedores/nuevo', 'ProveedoresController@nuevo_POST');

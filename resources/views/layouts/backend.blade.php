@@ -405,6 +405,18 @@
 
   <li><a href="http://catalogo.decowood.es/" target="_blank"><i class="fa fa-archive"></i> <span>Catálogo</span></a></li>
 
+  <li class="treeview {{(Request::is('clientes*')) ? 'active':'' }}">
+    <a href="#">
+      <i class="fa fa-users"></i> <span>Clientes</span>
+      <span class="pull-right-container">
+        <i class="fa fa-angle-left pull-right"></i>
+      </span>
+    </a>
+    <ul class="treeview-menu">
+      <li class="{{(Request::is('clientes')) ? 'active':'' }}"><a href="{{url('/clientes')}}"><i class="fa fa-circle-o "></i> Inicio</a></li>
+      <li class="{{(Request::is('clientes')) ? 'active':'' }}"><a href="{{url('/clientes/nuevo')}}"><i class="fa fa-plus "></i> Nuevo</a></li>
+    </ul>
+  </li>
 
   <li class="treeview {{(Request::is('campanas*')) ? 'active':'' }}">
     <a href="#">

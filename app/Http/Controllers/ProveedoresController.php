@@ -158,10 +158,10 @@ class ProveedoresController extends Controller
 
       // Subir PDF
       if(isset($inputs['contrato_pdf'])){
-        $dir = __DIR__.'/../../../public/PDFs/contratos/'.$proveedor->id.'/';
+        $dir = 'contratos/'.$proveedor->id.'/';
         $nombreArchivo = $proveedor->id.'_contrato.pdf';
 
-        if($this->subirPDF($dir, $nombreArchivo,'contrato_pdf')){
+        if(\Storage::disk('pdfs')->put($dir.$nombreArchivo,  \File::get($inputs['contrato_pdf']))){
           array_push($success , 'Contrato subido correctamente.');
           $proveedor->contrato_pdf = true;
           $proveedor->save();
@@ -301,10 +301,10 @@ class ProveedoresController extends Controller
 
       // Subir PDF
       if(isset($request['contrato_pdf'])){
-        $dir = __DIR__.'/../../../public/PDFs/contratos/'.$proveedor->id.'/';
+        $dir = 'contratos/'.$proveedor->id.'/';
         $nombreArchivo = $proveedor->id.'_contrato.pdf';
 
-        if($this->subirPDF($dir, $nombreArchivo,'contrato_pdf')){
+        if(\Storage::disk('pdfs')->put($dir.$nombreArchivo,  \File::get($request['contrato_pdf']))){
           array_push($success , 'Contrato subido correctamente.');
           $proveedor->contrato_pdf = true;
 
@@ -464,168 +464,168 @@ class ProveedoresController extends Controller
     return "Actualizado.";
   }
 
-  function subirPDF($dir, $nombreArchivo, $fileName){
-    try {
-      if(file_exists($dir.$nombreArchivo)){ //Si ya existe un pdf, lo borramos
-        unlink($dir.$nombreArchivo);
+  function subirPDF($dir, $nombreArchivo, $file){
+    /*try {
+    if(file_exists($dir.$nombreArchivo)){ //Si ya existe un pdf, lo borramos
+    unlink($dir.$nombreArchivo);
 
-      } else { //Si no, comprobamos que exista la carpeta y la creamos.
-        if(!file_exists($dir)){
-          mkdir($dir, 0777, true);
-        }
-      }
+  } else { //Si no, comprobamos que exista la carpeta y la creamos.
+  if(!file_exists($dir)){
+  mkdir($dir, 0777, true);
+}
+}
 
-      if (move_uploaded_file($_FILES[$fileName]['tmp_name'], $dir.$nombreArchivo)) {
-        return true;
+if (move_uploaded_file($_FILES[$file]['tmp_name'], $dir.$nombreArchivo)) {
+return true;
 
-      } else {
-        return false;
-      }
+} else {
+return false;
+}
 
-    } catch(Exception $e){
-      return false;
-    }
+} catch(Exception $e){
+return false;
+}*/
+}
+
+public function nuevo_personal($id_proveedor){
+  $proveedor = Proveedores::find($id_proveedor);
+
+  return View::make('proveedores/nuevo_personal', array('proveedor' => $proveedor));
+}
+
+public function nuevo_personal_POST($id_proveedor, Request $request){
+  $ok = true;
+  $errors = array();
+  $success = array();
+  $alerts = array();
+  $inputs = $request->all();
+  //dd($request);
+
+  if($request['pers_cargo'] == '') {
+    $ok = false;
+    array_push($errors, 'Error: El campo Cargo es obligatorio.');
   }
 
-  public function nuevo_personal($id_proveedor){
-    $proveedor = Proveedores::find($id_proveedor);
+  $personalExist = Personal_proveedores::where('id_proveedor','=',$id_proveedor)->get();
 
-    return View::make('proveedores/nuevo_personal', array('proveedor' => $proveedor));
-  }
-
-  public function nuevo_personal_POST($id_proveedor, Request $request){
-    $ok = true;
-    $errors = array();
-    $success = array();
-    $alerts = array();
-    $inputs = $request->all();
-    //dd($request);
-
-    if($request['pers_cargo'] == '') {
+  foreach ($personalExist as $p) {
+    if($p->cargo == $request['pers_cargo']){
       $ok = false;
-      array_push($errors, 'Error: El campo Cargo es obligatorio.');
-    }
-
-    $personalExist = Personal_proveedores::where('id_proveedor','=',$id_proveedor)->get();
-
-    foreach ($personalExist as $p) {
-      if($p->cargo == $request['pers_cargo']){
-        $ok = false;
-        array_push($errors,'Error: Ya existe Personal con el cargo indicado.');
-        break;
-      }
-    }
-
-    if($ok) {
-
-      $personal = new Personal_proveedores;
-      $personal->id_proveedor = $id_proveedor;
-      $personal->cargo = $request['pers_cargo'];
-      $personal->nombre = $request['pers_nombre'];
-      $personal->correo = $request['pers_correo'];
-      $personal->telefono = $request['pers_telefono'];
-
-      if($personal->save()){
-        array_push($success, 'Personal creado correctamente.');
-      }
-
-      $vaciar_form = new Personal_proveedores;
-      Session::put('request',$vaciar_form);
-      Session::put('success',$success);
-
-      return back();
-
-    } else {
-      Session::put('alerts',$alerts);
-
-      $requestErr = $request->all();
-      //dd($requestErr);
-      Session::put('request',$requestErr);
-      return back()->with(array('errors' => $errors));
+      array_push($errors,'Error: Ya existe Personal con el cargo indicado.');
+      break;
     }
   }
 
-  public function modificar_personal($id_proveedor, $id_personal){
-    $personal = Personal_proveedores::find($id_personal);
-    $proveedor = Proveedores::find($id_proveedor);
+  if($ok) {
 
-    return View::make('proveedores/modificar_personal', array('personal' => $personal, 'proveedor' => $proveedor));
+    $personal = new Personal_proveedores;
+    $personal->id_proveedor = $id_proveedor;
+    $personal->cargo = $request['pers_cargo'];
+    $personal->nombre = $request['pers_nombre'];
+    $personal->correo = $request['pers_correo'];
+    $personal->telefono = $request['pers_telefono'];
+
+    if($personal->save()){
+      array_push($success, 'Personal creado correctamente.');
+    }
+
+    $vaciar_form = new Personal_proveedores;
+    Session::put('request',$vaciar_form);
+    Session::put('success',$success);
+
+    return back();
+
+  } else {
+    Session::put('alerts',$alerts);
+
+    $requestErr = $request->all();
+    //dd($requestErr);
+    Session::put('request',$requestErr);
+    return back()->with(array('errors' => $errors));
+  }
+}
+
+public function modificar_personal($id_proveedor, $id_personal){
+  $personal = Personal_proveedores::find($id_personal);
+  $proveedor = Proveedores::find($id_proveedor);
+
+  return View::make('proveedores/modificar_personal', array('personal' => $personal, 'proveedor' => $proveedor));
+}
+
+public function modificar_personal_POST($id_proveedor, $id_personal, Request $request){
+  $ok = true;
+  $errors = array();
+  $success = array();
+  $alerts = array();
+  $personal = Personal_proveedores::find($id_personal);
+  //dd($request);
+
+  if($request['pers_cargo'] == '') {
+    $ok = false;
+    array_push($errors, 'Error: El campo Cargo es obligatorio.');
   }
 
-  public function modificar_personal_POST($id_proveedor, $id_personal, Request $request){
-    $ok = true;
-    $errors = array();
-    $success = array();
-    $alerts = array();
-    $personal = Personal_proveedores::find($id_personal);
-    //dd($request);
+  $personalExist = Personal_proveedores::where('id_proveedor','=',$id_proveedor)->where('id', '!=', $personal->id)->get();
 
-    if($request['pers_cargo'] == '') {
+  foreach ($personalExist as $p) {
+    if($p->cargo == $request['pers_cargo']){
       $ok = false;
-      array_push($errors, 'Error: El campo Cargo es obligatorio.');
-    }
-
-    $personalExist = Personal_proveedores::where('id_proveedor','=',$id_proveedor)->where('id', '!=', $personal->id)->get();
-
-    foreach ($personalExist as $p) {
-      if($p->cargo == $request['pers_cargo']){
-        $ok = false;
-        array_push($errors, 'Error: Ya existe Personal con el cargo indicado.');
-        break;
-      }
-    }
-
-
-    if($ok) {
-
-      $personal->id_proveedor = $id_proveedor;
-      $personal->cargo = $request['pers_cargo'];
-      $personal->nombre = $request['pers_nombre'];
-      $personal->correo = $request['pers_correo'];
-      $personal->telefono = $request['pers_telefono'];
-
-      if($personal->save()){
-        array_push($success, 'Personal actualizado correctamente.');
-      }
-
-      Session::put('success',$success);
-
-      return back();
-
-    } else {
-      Session::put('alerts',$alerts);
-
-      $requestErr = $request->all();
-      //dd($requestErr);
-      return back()->with(array('errors' => $errors));
+      array_push($errors, 'Error: Ya existe Personal con el cargo indicado.');
+      break;
     }
   }
 
-  function eliminar_personal($id_proveedor, $id_personal){
-    $personal = Personal_proveedores::find($id_personal);
-    $personal->delete();
 
-    return redirect('/proveedores/detalle/'.$id_proveedor);
+  if($ok) {
+
+    $personal->id_proveedor = $id_proveedor;
+    $personal->cargo = $request['pers_cargo'];
+    $personal->nombre = $request['pers_nombre'];
+    $personal->correo = $request['pers_correo'];
+    $personal->telefono = $request['pers_telefono'];
+
+    if($personal->save()){
+      array_push($success, 'Personal actualizado correctamente.');
+    }
+
+    Session::put('success',$success);
+
+    return back();
+
+  } else {
+    Session::put('alerts',$alerts);
+
+    $requestErr = $request->all();
+    //dd($requestErr);
+    return back()->with(array('errors' => $errors));
   }
+}
 
-  public function viewProductos($id_campana,Request $request){
-    /*-------------- ORDENACIONES --------------*/
-    $getParams = $request->query();
-    $orderBy2 = "id";
-    $orderByType2 = "desc";
-    /*-------------- FILTROS --------------*/
-    $where = "1=1 ";
-    if(isset($getParams["nombre"]) && $getParams["nombre"]!="") $where .= " and nombre like '%".$getParams["nombre"]."%'";
-    if(isset($getParams["referencia"]) && $getParams["referencia"]!="") $where .= " and referencia like '%".$getParams["referencia"]."%'";
-    if(isset($getParams["ean"]) && $getParams["ean"]!="") $where .= " and ean like '%".$getParams["ean"]."%'";
+function eliminar_personal($id_proveedor, $id_personal){
+  $personal = Personal_proveedores::find($id_personal);
+  $personal->delete();
 
-    $productos = Productos_campana::where('id_campana','=',$id_campana)
-    ->whereHas('producto',  function ($query) use($where) {
-      $query->whereRaw($where);
-    })
-    ->orderBy('restantes','desc')
-    ->paginate(30);
+  return redirect('/proveedores/detalle/'.$id_proveedor);
+}
 
-    return View::make('campanas/productos', array('productos' => $productos, 'id_campana' => $id_campana));
-  }
+public function viewProductos($id_campana,Request $request){
+  /*-------------- ORDENACIONES --------------*/
+  $getParams = $request->query();
+  $orderBy2 = "id";
+  $orderByType2 = "desc";
+  /*-------------- FILTROS --------------*/
+  $where = "1=1 ";
+  if(isset($getParams["nombre"]) && $getParams["nombre"]!="") $where .= " and nombre like '%".$getParams["nombre"]."%'";
+  if(isset($getParams["referencia"]) && $getParams["referencia"]!="") $where .= " and referencia like '%".$getParams["referencia"]."%'";
+  if(isset($getParams["ean"]) && $getParams["ean"]!="") $where .= " and ean like '%".$getParams["ean"]."%'";
+
+  $productos = Productos_campana::where('id_campana','=',$id_campana)
+  ->whereHas('producto',  function ($query) use($where) {
+    $query->whereRaw($where);
+  })
+  ->orderBy('restantes','desc')
+  ->paginate(30);
+
+  return View::make('campanas/productos', array('productos' => $productos, 'id_campana' => $id_campana));
+}
 }

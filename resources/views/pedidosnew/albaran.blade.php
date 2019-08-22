@@ -65,8 +65,13 @@
 		<ul style="">
 			<li> <b>Destinatario</b> </li>
 			<li>{{ $pedido->cliente->nombre_envio}}</li>
-			<li>{{ $pedido->cliente->direccion->direccion_envio }}</li>
-			<li>{{ $pedido->cliente->direccion->ciudad_envio }}, {{ $pedido->cliente->direccion->cp_envio }}</li>
+			@if(is_null($pedido->direccion))
+				<li>{{ $pedido->cliente->direcciones[0]->direccion_envio }}</li>
+				<li>{{ $pedido->cliente->direcciones[0]->ciudad_envio }}, {{ $pedido->cliente->direcciones[0]->cp_envio }}</li>
+			@else
+				<li>{{ $pedido->direccion->direccion_envio }}</li>
+				<li>{{ $pedido->direccion->ciudad_envio }}, {{ $pedido->direccion->cp_envio }}</li>
+			@endif
 			<li>{{ $pedido->cliente->email }}</li>
 			<li>{{ $pedido->cliente->telefono }}</li>
 		</ul>
@@ -145,8 +150,13 @@
 		<ul style="">
 			<li> <b>Destinatario</b> </li>
 			<li>{{ $pedido->cliente->nombre_envio}}</li>
-			<li>{{ $pedido->cliente->direccion->direccion_envio }}</li>
-			<li>{{ $pedido->cliente->direccion->ciudad_envio }}, {{ $pedido->cliente->direccion->cp_envio }}</li>
+			@if(is_null($pedido->direccion))
+				<li>{{ $pedido->cliente->direcciones[0]->direccion_envio }}</li>
+				<li>{{ $pedido->cliente->direcciones[0]->ciudad_envio }}, {{ $pedido->cliente->direcciones[0]->cp_envio }}</li>
+			@else
+				<li>{{ $pedido->direccion->direccion_envio }}</li>
+				<li>{{ $pedido->direccion->ciudad_envio }}, {{ $pedido->direccion->cp_envio }}</li>
+			@endif
 			<li>{{ $pedido->cliente->email }}</li>
 			<li>{{ $pedido->cliente->telefono }}</li>
 		</ul>

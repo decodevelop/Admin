@@ -18,9 +18,9 @@ class Clientes_pedidos extends Model
 	 /**
      * Get the post that owns the comment.
      */
-    public function direccion()
+    public function direcciones()
     {
-        return $this->hasOne('App\Direcciones', 'id_cliente');
+        return $this->hasMany('App\Direcciones', 'id_cliente');
     }
     public function pedidos()
     {

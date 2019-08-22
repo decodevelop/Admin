@@ -19,11 +19,11 @@
 				<p class="lead">Datos Facturación</p>
 				<address>
 				<strong>Cliente Fact: <input type="text" class="form-control input-sm" name="nombre_apellidos" value="{{ $pedido->cliente->nombre_apellidos }}"/></strong><br>
-				Dirección Fact: <input type="text" class="form-control input-sm" name="direccion_facturacion" value="{{ $pedido->cliente->direccion->direccion_facturacion }}"/><br>
-				Ciudad Fact: <input type="text" class="form-control input-sm" name="ciudad_facturacion" value="{{ $pedido->cliente->direccion->ciudad_facturacion }}"/>
-				Estado Fact: <input type="text" class="form-control input-sm" name="estado_facturacion" value="{{ $pedido->cliente->direccion->estado_facturacion }}"/>
-				País Fact: <input type="text" class="form-control input-sm" name="pais_facturacion" value="{{ $pedido->cliente->direccion->pais_facturacion }}"/>
-				CP Fact: <input type="text" class="form-control input-sm" name="cp_facturacion" value="{{ $pedido->cliente->direccion->cp_facturacion }}"/><br>
+				Dirección Fact: <input type="text" class="form-control input-sm" name="direccion_facturacion" value="@if(is_null($pedido->direccion)){{ $pedido->cliente->direcciones[0]->direccion_facturacion }}@else{{ $pedido->direccion->direccion_facturacion }}@endif"/><br>
+				Ciudad Fact: <input type="text" class="form-control input-sm" name="ciudad_facturacion" value="@if(is_null($pedido->direccion)){{ $pedido->cliente->direcciones[0]->ciudad_facturacion }}@else{{ $pedido->direccion->ciudad_facturacion }}@endif"/>
+				Estado Fact: <input type="text" class="form-control input-sm" name="estado_facturacion" value="@if(is_null($pedido->direccion)){{ $pedido->cliente->direcciones[0]->estado_facturacion }}@else{{ $pedido->direccion->estado_facturacion }}@endif"/>
+				País Fact: <input type="text" class="form-control input-sm" name="pais_facturacion" value="@if(is_null($pedido->direccion)){{ $pedido->cliente->direcciones[0]->pais_facturacion }}@else{{ $pedido->direccion->pais_facturacion }}@endif"/>
+				CP Fact: <input type="text" class="form-control input-sm" name="cp_facturacion" value="@if(is_null($pedido->direccion)){{ $pedido->cliente->direcciones[0]->cp_facturacion }}@else{{ $pedido->direccion->cp_facturacion }}@endif"/><br>
 				Teléfono: <input type="text" class="form-control input-sm" name="telefono_facturacion" value="{{ $pedido->cliente->telefono_facturacion }}"/><br>
 				Correo: <input type="text" class="form-control input-sm" name="email_facturacion" value="{{ $pedido->cliente->email_facturacion }}"/>
 				</address>
@@ -32,12 +32,12 @@
 			<div class="col-sm-4 invoice-col">
 				<p class="lead">Datos envío</p>
 				<address>
-				<strong>Cliente envío:<input type="text" class="form-control input-sm" name="nombre_envio" value="{{ $pedido->cliente->nombre_envio }}"/></strong><br>
-				Dirección envío: <input type="text" class="form-control input-sm" name="direccion_envio" value="{{ $pedido->cliente->direccion->direccion_envio }}"/><br>
-				Ciudad envío: <input type="text" class="form-control input-sm" name="ciudad_envio" value="{{ $pedido->cliente->direccion->ciudad_envio }}"/>
-				Estado envío: <input type="text" class="form-control input-sm" name="estado_envio" value="{{ $pedido->cliente->direccion->estado_envio }}"/>
-				País envío:<input type="text" class="form-control input-sm" name="pais_envio" value="{{ $pedido->cliente->direccion->pais_envio }}"/>
-				CP envío:<input type="text" class="form-control input-sm" name="cp_envio" value="{{ $pedido->cliente->direccion->cp_envio }}"/><br>
+				<strong>Cliente envío:<input type="text" class="form-control input-sm" name="nombre_envio" value="@if(is_null($pedido->direccion)){{ $pedido->cliente->direcciones[0]->nombre_envio }}@else{{ $pedido->direccion->nombre_envio }}@endif"/></strong><br>
+				Dirección envío: <input type="text" class="form-control input-sm" name="direccion_envio" value="@if(is_null($pedido->direccion)){{ $pedido->cliente->direcciones[0]->direccion_envio }}@else{{ $pedido->direccion->direccion_envio }}@endif"/><br>
+				Ciudad envío: <input type="text" class="form-control input-sm" name="ciudad_envio" value="@if(is_null($pedido->direccion)){{ $pedido->cliente->direcciones[0]->ciudad_envio }}@else{{ $pedido->direccion->ciudad_envio }}@endif"/>
+				Estado envío: <input type="text" class="form-control input-sm" name="estado_envio" value="@if(is_null($pedido->direccion)){{ $pedido->cliente->direcciones[0]->estado_envio }}@else{{ $pedido->direccion->estado_envio }}@endif"/>
+				País envío:<input type="text" class="form-control input-sm" name="pais_envio" value="@if(is_null($pedido->direccion)){{ $pedido->cliente->direcciones[0]->pais_envio }}@else{{ $pedido->direccion->pais_envio }}@endif"/>
+				CP envío:<input type="text" class="form-control input-sm" name="cp_envio" value="@if(is_null($pedido->direccion)){{ $pedido->cliente->direcciones[0]->cp_envio }}@else{{ $pedido->direccion->cp_envio }}@endif"/><br>
 				Teléfono: <input type="text" class="form-control input-sm" name="telefono" value="{{ $pedido->cliente->telefono }}"  /><br>
 				Correo: <input type="text" class="form-control input-sm" name="email" value="{{ $pedido->cliente->email }}"  />
 				</address>

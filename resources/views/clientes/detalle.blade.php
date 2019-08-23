@@ -16,7 +16,7 @@
     <div class="row">
       <div class="col-xs-12">
         <h2 class="page-header">
-          <i class="fa fa-briefcase"></i> Detalles de  {{$cliente->nombre_apellidos}}
+          <i class="fa fa-user"></i> Detalles de  {{$cliente->nombre_apellidos}}
         </h2>
       </div>
     </div>
@@ -46,7 +46,7 @@
           </tr>
           <tr>
             <td class="text-left"><strong>Teléfono:</strong></td>
-            <td class="text-left"><span>{{$cliente->telefono}}</span></td>
+            <td class="text-left"><span>{{$cliente->telefono_facturacion}}</span></td>
           </tr>
         </tbody>
       </table>
@@ -105,22 +105,25 @@
         <table class="table table-striped">
           <thead>
             <tr>
-              <th class=text-left style="">Dirección envío</th>
-              <th class=text-left style="">Dirección facturación</th>
+              <th class=text-left style="">ID</th>
+              <th class=text-left style="">Facturación</th>
+              <th class=text-left style="">Envío</th>
               <th class=text-right style="width:20%;padding-right: 25px;">Opciones</th>
             </tr>
           </thead>
           <tbody>
             @foreach ($direcciones as $d)
               <tr>
-                <td class="text-left" style="vertical-align:top!important">
-                  {{$d->direccion_envio}}<br>
-                  {{$d->ciudad_envio}} ({{$d->estado_envio}}), {{$d->pais_envio}} {{$d->cp_envio}}
-                </td>
+                <td class="text-left" style="vertical-align:top!important">{{$d->id}}</td>
 
                 <td class="text-left" style="vertical-align:top!important">
                   {{$d->direccion_facturacion}}<br>
                   {{$d->ciudad_facturacion}} ({{$d->estado_facturacion}}), {{$d->pais_facturacion}} {{$d->cp_facturacion}}
+                </td>
+
+                <td class="text-left" style="vertical-align:top!important">
+                  {{$d->direccion_envio}}<br>
+                  {{$d->ciudad_envio}} ({{$d->estado_envio}}), {{$d->pais_envio}} {{$d->cp_envio}}
                 </td>
 
                 <td class="text-left" style="vertical-align:top!important">
@@ -129,7 +132,7 @@
                       <i class="fa fa-trash"></i>
                     </button>
                   </div>
-                  <a href="/clientes/{{$cliente->id}}/direccion/modificar/{{$d->id}}">
+                  <a href="/clientes/{{$cliente->id}}/direcciones/modificar/{{$d->id}}">
                     <button data-placement="top" data-toggle="tooltip" title="Editar" type="button" id="editarButton" class="btn btn-primary pull-right">
                       <i class="fa fa-edit"></i>
                     </button>
@@ -157,7 +160,7 @@
             @endforeach
             <tr>
               <td colspan="5">
-                <a href="/clientes/{{$cliente->id}}/direccion/nueva">
+                <a href="/clientes/{{$cliente->id}}/direcciones/nueva">
                   <button data-placement="top" data-toggle="tooltip" title="Nuevo Personal" type="button" id="verButton" class="btn btn-default pull-right">
                     <i class="fa fa-plus"></i>
                   </button>

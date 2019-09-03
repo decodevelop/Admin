@@ -187,6 +187,12 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('/clientes/{id}/direcciones/nueva', 'ClientesController@nueva_direccion');
 	Route::post('/clientes/{id}/direcciones/nueva', 'ClientesController@nueva_direccion_POST');
 
+	Route::get('/clientes/{id_cliente}/direccion/eliminar/{id_direccion}', 'ClientesController@eliminar_direccion');
+	Route::get('/clientes/{id_cliente}/direccion/{id_direccion}/generar_pedido', 'ClientesController@generar_pedido');
+	Route::post('/clientes/{id_cliente}/direccion/{id_direccion}/generar_pedido', 'PedidosNewController@guardar');
+
+
+
 	// PROVEEDORES
 	Route::get('/proveedores', 'ProveedoresController@inicio');
 

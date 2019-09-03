@@ -394,7 +394,7 @@
                     <!-- END FECHA PEDIDO -->
 
                     <!-- CLIENTE -->
-                    <td>{{ $pedido->cliente->nombre_apellidos }}</td>
+                    <td><a href="clientes/detalle/{{$pedido->id_cliente}}">{{ $pedido->cliente->nombre_apellidos }}</a></td>
                     <!-- END CLIENTE -->
 
                     <!-- TOTAL PRODUCTO -->

@@ -21,6 +21,9 @@ use App\Seguimiento_proveedores;
 use App\Personal_proveedores;
 use App\Horario_proveedores;
 use App\Valoraciones_proveedores;
+use App\Transportistas;
+use App\Metodos_pago;
+
 Use Validator;
 use Input;
 use DateTime;
@@ -90,6 +93,17 @@ class ClientesController extends Controller
     if(strlen($request->input('nombre_facturacion')) == 0) {
       $ok = false;
       array_push($errors,'Error: El campo Nombre de Facturación no puede estar vacío.');
+    }
+
+    // Validamos que si ya existen mas clientes con el mismo mail de facturación, no puedan crearse mas con el mismo mail de envio.
+    $clientesAComparar = Clientes_pedidos::where('email_facturacion', '=', $request['email_facturacion'])->get();
+    //dd($clientesAComparar);
+    foreach ($clientesAComparar as $c) {
+      if($c->email == $request['email_envio']){
+        $ok = false;
+        array_push($errors,'Error: Ya existen clientes con el mail indicado.');
+        break;
+      }
     }
 
     if($ok) {
@@ -262,10 +276,27 @@ class ClientesController extends Controller
     return back();
   }
 
-  function eliminar_rappel($id_proveedor, $id_rappel){
-    $rappel = Rappels::find($id_rappel);
-    $rappel->delete();
+  function eliminar_direccion($id_cliente, $id_direccion){
+    $dir = Direcciones::find($id_direccion);
+    $dir->delete();
 
-    return redirect('/proveedores/detalle/'.$id_proveedor);
+    return redirect('/clientes/detalle/'.$id_cliente);
+  }
+
+  public function generar_pedido($id_cliente, $id_direccion){
+    $origenes = Origen_pedidos::orderBy('id','asc')->groupBy('grupo')->get();
+    $transportistas = Transportistas::get();
+    $proveedores = Proveedores::get();
+    $metodos_pago = Metodos_pago::groupBy('grupo')->get();
+    $direccion_cliente = Direcciones::find($id_direccion);
+    $cliente = Clientes_pedidos::find($id_cliente);
+    //dd($cliente);
+
+    return View::make('pedidosnew/nuevo', array('origenes' => $origenes,
+    'transportistas' => $transportistas,
+    'proveedores' => $proveedores,
+    'metodos_pago' => $metodos_pago,
+    'direccion_cliente' => $direccion_cliente,
+    'cliente' => $cliente));
   }
 }

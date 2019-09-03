@@ -127,19 +127,25 @@
                 </td>
 
                 <td class="text-left" style="vertical-align:top!important">
-                  <div data-placement="top" data-toggle="tooltip" title="Eliminar" class="pull-right">
+                  <!--<div data-placement="top" data-toggle="tooltip" title="Eliminar" class="pull-right">
                     <button type="button" id="eliminarButton" class="btn btn-github" data-toggle="modal" data-target="#confirmacion_modal_pers_{{$d->id}}" style="margin-left: 10px;">
                       <i class="fa fa-trash"></i>
                     </button>
-                  </div>
+                  </div>-->
                   <a href="/clientes/{{$cliente->id}}/direcciones/modificar/{{$d->id}}">
-                    <button data-placement="top" data-toggle="tooltip" title="Editar" type="button" id="editarButton" class="btn btn-primary pull-right">
+                    <button data-placement="top" data-toggle="tooltip" title="Editar" type="button" id="editarButton" class="btn btn-primary pull-right" style="margin-left: 10px;">
                       <i class="fa fa-edit"></i>
+                    </button>
+                  </a>
+
+                  <a href="/clientes/{{$cliente->id}}/direccion/{{$d->id}}/generar_pedido">
+                    <button data-placement="top" data-toggle="tooltip" title="Generar pedido" type="button" id="generarpedidoButton" class="btn btn-default pull-right">
+                      <i class="fa fa-shopping-bag"></i>
                     </button>
                   </a>
                 </td>
               </tr>
-              <!-- Modal -->
+              <!-- Modal
               <div class="modal fade" id="confirmacion_modal_pers_{{$d->id}}" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
@@ -147,7 +153,7 @@
                       <h3 class="modal-title" id="confirmacion_modalLabel">Confirmación</h3>
                     </div>
                     <div class="modal-body">
-                      <h5>¿Estás seguro de que desea eliminar el Personal <strong>{{$d->id }}</strong>?</h5>
+                      <h5>¿Estás seguro de que desea eliminar la Dirección <strong>{{$d->id }}</strong>?</h5>
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal" style="margin-right: 10px;">Cancelar</button>
@@ -161,7 +167,7 @@
             <tr>
               <td colspan="5">
                 <a href="/clientes/{{$cliente->id}}/direcciones/nueva">
-                  <button data-placement="top" data-toggle="tooltip" title="Nuevo Personal" type="button" id="verButton" class="btn btn-default pull-right">
+                  <button data-placement="top" data-toggle="tooltip" title="Nueva dirección" type="button" id="verButton" class="btn btn-default pull-right">
                     <i class="fa fa-plus"></i>
                   </button>
                 </a>

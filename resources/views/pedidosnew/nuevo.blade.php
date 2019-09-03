@@ -65,40 +65,40 @@ use App\Pedidos_wix_importados;
 									<h4>Datos facturacion</h4>
 									<div class="form-group">
 										<label for="cliente_facturacion">Nombre y apellidos</label>
-										<input type="text" class="form-control" name="nombre_apellidos" placeholder="Nombre y apellidos" value="{{ old('nombre_apellidos') }}">
+										<input type="text" class="form-control" name="nombre_apellidos" placeholder="Nombre y apellidos" value="@if(isset($cliente)){{$cliente->nombre_apellidos}}@else{{ old('nombre_apellidos') }}@endif">
 									</div>
 									<div class="row">
 										<div class="form-group col-md-6">
 											<label for="nombre_apellidos">Teléfono</label>
-											<input type="text" class="form-control" name="telefono_facturacion" placeholder="Teléfono" value="{{ old('telefono_facturacion') }}">
+											<input type="text" class="form-control" name="telefono_facturacion" placeholder="Teléfono" value="@if(isset($cliente)){{$cliente->telefono_facturacion}}@else{{ old('telefono_facturacion') }}@endif">
 										</div>
 										<div class="form-group  col-md-6">
 											<label for="nombre_apellidos">Correo electrónico</label>
-											<input type="email" class="form-control" name="email_facturacion" placeholder="Correo electronico" value="{{ old('email_facturacion') }}">
+											<input type="email" class="form-control" name="email_facturacion" placeholder="Correo electronico" value="@if(isset($cliente)){{$cliente->email_facturacion}}@else{{ old('email_facturacion') }}@endif">
 										</div>
 									</div>
 									<div class="row">
 										<div class="form-group col-md-6">
 											<label for="nombre_apellidos">Pais</label>
-											<input type="text" class="form-control" name="pais_facturacion" placeholder="Pais" value="{{ old('pais_facturacion') }}">
+											<input type="text" class="form-control" name="pais_facturacion" placeholder="Pais" value="@if(isset($direccion_cliente)){{$direccion_cliente->pais_facturacion}}@else{{ old('pais_facturacion') }}@endif">
 										</div>
 										<div class="form-group col-md-6">
 											<label for="nombre_apellidos">Estado</label>
-											<input type="text" class="form-control" name="estado_facturacion" placeholder="Estado" value="{{ old('estado_facturacion') }}">
+											<input type="text" class="form-control" name="estado_facturacion" placeholder="Estado" value="@if(isset($direccion_cliente)){{$direccion_cliente->estado_facturacion}}@else{{ old('estado_facturacion') }}@endif">
 										</div>
 									</div>
 									<div class="row">
 										<div class="form-group col-md-4">
 											<label for="nombre_apellidos">Ciudad</label>
-											<input type="text" class="form-control" name="ciudad_facturacion" placeholder="Ciudad" value="{{ old('ciudad_facturacion') }}">
+											<input type="text" class="form-control" name="ciudad_facturacion" placeholder="Ciudad" value="@if(isset($direccion_cliente)){{$direccion_cliente->ciudad_facturacion}}@else{{ old('ciudad_facturacion') }}@endif">
 										</div>
 										<div class="form-group col-md-4">
 											<label for="nombre_apellidos">Direccion</label>
-											<input type="text" class="form-control" name="direccion_facturacion" placeholder="Direccion" value="{{ old('direccion_facturacion') }}">
+											<input type="text" class="form-control" name="direccion_facturacion" placeholder="Direccion" value="@if(isset($direccion_cliente)){{$direccion_cliente->direccion_facturacion}}@else{{ old('direccion_facturacion') }}@endif">
 										</div>
 										<div class="form-group col-md-4">
 											<label for="nombre_apellidos">Codigo Postal</label>
-											<input type="text" class="form-control" name="cp_facturacion" placeholder="Codigo Postal" value="{{ old('cp_facturacion') }}">
+											<input type="text" class="form-control" name="cp_facturacion" placeholder="Codigo Postal" value="@if(isset($direccion_cliente)){{$direccion_cliente->cp_facturacion}}@else{{ old('cp_facturacion') }}@endif">
 										</div>
 									</div>
 								</div>
@@ -114,40 +114,40 @@ use App\Pedidos_wix_importados;
 									</div>
 									<div class="form-group">
 										<label for="nombre_apellidos">Nombre y apellidos</label>
-										<input type="text" class="form-control" name="nombre_envio" placeholder="Nombre y apellidos"  value="{{ old('nombre_envio') }}">
+										<input type="text" class="form-control" name="nombre_envio" placeholder="Nombre y apellidos"  value="@if(isset($cliente)){{$cliente->nombre_envio}}@else{{ old('nombre_envio') }}@endif">
 									</div>
 									<div class="row">
 										<div class="form-group col-md-6">
 											<label for="nombre_apellidos">Teléfono</label>
-											<input type="text" class="form-control" name="telefono" placeholder="Teléfono" value="{{ old('telefono') }}">
+											<input type="text" class="form-control" name="telefono" placeholder="Teléfono" value="@if(isset($cliente)){{$cliente->telefono}}@else{{ old('telefono') }}@endif">
 										</div>
 										<div class="form-group  col-md-6">
 											<label for="nombre_apellidos">Correo electrónico</label>
-											<input type="email" class="form-control" name="email" placeholder="Correo electronico" value="{{ old('email') }}">
+											<input type="email" class="form-control" name="email" placeholder="Correo electronico" value="@if(isset($cliente)){{$cliente->email}}@else{{ old('email') }}@endif">
 										</div>
 									</div>
 									<div class="row">
 										<div class="form-group col-md-6">
 											<label for="pais_envio">Pais</label>
-											<input type="text" class="form-control" name="pais_envio" placeholder="Pais"  value="{{ old('pais_envio') }}">
+											<input type="text" class="form-control" name="pais_envio" placeholder="Pais"  value="@if(isset($direccion_cliente)){{$direccion_cliente->pais_envio}}@else{{ old('pais_envio') }}@endif">
 										</div>
 										<div class="form-group col-md-6">
 											<label for="estado_envio">Estado</label>
-											<input type="text" class="form-control" name="estado_envio" placeholder="Estado"  value="{{ old('estado_envio') }}">
+											<input type="text" class="form-control" name="estado_envio" placeholder="Estado"  value="@if(isset($direccion_cliente)){{$direccion_cliente->estado_envio}}@else{{ old('estado_envio') }}@endif">
 										</div>
 									</div>
 									<div class="row">
 										<div class="form-group col-md-4">
 											<label for="ciudad_envio">Ciudad</label>
-											<input type="text" class="form-control" name="ciudad_envio" placeholder="Ciudad" value="{{ old('ciudad_envio') }}">
+											<input type="text" class="form-control" name="ciudad_envio" placeholder="Ciudad" value="@if(isset($direccion_cliente)){{$direccion_cliente->ciudad_envio}}@else{{ old('ciudad_envio') }}@endif">
 										</div>
 										<div class="form-group col-md-4">
 											<label for="direccion_envio">Direccion</label>
-											<input type="text" class="form-control" name="direccion_envio" placeholder="Direccion" value="{{ old('direccion_envio') }}">
+											<input type="text" class="form-control" name="direccion_envio" placeholder="Direccion" value="@if(isset($direccion_cliente)){{$direccion_cliente->direccion_envio}}@else{{ old('direccion_envio') }}@endif">
 										</div>
 										<div class="form-group col-md-4">
 											<label for="cp_envio">Codigo Postal</label>
-											<input type="text" class="form-control" name="cp_envio" placeholder="Codigo Postal" value="{{ old('cp_envio') }}">
+											<input type="text" class="form-control" name="cp_envio" placeholder="Codigo Postal" value="@if(isset($direccion_cliente)){{$direccion_cliente->cp_envio}}@else{{ old('cp_envio') }}@endif">
 										</div>
 									</div>
 								</div>

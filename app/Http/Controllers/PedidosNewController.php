@@ -1069,8 +1069,16 @@ public function guardar(Request $request){
 
   $numeroPedido = $this->ultimo_numero_pedido($origen->id);
 
-  $cliente = new Clientes_pedidos;
+  // Comprobamos si ya existe un cliente con los mails proporcionados, si no existe inicializamos un nuevo cliente.
+  $cliente = Clientes_pedidos::where('email_facturacion', '=', $request['email_facturacion'])
+                             ->where('email', '=', $request['email'])
+                             ->first();
 
+  if(is_null($cliente)){
+    $cliente = new Clientes_pedidos;
+  }
+
+  // Como es posible que un cliente haya actualizado algún dato, usaremos los nuevos.
   $cliente->nombre_apellidos = $request['nombre_apellidos'];
   $cliente->email_facturacion = $request['email_facturacion'];
   $cliente->telefono_facturacion = $request['telefono_facturacion'];
@@ -1079,6 +1087,33 @@ public function guardar(Request $request){
   $cliente->telefono = $request['telefono'];
 
   $cliente->save();
+
+  // Igual que en cliente, pero con dirección y CP
+  $direccion = Direcciones::where('direccion_envio', '=', $request['direccion_envio'])
+                          ->where('cp_envio', '=', $request['cp_envio'])
+                          ->where('direccion_facturacion', '=', $request['direccion_facturacion'])
+                          ->where('cp_facturacion', '=', $request['cp_facturacion'])
+                          ->first();
+
+  if(is_null($direccion)){
+    $direccion = new Direcciones;
+  }
+
+  $direccion->direccion_envio = $request['direccion_envio'];
+  $direccion->ciudad_envio = $request['ciudad_envio'];
+  $direccion->estado_envio = $request['estado_envio'];
+  $direccion->pais_envio = $request['pais_envio'];
+  $direccion->cp_envio = $request['cp_envio'];
+  $direccion->direccion_facturacion = $request['direccion_facturacion'];
+  $direccion->ciudad_facturacion = $request['ciudad_facturacion'];
+  $direccion->estado_facturacion = $request['estado_facturacion'];
+  $direccion->pais_facturacion = $request['pais_facturacion'];
+  $direccion->cp_facturacion = $request['cp_facturacion'];
+
+  $direccion->id_cliente = $cliente->id;
+
+  $direccion->save();
+
 
   //crear pedido:
   $pedido = new Pedidos;
@@ -1097,27 +1132,11 @@ public function guardar(Request $request){
   $pedido->total = $request['total'];
   $pedido->estado_pago = $request['estado_pago'];
 
+  $pedido->id_direccion = $direccion->id;
   $pedido->id_cliente = $cliente->id;
 
   $pedido->save();
   //End pedido_
-
-  $direccion = new Direcciones;
-
-  $direccion->direccion_envio = $request['direccion_envio'];
-  $direccion->ciudad_envio = $request['ciudad_envio'];
-  $direccion->estado_envio = $request['estado_envio'];
-  $direccion->pais_envio = $request['pais_envio'];
-  $direccion->cp_envio = $request['cp_envio'];
-  $direccion->direccion_facturacion = $request['direccion_facturacion'];
-  $direccion->ciudad_facturacion = $request['ciudad_facturacion'];
-  $direccion->estado_facturacion = $request['estado_facturacion'];
-  $direccion->pais_facturacion = $request['pais_facturacion'];
-  $direccion->cp_facturacion = $request['cp_facturacion'];
-
-  $direccion->id_cliente = $cliente->id;
-
-  $direccion->save();
 
   foreach($request['nombre_esp'] as $key => $nombre_esp){
     $producto = new Productos_pedidos;

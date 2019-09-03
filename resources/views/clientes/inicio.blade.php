@@ -234,7 +234,7 @@
                 <tr class="filtro-admin">
 
                   <form id="filtros_datatable" method="get">
-                    <input class="form-control input-sm" style="display:none;" type="text" name="page" placeholder="pagina" value="{{$clientes->currentPage()}}">
+                    <!--<input class="form-control input-sm" style="display:none;" type="text" name="page" placeholder="pagina" value="{{$clientes->currentPage()}}">-->
                     <!-- FILTRO CLIENTE  -->
                     <th>
                       <input class="form-control input-sm filterProducts" type="number" name="id" placeholder="ID" value="@if(isset($filtro['id'])){{$filtro['id']}}@endif">

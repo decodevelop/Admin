@@ -251,7 +251,7 @@
                 <tr class="filtro-admin">
 
                   <form id="filtros_datatable" method="get">
-                    <input class="form-control input-sm" style="display:none;" type="text" name="page" placeholder="pagina" value="{{$listado_pedidos->currentPage()}}">
+                    <!--<input class="form-control input-sm" style="display:none;" type="text" name="page" placeholder="pagina" value="{{$listado_pedidos->currentPage()}}">-->
                     <th class="table-check"><input type="checkbox" class="flat-red check-all" name='check_all' value='all'></th>
 
                     <!-- FILTRO ORIGEN -->
@@ -394,7 +394,7 @@
                     <!-- END FECHA PEDIDO -->
 
                     <!-- CLIENTE -->
-                    <td><a href="clientes/detalle/{{$pedido->id_cliente}}" data-placement="top" data-toggle="tooltip" title="Ver cliente">{{ $pedido->cliente->nombre_apellidos }}</a></td>
+                    <td><a href="/clientes/detalle/{{$pedido->id_cliente}}" data-placement="top" data-toggle="tooltip" title="Ver cliente">{{ $pedido->cliente->nombre_apellidos }}</a></td>
                     <!-- END CLIENTE -->
 
                     <!-- TOTAL PRODUCTO -->

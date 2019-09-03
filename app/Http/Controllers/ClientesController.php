@@ -23,7 +23,7 @@ use App\Horario_proveedores;
 use App\Valoraciones_proveedores;
 use App\Transportistas;
 use App\Metodos_pago;
-
+use App\Pedidos;
 Use Validator;
 use Input;
 use DateTime;
@@ -57,17 +57,17 @@ class ClientesController extends Controller
   public function inicio(Request $request){
     $filtro = $request->query();
 
-    if(!$filtro){
-      $clientes = DB::table('clientes_pedidos')
-      ->orderBy('id', 'desc')
-      ->paginate(50);
-    } else {
-      $clientes = DB::table('clientes_pedidos')
-      ->orderBy('id', 'desc')
-      ->paginate(50);
-    }
+    $where = "1=1 ";
+    if(isset($filtro["id"]) && $filtro["id"] != "") $where .= " and id like '".$filtro["id"]."'";
+    if(isset($filtro["nombre"]) && $filtro["nombre"] != "") $where .= " and nombre_apellidos like '%".$filtro["nombre"]."%'";
+    if(isset($filtro["telefono"]) && $filtro["telefono"] != "") $where .= " and telefono like '%".$filtro["telefono"]."%'";
+    if(isset($filtro["email"]) && $filtro["email"] != "") $where .= " and email like '%".$filtro["email"]."%'";
 
-    return View::make('clientes/inicio', array('clientes' => $clientes));
+    $clientes = Clientes_pedidos::whereRaw($where)
+                                ->orderBy('id', 'desc')
+                                ->paginate(50);
+
+    return View::make('clientes/inicio', array('clientes' => $clientes, 'filtro' => $filtro));
   }
 
   public function detalle($id){
@@ -298,5 +298,74 @@ class ClientesController extends Controller
     'metodos_pago' => $metodos_pago,
     'direccion_cliente' => $direccion_cliente,
     'cliente' => $cliente));
+  }
+
+  public function ver_pedidos($id_cliente, Request $request){
+    //$this->marcar_enviados();
+    $origenes = Origen_pedidos::get();
+    //$incidencias = Incidencias::get();
+    $filtro = $request->query();
+    if(!$filtro){
+      $listado_pedidos = Pedidos::where('id_cliente', '=', $id_cliente)->paginate(50);
+    }else{
+      //Preparamos array para origenes.
+      if(isset($filtro["origen_referencia"])&& $filtro["origen_referencia"]!=""){
+        $filtro_origenes = explode(',', $filtro["origen_referencia"] );
+      }else{
+        $filtro_origenes = array();
+      }
+      //Creacion de la query para Pedidos.
+      $queryRaw = '1';
+      $queryRaw .= " and id_cliente = ".$id_cliente."";
+      if(isset($filtro["numero_pedido"])&& $filtro["numero_pedido"]!="") $queryRaw .= " and numero_pedido = ".$filtro["numero_pedido"]."";
+      if(isset($filtro["fecha_pedido"])&& $filtro["fecha_pedido"]!="") $queryRaw .= " and fecha_pedido >= '".$filtro["fecha_pedido"]."'";
+      if(isset($filtro["fecha_pedido_fin"])&& $filtro["fecha_pedido_fin"]!="") $queryRaw .= " and fecha_pedido <= '".$filtro["fecha_pedido_fin"]."'";
+
+      if(!isset($filtro["cliente"])){ $filtro["cliente"] = ''; }
+      if(!isset($filtro["correo_comprador"])){ $filtro["correo_comprador"] = ''; }
+      if(!isset($filtro["telefono_comprador"])){ $filtro["telefono_comprador"] = ''; }
+      if(!isset($filtro["estado_incidencia"])){ $filtro["estado_incidencia"] = ''; }
+
+      if(!isset($filtro["nombre_producto"])){ $filtro["nombre_producto"] = ''; }
+      if(!isset($filtro["estado_envio"])){ $filtro["estado_envio"] = ''; }
+
+      //dd($filtro);
+      //dd($queryRaw);
+      //Obtenemos los pedidos con paginación
+      $listado_pedidos =  Pedidos::whereRaw($queryRaw)
+      ->whereHas('cliente',  function ($query) use($filtro) {
+        $query->where('nombre_apellidos', 'like', "%".$filtro["cliente"]."%")
+        ->where('email', 'like', "%".$filtro["correo_comprador"]."%")
+        ->where('telefono', 'like', "%".$filtro["telefono_comprador"]."%");
+      })
+      ->whereHas('productos',  function ($query) use($filtro){
+        $query->where('nombre_esp', 'like', "%".$filtro["nombre_producto"]."%");
+        if($filtro["estado_envio"] != ''){
+          $query->where('estado_envio', '=', $filtro["estado_envio"]);
+        }
+        if($filtro["estado_incidencia"] != ''){
+          $query->whereHas('productos_incidencias', function($query) use($filtro) {
+            $query->whereHas('incidencia', function($query) use($filtro){
+              $query->where('estado', '=', $filtro["estado_incidencia"]);
+            });
+          });
+        }
+      })
+      ->whereHas('origen',  function ($query) use($filtro_origenes) {
+        $query->Where( function ($query) use($filtro_origenes) {
+          foreach ($filtro_origenes as $origen) {
+            $query->orWhere('referencia', 'like', $origen);
+          }
+        });
+      })
+      ->orderBy('id','DESC')
+      ->paginate(50);
+    }
+    //dd($listado_pedidos[0]->cliente->direcciones);
+    $paginaTransportista = NULL;
+    return View::make('pedidosnew/inicio', array('listado_pedidos' => $listado_pedidos,
+    'origenes' => $origenes,
+    'paginaTransportista' => $paginaTransportista));
+
   }
 }

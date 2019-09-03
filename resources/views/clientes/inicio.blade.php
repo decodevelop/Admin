@@ -207,7 +207,7 @@
     text-align: right;
   }
 
-  .th-id {width: 5%;}
+  .th-id {width: 10%;}
 </style>
 @endsection
 
@@ -227,7 +227,7 @@
                   <th class="th-filtro th-nombre">Nombre</th>
                   <th class="th-filtro th-telefono">Teléfono</th>
                   <th class="th-filtro th-email">E-mail</th>
-                  <th class="th-filtro th-opciones text-center" style="width: 125px">Opciones </th>
+                  <th class="th-filtro th-opciones text-center" style="width: 150px">Opciones </th>
                 </tr>
 
                 <!-- FILTRO -->
@@ -237,23 +237,23 @@
                     <input class="form-control input-sm" style="display:none;" type="text" name="page" placeholder="pagina" value="{{$clientes->currentPage()}}">
                     <!-- FILTRO CLIENTE  -->
                     <th>
-                      <input class="form-control input-sm filterProducts" type="number" name="id" placeholder="ID" value="">
+                      <input class="form-control input-sm filterProducts" type="number" name="id" placeholder="ID" value="@if(isset($filtro['id'])){{$filtro['id']}}@endif">
                     </th>
 
                     <th>
-                      <input class="form-control input-sm filterProducts" type="text" name="nombre" placeholder="Nombre" value="">
+                      <input class="form-control input-sm filterProducts" type="text" name="nombre" placeholder="Nombre" value="@if(isset($filtro['nombre'])){{$filtro['nombre']}}@endif">
                     </th>
 
                     <th>
-                      <input class="form-control input-sm filterProducts" type="text" name="telefono" placeholder="Teléfono" value="">
+                      <input class="form-control input-sm filterProducts" type="text" name="telefono" placeholder="Teléfono" value="@if(isset($filtro['telefono'])){{$filtro['telefono']}}@endif">
                     </th>
 
                     <th>
-                      <input class="form-control input-sm filterProducts" type="text" name="email" placeholder="E-mail" value="">
+                      <input class="form-control input-sm filterProducts" type="text" name="email" placeholder="E-mail" value="@if(isset($filtro['email'])){{$filtro['email']}}@endif">
                     </th>
                     <!-- END FILTRO CLIENTE -->
                     <th>
-                      <button type="submit" class="btn btn-default btn-sm">FILTRAR</button>
+                      <button type="submit" class="btn btn-default btn-sm" style="width:100%;">FILTRAR</button>
                     </th>
                   </form>
                 </tr>
@@ -277,15 +277,23 @@
                         </button>
                       </a>
 
+                      <a href="/clientes/{{$cliente->id}}/ver_pedidos">
+                        <button data-placement="top" data-toggle="tooltip" title="Ver pedidos" type="button" id="pedidosButton" class="btn btn-default" style="margin: 0 2px;">
+                          <i class="fa fa-shopping-bag"></i>
+                        </button>
+                      </a>
+
                       <a href="/clientes/modificar/{{$cliente->id}}">
-                        <button data-placement="top" data-toggle="tooltip" title="Editar" type="button" id="editarButton" class="btn btn-primary" style="margin: 0 2px;">
+                        <button data-placement="top" data-toggle="tooltip" title="Editar" type="button" id="editarButton" class="btn btn-primary">
                           <i class="fa fa-edit"></i>
                         </button>
                       </a>
                     </td>
                   </tr>
                 @empty
-                  <p>No hay datos.</p>
+                  <tr>
+                    <td colspan="5" class="text-center"><strong>No se han encontrado clientes con los parámetros indicados.</strong></td>
+                  </tr>
                 @endforelse
               </tbody>
             </table>

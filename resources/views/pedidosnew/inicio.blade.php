@@ -394,7 +394,7 @@
                     <!-- END FECHA PEDIDO -->
 
                     <!-- CLIENTE -->
-                    <td><a href="clientes/detalle/{{$pedido->id_cliente}}">{{ $pedido->cliente->nombre_apellidos }}</a></td>
+                    <td><a href="clientes/detalle/{{$pedido->id_cliente}}" data-placement="top" data-toggle="tooltip" title="Ver cliente">{{ $pedido->cliente->nombre_apellidos }}</a></td>
                     <!-- END CLIENTE -->
 
                     <!-- TOTAL PRODUCTO -->
@@ -523,7 +523,9 @@
                     <!-- END OPCIONES -->
                   </tr>
                 @empty
-                  <p>No hay datos.</p>
+                  <tr>
+                    <td colspan="11">No hay datos.</td>
+                  </tr>
                 @endforelse
               </tbody>
             </table>

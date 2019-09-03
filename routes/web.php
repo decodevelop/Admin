@@ -191,7 +191,7 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('/clientes/{id_cliente}/direccion/{id_direccion}/generar_pedido', 'ClientesController@generar_pedido');
 	Route::post('/clientes/{id_cliente}/direccion/{id_direccion}/generar_pedido', 'PedidosNewController@guardar');
 
-
+	Route::get('/clientes/{id_cliente}/ver_pedidos', 'ClientesController@ver_pedidos');
 
 	// PROVEEDORES
 	Route::get('/proveedores', 'ProveedoresController@inicio');

@@ -134,9 +134,9 @@
   </div>
   <div class="col-xs-12">
     @if(isset($requestErr))
-      <input id="cont_direcciones" type="number" name="cont_direcciones" value="{{$requestErr['cont_direcciones'][0]}}">
+      <input id="cont_direcciones" class="hidden" type="number" name="cont_direcciones" value="{{$requestErr['cont_direcciones'][0]}}">
     @else
-      <input id="cont_direcciones" type="number" name="cont_direcciones" value="1">
+      <input id="cont_direcciones" class="hidden" type="number" name="cont_direcciones" value="1">
     @endif
     <button data-placement="top" data-toggle="tooltip" type="button" id="añadirDireccionButton" class="addPers btn btn-default">
       <i class="fa fa-plus"></i> Añadir otra direccion

@@ -393,6 +393,23 @@ class CampController extends Controller
 
             if (DB::table('Productos_vp')->where('ean', '=', $value['ean'])->exists()){
               array_push($repetidos, $value['ean'].' = '.$value['nombre']);
+              $producto_vp = Productos_vp::where('ean','=', $value['ean'])->first();
+              $producto_vp->id_vp = $value['id'];
+              $producto_vp->nombre = $value['nombre'];
+              $producto_vp->referencia = $value['sku'];
+              $producto_vp->ean = $value['ean'];
+              if($value['largo'] = ''){
+                $producto_vp->largo = $value['largo'];
+              }
+              if($value['alto'] = ''){
+                $producto_vp->alto = $value['alto'];
+              }
+              if($value['ancho'] = ''){
+                $producto_vp->ancho = $value['ancho'];
+              }
+
+              $producto_vp->save();
+
             }else{
 
               $all_rep = false;
@@ -428,7 +445,7 @@ class CampController extends Controller
         array_push($success,'Fichero subido correctamente');
 
         if(count($repetidos)>0){
-          array_push($success, count($repetidos).' codigo(s) EAN repetido(s), no se han subido');
+          array_push($success, count($repetidos).' codigo(s) EAN repetido(s), se han actualizado');
         }
         if($subidos>0){
           array_push($success, $subidos.' Productos subidos correctamente');

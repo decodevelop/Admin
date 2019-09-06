@@ -391,9 +391,9 @@ class CampController extends Controller
           $result=$archivo->get();
           foreach($result as $key => $value){
 
-            if (DB::table('Productos_vp')->where('ean', '=', $value['ean'])->exists()){
+            if (DB::table('Productos_vp')->where('id_vp', '=', $value['id'])->exists()){
               array_push($repetidos, $value['ean'].' = '.$value['nombre']);
-              $producto_vp = Productos_vp::where('ean','=', $value['ean'])->first();
+              $producto_vp = Productos_vp::where('id_vp','=', $value['id'])->first();
               $producto_vp->id_vp = $value['id'];
               $producto_vp->nombre = $value['nombre'];
               $producto_vp->referencia = $value['sku'];

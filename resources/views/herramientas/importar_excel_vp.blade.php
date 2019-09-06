@@ -30,7 +30,8 @@ use App\Direcciones;
 							<label for="csv">Seleccionar fichero EXCEL</label>
 							<input type="file" name="csv" />
 							<p class="help-block"> Formato aceptado .xls</p>
-							
+							<p class="help-block">Campos: [vp_producto_id] [cantidad] </p>
+
 						</div>
 
 						@if (count($errors) > 0)

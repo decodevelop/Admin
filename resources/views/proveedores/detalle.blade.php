@@ -69,7 +69,7 @@
 						<td class="text-left">
 							<span>{{$proveedor->contrato}}&nbsp;&nbsp;</span>
 							@if($proveedor->contrato_pdf)
-								<a href="{{$proveedor->get_contrato()}}" target=_blank>
+								<a href="/PDFs/contratos/{{$proveedor->id}}/{{$proveedor->id}}_contrato.pdf" target=_blank>
 									<i class="fa fa-file-pdf-o"></i> Ver contrato
 								</a>
 							@endif

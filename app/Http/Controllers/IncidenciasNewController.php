@@ -240,7 +240,11 @@ class IncidenciasNewController extends Controller
       $pedido->save();
 
       foreach ($atributos_direccion as $attr) {
-        $direccion->$attr = $pedido_base->cliente->direccion->$attr;
+        if(is_null($pedido_base->direccion)){
+          $direccion->$attr = $pedido_base->cliente->direcciones[0]->$attr;
+        } else {
+          $direccion->$attr = $pedido_base->direccion->$attr;
+        }
       }
       /* Guardamos los detalles del pedido */
       $direccion->id_cliente = $cliente->id;

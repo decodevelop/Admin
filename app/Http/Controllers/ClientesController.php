@@ -60,8 +60,8 @@ class ClientesController extends Controller
     $where = "1=1 ";
     if(isset($filtro["id"]) && $filtro["id"] != "") $where .= " and id like '".$filtro["id"]."'";
     if(isset($filtro["nombre"]) && $filtro["nombre"] != "") $where .= " and nombre_apellidos like '%".$filtro["nombre"]."%'";
-    if(isset($filtro["telefono"]) && $filtro["telefono"] != "") $where .= " and telefono like '%".$filtro["telefono"]."%'";
-    if(isset($filtro["email"]) && $filtro["email"] != "") $where .= " and email like '%".$filtro["email"]."%'";
+    if(isset($filtro["telefono"]) && $filtro["telefono"] != "") $where .= " and telefono_facturacion like '%".$filtro["telefono"]."%'";
+    if(isset($filtro["email"]) && $filtro["email"] != "") $where .= " and email_facturacion like '%".$filtro["email"]."%'";
 
     $clientes = Clientes_pedidos::whereRaw($where)
                                 ->orderBy('id', 'desc')

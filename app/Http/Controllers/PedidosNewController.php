@@ -972,33 +972,34 @@ public function eliminar(Request $request){
       $seguimiento->delete();
     }
 
+    /*
     if(is_null($pedido->direccion)){
-      $pedido->cliente->direcciones[0]->delete();
-    } else {
-      $pedido->direccion->delete();
-    }
+    $pedido->cliente->direcciones[0]->delete();
+  } else {
+  $pedido->direccion->delete();
+}
+*/
+//$pedido->cliente->delete();
 
-    $pedido->cliente->delete();
+foreach ($pedido->productos as $producto) {
+  foreach ($producto->productos_incidencias as $p_incidencia) {
+    //  dd($p_incidencia->incidencia);
+    $p_incidencia->incidencia->delete();
 
-    foreach ($pedido->productos as $producto) {
-      foreach ($producto->productos_incidencias as $p_incidencia) {
-        //  dd($p_incidencia->incidencia);
-        $p_incidencia->incidencia->delete();
-
-        $p_incidencia->delete();
-      }
-      $eliminados .= "{".$producto->id.":".$producto->nombre_esp."} ";
-      $producto->delete();
-    }
-
-    $pedido->delete();
-
-
-    $eliminados .= "]";
-    return "Eliminado correctamente: ".$eliminados;
-  } catch(\Exception $err){
-    return "No se ha podido eliminar, intentelo de nuevo o contacte con el administrador.".var_dump();
+    $p_incidencia->delete();
   }
+  $eliminados .= "{".$producto->id.":".$producto->nombre_esp."} ";
+  $producto->delete();
+}
+
+$pedido->delete();
+
+
+$eliminados .= "]";
+return "Eliminado correctamente: ".$eliminados;
+} catch(\Exception $err){
+  return "No se ha podido eliminar, intentelo de nuevo o contacte con el administrador.".var_dump();
+}
 
 }
 
@@ -1071,8 +1072,8 @@ public function guardar(Request $request){
 
   // Comprobamos si ya existe un cliente con los mails proporcionados, si no existe inicializamos un nuevo cliente.
   $cliente = Clientes_pedidos::where('email_facturacion', '=', $request['email_facturacion'])
-                             ->where('email', '=', $request['email'])
-                             ->first();
+  ->where('email', '=', $request['email'])
+  ->first();
 
   if(is_null($cliente)){
     $cliente = new Clientes_pedidos;
@@ -1090,10 +1091,10 @@ public function guardar(Request $request){
 
   // Igual que en cliente, pero con dirección y CP
   $direccion = Direcciones::where('direccion_envio', '=', $request['direccion_envio'])
-                          ->where('cp_envio', '=', $request['cp_envio'])
-                          ->where('direccion_facturacion', '=', $request['direccion_facturacion'])
-                          ->where('cp_facturacion', '=', $request['cp_facturacion'])
-                          ->first();
+  ->where('cp_envio', '=', $request['cp_envio'])
+  ->where('direccion_facturacion', '=', $request['direccion_facturacion'])
+  ->where('cp_facturacion', '=', $request['cp_facturacion'])
+  ->first();
 
   if(is_null($direccion)){
     $direccion = new Direcciones;
@@ -1175,74 +1176,94 @@ public function duplicar($id){
 public function guardar_duplicado($id, Request $request){
   //obtenemos el pedido de la base de datos y los inputs del request
   $inputs = $request->all();
-  $pedido_base = pedidos::find($id);
-  $pedido = new Pedidos;
-  $productos_form = json_decode($inputs["productos_serializados"], true);
+  //dd($inputs);
 
-  //separamos los objetos por las tablas de la base de datos
-  $cliente = new Clientes_pedidos;
-  $direccion = new Direcciones;
-
-  //obtención de los atributos;
-  $atributos_pedido = $pedido->getFillable();
-  $atributos_cliente = $cliente->getFillable();
-  $atributos_direccion = $direccion->getFillable();
+  if(true){
+    $pedido_base = pedidos::find($id);
+    $pedido = new Pedidos;
+    $productos_form = json_decode($inputs["productos_serializados"], true);
 
 
-  // Comparamos los inputs, y si el atributo existe, asignamos el valor a las tablas
-  foreach($inputs as $key => $input){
-    if($key=="_token" || $key=="productos_serializados") continue;
-    if(in_array($key ,$atributos_cliente)){
-      $cliente->$key = $inputs[$key];
+    // Buscamos si esxisten clientes y dircciones con los datos proporcionados
+    $cliente = Clientes_pedidos::where('email_facturacion', '=', $request['email_facturacion'])
+    ->where('email', '=', $request['email'])
+    ->first();
+
+    $direccion = Direcciones::where('direccion_envio', '=', $request['direccion_envio'])
+    ->where('cp_envio', '=', $request['cp_envio'])
+    ->where('direccion_facturacion', '=', $request['direccion_facturacion'])
+    ->where('cp_facturacion', '=', $request['cp_facturacion'])
+    ->first();
+
+    // Si no encontramos, inicializamos nuevos.
+    if(is_null($cliente)){
+      $cliente = new Clientes_pedidos;
     }
-  }
-  /* Guardamos los detalles del pedido */
 
-  $cliente->save();
-
-  // Comparamos los inputs, y si el atributo existe, asignamos el valor a las tablas
-  foreach($inputs as $key => $input){
-    if($key=="_token" || $key=="productos_serializados") continue;
-    if(in_array($key ,$atributos_pedido)){
-      $pedido->$key = $inputs[$key];
+    if(is_null($direccion)){
+      $direccion = new Direcciones;
     }
-  }
 
-  /* Guardamos los detalles del pedido */
-  $pedido->origen_id = $pedido_base->origen->id;
-  $pedido->numero_pedido = $this->ultimo_numero_pedido($pedido_base->origen->id);
-  $pedido->numero_albaran = $pedido_base->origen->referencia.str_pad($this->ultimo_numero_pedido($pedido_base->origen->id), 5, "0", STR_PAD_LEFT);
-  $pedido->id_cliente = $cliente->id;
-  $pedido->estado_pago = $pedido_base->estado_pago;
-  $pedido->id_metodo_pago = $pedido_base->id_metodo_pago;
+    //obtención de los atributos;
+    $atributos_pedido = $pedido->getFillable();
+    $atributos_cliente = $cliente->getFillable();
+    $atributos_direccion = $direccion->getFillable();
 
-  $pedido->save();
 
-  // Comparamos los inputs, y si el atributo existe, asignamos el valor a las tablas
-  foreach($inputs as $key => $input){
-    if($key=="_token" || $key=="productos_serializados") continue;
-    if(in_array($key ,$atributos_direccion)){
-      $direccion->$key = $inputs[$key];
+    // Comparamos los inputs, y si el atributo existe, asignamos el valor a las tablas
+    foreach($inputs as $key => $input){
+      if($key=="_token" || $key=="productos_serializados") continue;
+      if(in_array($key ,$atributos_cliente)){
+        $cliente->$key = $inputs[$key];
+      }
     }
-  }
+    /* Guardamos los detalles del pedido */
 
-  /* Guardamos los detalles del pedido */
-  $direccion->id_cliente = $cliente->id;
-  $direccion->save();
+    $cliente->save();
 
-  /* Procesamos los productos del pedido y añadimos o eliminamos en funcion del resultado */
-  foreach ($productos_form["id"] as $num => $att) {
-    // Si es nuevo creamos un producto relacionado
-    if($productos_form["eliminar"][$num]["value"]=='NO'){
-      $nuevo_producto = new Productos_pedidos;
-
-      $nuevo_producto = $this->guardar_producto_modificar($productos_form, $pedido->id, $num, $nuevo_producto);
-
+    // Comparamos los inputs, y si el atributo existe, asignamos el valor a las tablas
+    foreach($inputs as $key => $input){
+      if($key=="_token" || $key=="productos_serializados") continue;
+      if(in_array($key ,$atributos_pedido)){
+        $pedido->$key = $inputs[$key];
+      }
     }
+
+    /* Guardamos los detalles del pedido */
+    $pedido->origen_id = $pedido_base->origen->id;
+    $pedido->numero_pedido = $this->ultimo_numero_pedido($pedido_base->origen->id);
+    $pedido->numero_albaran = $pedido_base->origen->referencia.str_pad($this->ultimo_numero_pedido($pedido_base->origen->id), 5, "0", STR_PAD_LEFT);
+    $pedido->id_cliente = $cliente->id;
+    $pedido->estado_pago = $pedido_base->estado_pago;
+    $pedido->id_metodo_pago = $pedido_base->id_metodo_pago;
+
+    $pedido->save();
+
+    // Comparamos los inputs, y si el atributo existe, asignamos el valor a las tablas
+    foreach($inputs as $key => $input){
+      if($key=="_token" || $key=="productos_serializados") continue;
+      if(in_array($key ,$atributos_direccion)){
+        $direccion->$key = $inputs[$key];
+      }
+    }
+
+    /* Guardamos los detalles del pedido */
+    $direccion->id_cliente = $cliente->id;
+    $direccion->save();
+
+    /* Procesamos los productos del pedido y añadimos o eliminamos en funcion del resultado */
+    foreach ($productos_form["id"] as $num => $att) {
+      // Si es nuevo creamos un producto relacionado
+      if($productos_form["eliminar"][$num]["value"]=='NO'){
+        $nuevo_producto = new Productos_pedidos;
+
+        $nuevo_producto = $this->guardar_producto_modificar($productos_form, $pedido->id, $num, $nuevo_producto);
+
+      }
+    }
+
+    return redirect('pedidos/detalle/'.$pedido->id)->with('mensaje', 'El pedido se ha actualizado correctamente.');
   }
-
-  return redirect('pedidos/detalle/'.$pedido->id)->with('mensaje', 'El pedido se ha actualizado correctamente.');
-
 }
 
 //enviOS

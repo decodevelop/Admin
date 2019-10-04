@@ -85,8 +85,13 @@
 
     <div class="row no-print">
       <div class="col-xs-12">
+
         <button type="button" id="modificar_cliente" class="btn btn-success pull-right" onclick="window.location.href='{{Url('/clientes/modificar/'.$cliente->id)}}'">
           <i class="fa fa-edit"></i> Modificar
+        </button>
+
+        <button data-placement="top" data-toggle="tooltip" title="Ver pedidos" type="button" id="pedidosButton" class="btn btn-default pull-right" style="margin: 0 10px;" onclick="window.location.href='{{Url("/clientes/$cliente->id/ver_pedidos")}}'">
+          <i class="fa fa-shopping-bag"></i> Ver pedidos
         </button>
       </div>
     </div>
@@ -128,171 +133,171 @@
 
                 <td class="text-left" style="vertical-align:top!important">
                   <!--<div data-placement="top" data-toggle="tooltip" title="Eliminar" class="pull-right">
-                    <button type="button" id="eliminarButton" class="btn btn-github" data-toggle="modal" data-target="#confirmacion_modal_pers_{{$d->id}}" style="margin-left: 10px;">
-                      <i class="fa fa-trash"></i>
-                    </button>
-                  </div>-->
-                  <a href="/clientes/{{$cliente->id}}/direcciones/modificar/{{$d->id}}">
-                    <button data-placement="top" data-toggle="tooltip" title="Editar" type="button" id="editarButton" class="btn btn-primary pull-right" style="margin-left: 10px;">
-                      <i class="fa fa-edit"></i>
-                    </button>
-                  </a>
+                  <button type="button" id="eliminarButton" class="btn btn-github" data-toggle="modal" data-target="#confirmacion_modal_pers_{{$d->id}}" style="margin-left: 10px;">
+                  <i class="fa fa-trash"></i>
+                </button>
+              </div>-->
+              <a href="/clientes/{{$cliente->id}}/direcciones/modificar/{{$d->id}}">
+                <button data-placement="top" data-toggle="tooltip" title="Editar" type="button" id="editarButton" class="btn btn-primary pull-right" style="margin-left: 10px;">
+                  <i class="fa fa-edit"></i>
+                </button>
+              </a>
 
-                  <a href="/clientes/{{$cliente->id}}/direccion/{{$d->id}}/generar_pedido">
-                    <button data-placement="top" data-toggle="tooltip" title="Generar pedido" type="button" id="generarpedidoButton" class="btn btn-default pull-right">
-                      <i class="fa fa-shopping-bag"></i>
-                    </button>
-                  </a>
-                </td>
-              </tr>
-              <!-- Modal
-              <div class="modal fade" id="confirmacion_modal_pers_{{$d->id}}" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h3 class="modal-title" id="confirmacion_modalLabel">Confirmación</h3>
-                    </div>
-                    <div class="modal-body">
-                      <h5>¿Estás seguro de que desea eliminar la Dirección <strong>{{$d->id }}</strong>?</h5>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal" style="margin-right: 10px;">Cancelar</button>
-                      <a href="/clientes/{{$cliente->id}}/direccion/eliminar/{{$d->id}}"><button type="button" class="btn btn-primary">Sí, estoy seguro</button></a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- Modal End -->
-            @endforeach
-            <tr>
-              <td colspan="5">
-                <a href="/clientes/{{$cliente->id}}/direcciones/nueva">
-                  <button data-placement="top" data-toggle="tooltip" title="Nueva dirección" type="button" id="verButton" class="btn btn-default pull-right">
-                    <i class="fa fa-plus"></i>
-                  </button>
-                </a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+              <a href="/clientes/{{$cliente->id}}/direccion/{{$d->id}}/generar_pedido">
+                <button data-placement="top" data-toggle="tooltip" title="Generar pedido" type="button" id="generarpedidoButton" class="btn btn-default pull-right">
+                  <i class="fa fa-shopping-bag"></i>
+                </button>
+              </a>
+            </td>
+          </tr>
+          <!-- Modal
+          <div class="modal fade" id="confirmacion_modal_pers_{{$d->id}}" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+          <div class="modal-content">
+          <div class="modal-header">
+          <h3 class="modal-title" id="confirmacion_modalLabel">Confirmación</h3>
+        </div>
+        <div class="modal-body">
+        <h5>¿Estás seguro de que desea eliminar la Dirección <strong>{{$d->id }}</strong>?</h5>
       </div>
-      <!-- /.col -->
+      <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" style="margin-right: 10px;">Cancelar</button>
+      <a href="/clientes/{{$cliente->id}}/direccion/eliminar/{{$d->id}}"><button type="button" class="btn btn-primary">Sí, estoy seguro</button></a>
     </div>
-  </section>
-  <style>
-  .collapse-horario:hover {
-    font-weight: bold;
-  }
+  </div>
+</div>
+</div>
+<!-- Modal End -->
+@endforeach
+<tr>
+  <td colspan="5">
+    <a href="/clientes/{{$cliente->id}}/direcciones/nueva">
+      <button data-placement="top" data-toggle="tooltip" title="Nueva dirección" type="button" id="verButton" class="btn btn-default pull-right">
+        <i class="fa fa-plus"></i>
+      </button>
+    </a>
+  </td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- /.col -->
+</div>
+</section>
+<style>
+.collapse-horario:hover {
+  font-weight: bold;
+}
 
-  .collapse-horario:after {
-    font-family: 'FontAwesome';
-    content: "\f0d8";
-    color: #000000;
-    font-size: 20px;
-    line-height: 12px;
-    padding-left: 20px;
-  }
+.collapse-horario:after {
+  font-family: 'FontAwesome';
+  content: "\f0d8";
+  color: #000000;
+  font-size: 20px;
+  line-height: 12px;
+  padding-left: 20px;
+}
 
-  .collapse-horario.collapsed:after {
-    font-family: 'FontAwesome';
-    content: "\f0d7";
-  }
+.collapse-horario.collapsed:after {
+  font-family: 'FontAwesome';
+  content: "\f0d7";
+}
 
-  .horario-cont {
-    margin-top: 20px;
-    margin-bottom: 20px;
-  }
+.horario-cont {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
 
-  .horario-table td{
-    height: 20px!important;
-    text-align: left;
-    width: 30%;
-    border-bottom: 1px solid #f4f4f4;
-    padding: 5px;
-  }
+.horario-table td{
+  height: 20px!important;
+  text-align: left;
+  width: 30%;
+  border-bottom: 1px solid #f4f4f4;
+  padding: 5px;
+}
 
-  .table-clientes td {
-    height: 57px;
-  }
+.table-clientes td {
+  height: 57px;
+}
 
-  input[name='bultos'] {
-    width: 50% !important;
-  }
-  div#collapse-incidencia {
-    padding: 20px 15px;
-  }
-  .lead {
-    margin-bottom: 20px;
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 1.4;
-  }
-  .panel-default>.panel-heading {
-    color: #000;
-    background-color: #f4f4f4;
-    border-color: #480101;
-  }
-  .panel-default>.panel-heading.warning{
-    background-color: #f9b0b0;
-  }
-  select[name=estado_incidencia], select[name=desplegable_mensaje_incidencia], select[name=desplegable_gestion_incidencia] {
-    width: 155px;
-    margin-right: 80%;
-    border-radius: 4px;
-  }
-  a[data-toggle=collapse]:hover{
-    color: black;
-  }
-  textarea#mensaje_incidencia, #gestion_incidencia {
-    margin-bottom: 15px !important;
-  }
-  a[data-toggle=collapse] {
-    color: black;
-  }
-  inspector-stylesheet:1
-  a[data-toggle=collapse]:hover {
-    color: white !important;
-  }
-  select[multiple], select[size] {
-    height: auto;
-    width: 20%;
-    margin: 6px 0px;
-    border-radius: 6px;
-    padding: 7px;
-  }
-  .panel-title p.lead {
-    margin-bottom: 5px !important;
-  }
+input[name='bultos'] {
+  width: 50% !important;
+}
+div#collapse-incidencia {
+  padding: 20px 15px;
+}
+.lead {
+  margin-bottom: 20px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.panel-default>.panel-heading {
+  color: #000;
+  background-color: #f4f4f4;
+  border-color: #480101;
+}
+.panel-default>.panel-heading.warning{
+  background-color: #f9b0b0;
+}
+select[name=estado_incidencia], select[name=desplegable_mensaje_incidencia], select[name=desplegable_gestion_incidencia] {
+  width: 155px;
+  margin-right: 80%;
+  border-radius: 4px;
+}
+a[data-toggle=collapse]:hover{
+  color: black;
+}
+textarea#mensaje_incidencia, #gestion_incidencia {
+  margin-bottom: 15px !important;
+}
+a[data-toggle=collapse] {
+  color: black;
+}
+inspector-stylesheet:1
+a[data-toggle=collapse]:hover {
+  color: white !important;
+}
+select[multiple], select[size] {
+  height: auto;
+  width: 20%;
+  margin: 6px 0px;
+  border-radius: 6px;
+  padding: 7px;
+}
+.panel-title p.lead {
+  margin-bottom: 5px !important;
+}
 
 
-  input[type=radio].seguimiento_destacado{
-    border: 0;
-    clip: rect(0 0 0 0);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px;
-  }
+input[type=radio].seguimiento_destacado{
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
 
-  input[type=radio].seguimiento_destacado + label:before{
-    font-family: FontAwesome;
-    display: inline-block;
-    content: "\f08d";
-    letter-spacing: 10px;
-    font-size: 1.5em;
-    color: grey;
-    width: 1.4em;
-  }
+input[type=radio].seguimiento_destacado + label:before{
+  font-family: FontAwesome;
+  display: inline-block;
+  content: "\f08d";
+  letter-spacing: 10px;
+  font-size: 1.5em;
+  color: grey;
+  width: 1.4em;
+}
 
-  input[type=radio].seguimiento_destacado:checked + label:before{
-    content: "\f08d";
-    font-size: 1.5em;
-    color: #b00505;
-    letter-spacing: 5px;
-  }
-  </style>
+input[type=radio].seguimiento_destacado:checked + label:before{
+  content: "\f08d";
+  font-size: 1.5em;
+  color: #b00505;
+  letter-spacing: 5px;
+}
+</style>
 @endsection
 
 @section('scripts')

@@ -267,8 +267,8 @@
                   <tr onclick="window.location = '/clientes/detalle/{{$cliente->id}}';">
                     <td>{{$cliente->id}}</td>
                     <td>{{$cliente->nombre_apellidos}}</td>
-                    <td>{{$cliente->telefono}}</td>
-                    <td>{{$cliente->email}}</td>
+                    <td>{{$cliente->telefono_facturacion}}</td>
+                    <td>{{$cliente->email_facturacion}}</td>
 
                     <td>
                       <a href="/clientes/detalle/{{$cliente->id}}">

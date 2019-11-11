@@ -441,13 +441,18 @@
                       @if ($producto->estado_envio > 1)
                         <span class="label label-danger">
                           <a href="#" onclick="return false" title="Transportista" data-toggle="popover" data-trigger="hover" data-content="{{$producto->transportista->nombre}}">
-                            +{{$producto->estado_envio}} Días
+                            {{$pedido->fecha_de_salida_producto($producto)}}
+                                     </a>
+                                     </span>
+                           <span class="label label-danger">
+                           <a >
+                               +{{$producto->estado_envio}} Días
                           </a>
                         </span>
                       @elseif ($producto->estado_envio == 0)
                         <span class="label label-danger">
                           <a href="#" onclick="return false" title="Transportista" data-toggle="popover" data-trigger="hover" data-content="{{$producto->transportista->nombre}}">
-                            no enviado
+                             {{$pedido->fecha_de_salida_producto($producto)}}
                           </a>
                         </span>
                       @elseif ($producto->estado_envio == 1)

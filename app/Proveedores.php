@@ -15,7 +15,7 @@ class Proveedores extends Model
         'id','nombre','email','telefono', 'plazo_entrega', 'plazo_entrega_web',
         'envio', 'metodo_pago', 'precio_esp_campana', 'logistica',
         'contrato', 'ultima_visita', 'observaciones', 'valoracion_media',
-        'listo_para_vender', 'contrato_pdf', 'vacaciones_inicio', 'vacaciones_fin'
+        'listo_para_vender', 'contrato_pdf', 'vacaciones_inicio', 'vacaciones_fin','id_plazo'
     ];
 
 		 /**
@@ -25,6 +25,11 @@ class Proveedores extends Model
     public function productos()
     {
         return $this->hasMany('App\Productos_pedidos', 'id_proveedor');
+    }
+
+    public function plazo()
+    {
+        return $this->belongsTo('App\Plazos_entrega', 'id_plazo');
     }
 
     public function productos_base()

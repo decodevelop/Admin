@@ -15,9 +15,8 @@
 	<div class="row">
 		<div class="col-xs-12">
 			<h2 class="page-header">
-				<i class="fa fa-globe"></i> Detalles de pedido seleccionado - {{$pedido->numero_albaran}}  <small class="pull-right">Fecha pedido: {{ $pedido->fecha_pedido }}</small>
 				<i class="fa fa-globe"></i> Detalles de pedido seleccionado - {{$pedido->numero_albaran}}
-					<small class="pull-right"> | Fecha máxima de salida: {{ $pedido->fecha_de_salida($pedido->productos) }}</small>
+					<small class="pull-right"> | <b>Fecha máxima de salida: {{ $pedido->fecha_de_salida($pedido->productos) }}</b></small>
 					<small class="pull-right">Fecha pedido: {{ $pedido->fecha_pedido }} </small>
 			</h2>
 		</div>

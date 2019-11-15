@@ -62,6 +62,8 @@
                     <tr data-ref="{{$producto->SKU}}" data-ean="{{$producto->ean}}">
                       <td>{{ $producto->pedido->numero_albaran }}</td>
                       <td>{{ $producto->nombre_esp }}</td>
+                      <td>{{$producto->SKU}}</td>
+                      <td>{{$producto->ean}}</td>
                     </tr>
                   @endif
                 @endforeach

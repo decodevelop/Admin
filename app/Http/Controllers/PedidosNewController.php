@@ -599,8 +599,11 @@ class PedidosNewController extends Controller
           $producto_pedido->id_pedido = $pedido->id;
           $producto_pedido->id_order_product = $fila[37];
 
+          $producto_pedido->fecha_max_salida= $pedido->fecha_de_salida_producto($producto_pedido);
           $producto_pedido->save();
+
           //end productos
+
 
           //CONTROL STOCK
           $this->control_stock($fila[33],$fila[21]);
@@ -2344,6 +2347,7 @@ class PedidosNewController extends Controller
 
       })->export('xls');
     }
+
 
     public function pruebacron(){
 

@@ -345,4 +345,7 @@ Route::group(['middleware' => 'auth'], function() {
 			// https://styde.net/modificando-migraciones-en-laravel/
 		});
 
+	Route::get('/plazos', 'PlazosController@index');
+		Route::post('/plazos', 'PlazosController@productos');	
+
 });

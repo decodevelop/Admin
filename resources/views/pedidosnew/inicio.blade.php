@@ -380,9 +380,13 @@
                 <!-- END CHECKBOX PEDIDO -->
 
                 <!-- Origen del pedido -->
-                <td><span><a href="#" onclick="return false" title="" data-toggle="popover" data-trigger="hover" data-content="{{$pedido->origen->nombre}}">
-                    {{ $pedido->origen->referencia }}
-                </a></span></td>
+                <td>
+                  <span>
+                    <a href="#" onclick="return false" title="" data-toggle="popover" data-trigger="hover" data-content="{{$pedido->origen->nombre}}">
+                      {{ $pedido->origen->referencia }}
+                    </a>
+                  </span>
+                </td>
                 <!-- END Origen del pedido -->
 
                 <!-- NUMERO PEDIDO -->

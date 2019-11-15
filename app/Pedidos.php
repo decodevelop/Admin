@@ -47,7 +47,10 @@ class Pedidos extends Model
       }
 
     }
-    return $this->sumasdiasemana($this->fecha_pedido,$this->hora,$dia_max);
+    if(isset($producto->pedido)){
+      return $this->sumasdiasemana($producto->pedido->fecha_pedido,$producto->pedido->hora,$dia_max);
+    }
+
   }
 
   public function fecha_de_salida($productos = false){
@@ -76,6 +79,7 @@ class Pedidos extends Model
     if($hora > "15:00"){
       $dias = $dias + 1;
     }
+
     //Timestamp De Fecha De Comienzo
     $comienzo = strtotime($fecha);
 

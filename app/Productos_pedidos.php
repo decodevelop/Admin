@@ -12,7 +12,7 @@ class Productos_pedidos extends Model
      * @var array
      */
     protected $fillable = [
-        'id_pedido','id_order_product','nombre','nombre_esp','variante','cantidad','peso','precio_final','precio_base','texto_especial_producto','ean','estado_proveedor','estado_envio','fecha_envio','antigua_id','albaran_generado'
+        'id_pedido','SKU','fecha_max_salida','id_order_product','nombre','nombre_esp','variante','cantidad','peso','precio_final','precio_base','texto_especial_producto','ean','estado_proveedor','estado_envio','fecha_envio','antigua_id','albaran_generado'
     ];
     protected $hidden = ['id_pedido','id_transportista','id_proveedor'];
 

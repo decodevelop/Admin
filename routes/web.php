@@ -348,5 +348,6 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('/plazos', 'PlazosController@index');
 		Route::post('/plazos', 'PlazosController@productos');
 		Route::get('/plazos/adaptar', 'PlazosController@adaptar');
+		Route::get('/plazos/hoy', 'PlazosController@descargar_hoy');
 
 });

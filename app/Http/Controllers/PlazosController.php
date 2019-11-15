@@ -81,7 +81,56 @@ class PlazosController extends Controller
 
     }
 
+    public function descargar_hoy(Request $request)
+    {
+      $inputs = $request->all();
+      $hoy = date('Y-m-d');
+      $productos = Productos_pedidos::where('estado_envio', '!=', 1 )->where('fecha_max_salida', '<=' , $hoy)->orderBy('fecha_max_salida', 'asc')->get();
+      //dd($productos);
 
+
+      return Excel::create('Productos_salida_max', function($excel) use($productos) {
+
+        $excel->sheet('Sheetname', function($sheet) use($productos) {
+          // headers del documento xls
+          $header = [];
+          $row = 1;
+
+
+          $header = array(
+            'Numero albaran',
+            'Nombre producto',
+            'Referencia',
+            'Ean'
+          );
+
+          //dd($productos);
+          // Bucle para rellenar el documento segun el numero de pedidos
+          foreach($productos as $producto){
+            $row++;
+
+            $product_excel = array(
+              $producto->pedido->numero_albaran,
+              $producto->nombre_esp,
+              $producto->SKU,
+              $producto->ean
+            );
+
+
+
+            $sheet->row($row, $product_excel);
+
+
+          }
+
+          $sheet->fromArray($header, null, 'A1', true);
+
+
+        });
+
+      })->export('xlsx');
+
+    }
 
 
 }

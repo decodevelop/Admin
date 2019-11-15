@@ -11,6 +11,7 @@ class Clientes_pedidos extends Model
      *
      * @var array
      */
+    protected $table = "clients_pedidos";
     protected $fillable = [
          'nombre_apellidos','email','telefono_facturacion','email_facturacion','dni',  'telefono', 'nombre_envio', 'recurrente'
     ];

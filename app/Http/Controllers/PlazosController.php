@@ -40,9 +40,14 @@ class PlazosController extends Controller
     public function adaptar()
     {
       $productos = Productos_pedidos::where('estado_envio', '!=', 1 )->get();
+      $count = 0;
+
       foreach ($productos as $producto) {
-        $producto->fecha_max_salida = $producto->pedido->fecha_de_salida_producto($producto);
-        $producto->save();
+        if($producto->pedido){
+          $producto->fecha_max_salida = $producto->pedido->fecha_de_salida_producto($producto);
+          $producto->save();
+        }
+        $count++;
       }
       return 'OK';
     }

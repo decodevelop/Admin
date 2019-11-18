@@ -87,9 +87,10 @@ class PlazosController extends Controller
       $hoy = date('Y-m-d');
       $productos = Productos_pedidos::where('estado_envio', '!=', 1 )->where('fecha_max_salida', '<=' , $hoy)->orderBy('fecha_max_salida', 'asc')->get();
       //dd($productos);
+      $parametros = array();
 
 
-      return Excel::create('Productos_salida_max', function($excel) use($productos) {
+      $productos_excel = Excel::create('Productos_salida_max_'.$hoy, function($excel) use($productos) {
 
         $excel->sheet('Sheetname', function($sheet) use($productos) {
           // headers del documento xls
@@ -128,7 +129,20 @@ class PlazosController extends Controller
 
         });
 
-      })->export('xlsx');
+      });
+
+      return $productos_excel->download("xlsx");
+
+      /*Mail::send('mail.envio_max', $parametros, function($message) use($hoy,$productos_excel)
+      {
+        $message->from('info@decowood.es', 'Info ');
+        //$message->to('sandra@decowood.es', 'Información')->subject('Productos que salen hoy (prueba)');
+        $message->to('carlos@decowood.es', 'Información')->subject('Productos que salen hoy (prueba)');
+        //$message->to('f.jimenez@decowood.es', 'Información')->subject('Productos que salen hoy (prueba)');
+
+        $message->attach($productos_excel->store("xlsx",false,true)['full']);
+
+      });*/
 
     }
 

@@ -36,7 +36,7 @@
   						<!-- /.box-body -->
   						<div class="box-footer">
   							<button type="submit" id='button_submit_import' class="btn btn-primary pull-right">Iniciar importación</button>
-                <a href="/plazos/hoy" class="btn btn-success pull-right">HOY</a>
+                <a href="/plazos/hoy" class="btn btn-success pull-left">HOY</a>
   						</div>
   					</div>
   				</form>

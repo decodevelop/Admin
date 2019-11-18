@@ -29,7 +29,7 @@
 <span style="margin-left: 50%;">Nº Albarán:
 	{{$pedido->numero_albaran}}
 </span>
-<p style="">Fecha: {{ $pedido->fecha_pedido }}</p>
+<p style="">Fecha: {{ $pedido->fecha_pedido }} ----> <b>Fecha máxima de salida: {{$pedido->fecha_de_salida($productos)}}</b></p>
 	<hr>
 </div>
 

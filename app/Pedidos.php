@@ -28,6 +28,14 @@ class Pedidos extends Model
   {
     return $this->belongsTo('App\Clientes_pedidos','id_cliente');
   }
+  public function envio()
+  {
+    return $this->belongsTo('App\Clientes_envios','id_cliente_envio');
+  }
+  public function facturacion()
+  {
+    return $this->belongsTo('App\Clientes_facturaciones','id_cliente_facturacion');
+  }
   public function origen()
   {
     return $this->belongsTo('App\Origen_pedidos','origen_id');

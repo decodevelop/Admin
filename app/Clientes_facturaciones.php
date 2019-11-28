@@ -21,7 +21,7 @@ class Clientes_facturaciones extends Model
      */
     public function cliente()
     {
-        return $this->belongsTo('App\Clients_pedidos', 'id_cliente');
+        return $this->belongsTo('App\Clientes', 'id_cliente');
     }
     public function pedidos()
     {

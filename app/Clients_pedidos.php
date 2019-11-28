@@ -4,13 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Clientes_pedidos extends Model
+class Clients_pedidos extends Model
 {
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
+    protected $table = "clients_pedidos";
     protected $fillable = [
          'nombre_apellidos','email','telefono_facturacion','email_facturacion','dni',  'telefono', 'nombre_envio', 'recurrente'
     ];
@@ -18,12 +19,12 @@ class Clientes_pedidos extends Model
 	 /**
      * Get the post that owns the comment.
      */
-    public function direccion()
+    public function envios()
     {
-        return $this->hasOne('App\Direcciones', 'id_cliente');
+        return $this->hasMany('App\Clientes_envios', 'id_cliente');
     }
-    public function pedidos()
+    public function facturaciones()
     {
-        return $this->hasMany('App\Pedidos','id_cliente');
+        return $this->hasMany('App\Clientes_facturaciones','id_cliente');
     }
 }

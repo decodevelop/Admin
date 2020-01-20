@@ -227,6 +227,7 @@ Route::group(['middleware' => 'auth'], function() {
 		Route::post('/pedidos/eliminar/{id}', 'PedidosNewController@eliminar'); //
 
 		Route::get('/pedidos/enviar_pedido/{id}', 'PedidosNewController@enviar_pedido'); //aceptar envío pedido
+		Route::get('/pedidos/enviar_producto/{id}', 'PedidosNewController@enviar_producto'); //aceptar envío pedido
 
 		// Añadir pedidos
 		Route::get('/pedidos/nuevo', 'PedidosNewController@nuevo'); // formulario añadir nuevo
@@ -345,9 +346,27 @@ Route::group(['middleware' => 'auth'], function() {
 			// https://styde.net/modificando-migraciones-en-laravel/
 		});
 
-	Route::get('/plazos', 'PlazosController@index');
+		Route::get('/plazos', 'PlazosController@index');
 		Route::post('/plazos', 'PlazosController@productos');
 		Route::get('/plazos/adaptar', 'PlazosController@adaptar');
 		Route::get('/plazos/hoy', 'PlazosController@descargar_hoy');
+
+		// Orígenes
+
+		Route::get( '/origenes', 'OrigenesController@inicio' ) ;
+		Route::get( '/origenes/crear', 'OrigenesController@crear' ) ;
+		Route::post( '/origenes/crear', 'OrigenesController@crear_POST' ) ;
+		Route::get( '/origenes/editar/{id}', 'OrigenesController@editar' ) ;
+		Route::post( '/origenes/editar/{id}', 'OrigenesController@editar_POST' ) ;
+		Route::get( '/origenes/eliminar/{id}', 'OrigenesController@eliminar' ) ;
+
+		// Transportistas
+
+		Route::get( '/transportistas', 'TransportistasController@inicio' ) ;
+		Route::get( '/transportistas/crear', 'TransportistasController@crear' ) ;
+		Route::post( '/transportistas/crear', 'TransportistasController@crear_POST' ) ;
+		Route::get( '/transportistas/editar/{id}', 'TransportistasController@editar' ) ;
+		Route::post( '/transportistas/editar/{id}', 'TransportistasController@editar_POST' ) ;
+		Route::get( '/transportistas/eliminar/{id}', 'TransportistasController@eliminar' ) ;
 
 });

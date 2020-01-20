@@ -109,7 +109,7 @@ class CampController extends Controller
       Session::put('campanaErr',$vaciar_form);
       Session::put('success',$success);
 
-      return back();
+      return redirect('campanas');
 
     } else { //Si algo no és correcto, enviamos los errores, el acabado erroneo y volvemos al formulario.
       Session::put('campanaErr',$campana);
@@ -180,7 +180,7 @@ class CampController extends Controller
       Session::put('success',$success);
       Session::put('campana',$campana);
 
-      return back();
+      return redirect('campanas');
 
     } else { //Si algo no és correcto, enviamos los errores, el acabado erroneo y volvemos al formulario.
       return back()->with(array('errors' => $errors));

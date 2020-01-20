@@ -12,7 +12,7 @@ class Origen_pedidos extends Model
      * @var array
      */
     protected $fillable = [
-        'referencia','grupo','nombre','color','transportista_principal','web','api_key'
+        'referencia','grupo','nombre','color','transportista_principal','web','api_key','seguimiento'
     ];
 
     public function pedidos()

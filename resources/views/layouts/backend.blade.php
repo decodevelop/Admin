@@ -450,6 +450,33 @@
       </ul>
     </li>
   @endif
+
+  <li class="treeview {{(Request::is('origenes*')) ? 'active':'' }}">
+    <a href="#">
+      <i class="fa fa-globe"></i> <span>Orígenes</span>
+      <span class="pull-right-container">
+        <i class="fa fa-angle-left pull-right"></i>
+      </span>
+    </a>
+    <ul class="treeview-menu">
+      <li class="{{(Request::is('origenes')) ? 'active':'' }}"><a href="{{url('/origenes')}}"><i class="fa fa-circle-o "></i> Inicio</a></li>
+      <li class="{{(Request::is('origenes')) ? 'active':'' }}"><a href="{{url('/origenes/crear')}}"><i class="fa fa-plus "></i> Crear</a></li>
+    </ul>
+  </li>
+
+  <li class="treeview {{(Request::is('transportistas*')) ? 'active':'' }}">
+    <a href="#">
+      <i class="fa fa-truck"></i> <span>Transportistas</span>
+      <span class="pull-right-container">
+        <i class="fa fa-angle-left pull-right"></i>
+      </span>
+    </a>
+    <ul class="treeview-menu">
+      <li class="{{(Request::is('transportistas')) ? 'active':'' }}"><a href="{{url('/transportistas')}}"><i class="fa fa-circle-o "></i> Inicio</a></li>
+      <li class="{{(Request::is('transportistas')) ? 'active':'' }}"><a href="{{url('/transportistas/crear')}}"><i class="fa fa-plus "></i> Crear</a></li>
+    </ul>
+  </li>
+
 </ul>
 </section>
 <!-- /.sidebar -->

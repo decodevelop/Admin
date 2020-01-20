@@ -34,8 +34,9 @@
   th.th-filtro.th-npedido {
       width: 6%;
   }
-  .estado-envio span.label .popover-content {
+  .estado-envio .popover-title {
     text-transform: uppercase;
+    font-weight: bold;
   }
     #dataTables_pedidos tr:hover {
         border-left: 1px solid #bcb83c;
@@ -431,61 +432,64 @@
                   <table class="tabla_producto">
                   @foreach ($pedido->productos as $producto)
                   @if(($producto->transportista->nombre == $paginaTransportista) || is_null($paginaTransportista))
-                      <tr class="producto-pedido-{{$producto->id}}">
-                        <td class="nombre-producto">{{ $producto->nombre_esp }}({{ $producto->cantidad }})
-                          @if ($producto->albaran_generado==1)
-                            <i class="fa fa-file-pdf-o" aria-hidden="true" style="background: #c3c3c3;color: #000000;padding: 3px;border-radius: 17%;border: 1px solid #00a65a;"></i>
-                          @endif
-                        </td>
+                    <tr class="producto-pedido-{{$producto->id}}">
+                      <td class="nombre-producto">
+                        <a style="color:black" href="#" onclick="return false" title="Proveedor" data-toggle="popover" data-trigger="hover" data-content="{{$producto->proveedor->nombre}}">
+                          <div>
+                            {{ $producto->nombre_esp }} ({{ $producto->cantidad }})
+                            @if ($producto->albaran_generado==1)
+                              <i class="fa fa-file-pdf-o" aria-hidden="true" style="background: #c3c3c3;color: #000000;padding: 3px;border-radius: 17%;border: 1px solid #00a65a;"></i>
+                            @endif
+                          </div>
+                        </a>
+                      </td>
 
-                <!-- END PRODUCTOS PEDIDOS -->
+                  <!-- END PRODUCTOS PEDIDOS -->
 
-                <!-- ESTADO ENVIO -->
-                    <td  class="estado-envio fecha-envio-{{$pedido->id}} fecha-envio-producto-{{$producto->id}}">
-                      @if ($producto->estado_envio > 1)
-                        <span class="label label-danger">
-                          <a href="#" onclick="return false" title="Transportista" data-toggle="popover" data-trigger="hover" data-content="{{$producto->transportista->nombre}}">
+                  <!-- ESTADO ENVIO -->
+                      <td  class="estado-envio fecha-envio-{{$pedido->id}} fecha-envio-producto-{{$producto->id}}">
+                        @if ($producto->estado_envio > 1)
+                          <a onclick="return false" href="" title="{{$producto->transportista->nombre}}" data-toggle="popover" data-placement="right" class="btn btn-default btn-md btn-pops label label-danger" data-content="345342534">
                             {{$pedido->fecha_de_salida_producto($producto)}}
-                                     </a>
-                                     </span>
-                           <span class="label label-danger">
-                           <a >
-                               +{{$producto->estado_envio}} Días
                           </a>
-                        </span>
-                      @elseif ($producto->estado_envio == 0)
-                        <span class="label label-danger">
-                          <a href="#" onclick="return false" title="Transportista" data-toggle="popover" data-trigger="hover" data-content="{{$producto->transportista->nombre}}">
-                             {{$pedido->fecha_de_salida_producto($producto)}}
+                          <span class="label label-danger">
+                            <a >
+                              +{{$producto->estado_envio}} Días
+                            </a>
+                          </span>
+                        @elseif ($producto->estado_envio == 0)
+                          <a onclick="return false" href="" title="{{$producto->transportista->nombre}}" data-toggle="popover" data-placement="right" class="btn btn-default btn-md btn-pops label label-danger" data-content="345342534">
+                            {{$pedido->fecha_de_salida_producto($producto)}}
                           </a>
-                        </span>
-                      @elseif ($producto->estado_envio == 1)
-                        <span class="label label-success">
-                          <a href="#" onclick="return false" title="Transportista" data-toggle="popover" data-trigger="hover" data-content="{{$producto->transportista->nombre}}">
+                        @elseif ($producto->estado_envio == 1)
+                          <a onclick="return false" href="" title="{{$producto->transportista->nombre}}" data-toggle="popover" data-placement="right" class="btn btn-default btn-md btn-pops label label-success" data-content="345342534">
                             @if($producto->fecha_envio)
                               {{$producto->fecha_envio}}
                             @else
                               enviado
                             @endif
                           </a>
-                        </span>
-                      @endif
+                        @endif
                       </td>
                       <!-- END ESTADO ENVIOO -->
 
-                <!-- INCIDENCIA -->
-                    <td class="estado-incidencia">
-                      @forelse ($producto->productos_incidencias as $incidencia_p)
-                        @if ($incidencia_p->incidencia->estado == 1)
-                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                        @elseif ($incidencia_p->incidencia->estado == 2)
-                          <i class="fa fa-wrench" aria-hidden="true"></i>
-                        @endif
-                      @empty
-                      @endforelse
-                    </td>
+                      <td>
+                        <button title="Aceptar envío del producto" style="margin: 2px;" id="enviar-producto_{{ $producto->id }}" type="button" class="btn btn-default btn-md"><i class="fa fa-truck" aria-hidden="true"></i></button>
+                      </td>
 
-                <!-- END INCIDENCIA -->
+                  <!-- INCIDENCIA -->
+                      <td class="estado-incidencia">
+                        @forelse ($producto->productos_incidencias as $incidencia_p)
+                          @if ($incidencia_p->incidencia->estado == 1)
+                            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                          @elseif ($incidencia_p->incidencia->estado == 2)
+                            <i class="fa fa-wrench" aria-hidden="true"></i>
+                          @endif
+                        @empty
+                        @endforelse
+                      </td>
+
+                  <!-- END INCIDENCIA -->
 
 
                     </tr>
@@ -499,10 +503,9 @@
                   @endif
                 </td>
 
-
                 <!-- OPCIONES -->
                 <td class="text-center botones-pedidos" style="width: 12%;">
-                  <button title="Aceptar envio" style="margin: 2px;" id="enviar-pedido_{{ $pedido->id }}" type="button" class="btn btn-default btn-md"><i class="fa fa-truck" aria-hidden="true"></i></button>
+                  <button title="Aceptar envío" style="margin: 2px;" id="enviar-pedido_{{ $pedido->id }}" type="button" class="btn btn-default btn-md"><i class="fa fa-truck" aria-hidden="true"></i></button>
                   <a title="Ver detalles" style="margin: 2px;"  href="/pedidos/detalle/{{$pedido->id }}" id="aceptar-{{ $pedido->id }}" type="button" class="btn btn-default btn-md"><i class="fa fa-eye" aria-hidden="true"></i></a>
                   <a title="Modificar" style="margin: 2px;"  href="/pedidos/modificar/{{$pedido->id }}" type="button" class="btn btn-primary btn-md modificar_pedido">  <i class="fa fa-edit"></i></a>
                   <a title="Generar albaran" style="margin: 2px;" id="albaran-pedido_{{ $pedido->id }}" type="button" class="btn btn-default btn-md"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
@@ -629,7 +632,7 @@
   							var mensaje = resultado[0];
   							var fecha_envio = resultado[1];
 
-  							$(".fecha-envio-"+numped+" > span").removeClass("label-danger").addClass("label-success", {duration:500}).html(''+fecha_envio+'');
+  							$(".fecha-envio-"+numped+" > a").removeClass("label-danger").addClass("label-success", {duration:500}).html(''+fecha_envio+'');
   							//alert( "Pedido enviado: " + mensaje );
                 $('.loader-dw').hide();
   							apprise(mensaje);
@@ -643,7 +646,7 @@
   							var resultado = JSON.parse(msg);
   							var mensaje = resultado[0];
   							var fecha_envio = resultado[1];
-  							$(".fecha-envio-"+numped+" > span").removeClass("label-danger").addClass("label-success", {duration:500}).html(''+fecha_envio+'');
+  							$(".fecha-envio-"+numped+" > a").removeClass("label-danger").addClass("label-success", {duration:500}).html(''+fecha_envio+'');
   							//alert( "Pedido enviado: " + mensaje );
 
 
@@ -654,6 +657,45 @@
   				});
 
   			} // final if
+  		});
+  	});
+
+    /* Al clicar sobre enviar producto, realizamos un ajax para mararlo como enviado, con previa confirmación. */
+  	$('[id^="enviar-producto_"]').click(function(){
+  		var numprod = $( this ).attr("id").split("_")[1];
+  		apprise('Marcar este producto del pedido como enviado?', {'verify':true}, function(r){
+  			if(r){
+  				apprise('Deseas enviar notificación al cliente?', {'verify':true}, function(r){
+            $('.loader-dw').show();
+  					if(r){
+  						$(this).prop( "disabled", true );
+  						$.ajax({
+  							url: "/pedidos/enviar_producto/"+numprod+"?notificar=si",
+  							cache: false
+  						}).done(function(msg){
+  							var resultado = JSON.parse(msg);
+  							var mensaje = resultado[0];
+  							var fecha_envio = resultado[1];
+  							$(".fecha-envio-producto-"+numprod+" > a").removeClass("label-danger").addClass("label-success", {duration:500}).html(''+fecha_envio+'');
+                $('.loader-dw').hide();
+  							apprise(mensaje);
+  						});
+  					} else {
+  						$(this).prop("disabled", true);
+  						$.ajax({
+  							url: "/pedidos/enviar_producto/"+numprod+"?notificar=no",
+  							cache: false
+  						}).done(function(msg){
+                var resultado = JSON.parse(msg);
+  							var mensaje = resultado[0];
+  							var fecha_envio = resultado[1];
+  							$(".fecha-envio-producto-"+numprod+" > a").removeClass("label-danger").addClass("label-success", {duration:500}).html(''+fecha_envio+'');
+                $('.loader-dw').hide();
+                apprise(mensaje);
+  						});
+  					}
+  				});
+  			}
   		});
   	});
 

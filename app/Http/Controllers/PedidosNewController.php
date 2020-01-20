@@ -1254,7 +1254,7 @@ class PedidosNewController extends Controller
         // Mailing
         //$correo_comercial = Auth::user()->email;
         $correo_comercial = 'support@decowood.es';
-        $titulo = "Hola, ".$pedido->cliente->nombre_esp." tu pedido ha salido enviado.";
+        $titulo = "Hola, ".$pedido->cliente->nombre_esp." su pedido ha sido enviado.";
         $email_cliente = ($pedido->cliente->email_facturacion) ? $pedido->cliente->email_facturacion : "Cliente";
         //  dd($correo_comercial);
         // Parametros para el mailing
@@ -1307,6 +1307,68 @@ class PedidosNewController extends Controller
 
       return json_encode($resultado);
 
+
+    }
+
+    public function enviar_producto($id){
+
+      $producto = Productos_pedidos::find($id) ;
+
+      $pedido = Pedidos::where('id', '=', $producto->id_pedido)->get() ;
+
+      $fecha = new DateTime();
+      $fecha = $fecha->format('Y-m-d');
+
+      if($_GET["notificar"]=="si"){
+        // Mailing
+        //$correo_comercial = Auth::user()->email;
+        $correo_comercial = 'support@decowood.es';
+        $titulo = "Hola, ".$pedido->cliente->nombre_esp." un producto de tu pedido ha sido enviado.";
+        $email_cliente = ($pedido->cliente->email_facturacion) ? $pedido->cliente->email_facturacion : "Cliente";
+        //  dd($correo_comercial);
+        // Parametros para el mailing
+        $parametros = array("pedido" => $pedido->toArray(), 'producto' => $producto->toArray());
+
+        // Se envia mensaje al cliente
+        Mail::send('mail.informar_envio', $parametros, function($message) use($email_cliente)
+        {
+          $message->from('info@decowood.es', 'Información de su PEDIDO');
+          $message->to($email_cliente, 'Información')->subject('Información');
+        });
+
+        // Se envia copia del mensaje al administrador y al usuario que envia.
+        Mail::send('mail.informar_envio', $parametros, function($message) use($correo_comercial)
+        {
+          $message->from('info@decowood.es', 'Información de su PEDIDO');
+          $message->to($correo_comercial, 'Información')->subject('Información (COPIA)');
+        });
+        $mensaje = "El pedido se ha actualizado, y se ha enviado una notificación al correo del cliente.";
+      } else {
+        $mensaje = "El pedido se ha actualizado, pero no se ha notificado al cliente.";
+      }
+
+      $resultado = array('0' => "", '1' => "", '2' => "");
+      try {
+        $producto->fecha_envio = $fecha ;
+        $producto->estado_envio = 1 ;
+        $producto->save();
+
+        // Llenamos array a retornar.
+        $resultado[0] = $mensaje;
+        $resultado[1] = $fecha;
+
+        if(($pedido->origen->api_key != null)&&($pedido->numero_pedido_ps != '99999')&&($pedido->numero_pedido_ps = '')){
+          $resultado[0] .= " \n || Falta por activar el webservice!!!!";
+        }
+
+      } catch(Exception $e){
+        $resultado[0] = "Ha habido un error durante la actualización, si el error persiste contacte con developer@decowood.es";
+        $resultado[1] = "";
+        $resultado[2] = "false";
+      }
+      // Retornamos array en formato json_decode
+
+      return json_encode($resultado);
 
     }
 

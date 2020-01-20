@@ -44,6 +44,7 @@ class PedidosNewController extends Controller
     public function index(Request $request){
       //$this->marcar_enviados();
       $origenes = Origen_pedidos::get();
+      $proveedores = Proveedores::get();
       //$incidencias = Incidencias::get();
       $filtro = $request->query();
       if(!$filtro){
@@ -69,6 +70,14 @@ class PedidosNewController extends Controller
         if(!isset($filtro["estado_incidencia"])){ $filtro["estado_incidencia"] = ''; }
 
         if(!isset($filtro["nombre_producto"])){ $filtro["nombre_producto"] = ''; }
+
+        dd($filtro["proveedor"]);
+        if(isset($filtro["proveedor"])&& $filtro["proveedor"]!=""){
+          $filtro_proveedores = explode(',', $filtro["proveedor"] );
+        }else{
+          $filtro_proveedores = array();
+        }
+
         if(!isset($filtro["estado_envio"])){ $filtro["estado_envio"] = ''; }
 
         //dd($filtro);
@@ -100,6 +109,21 @@ class PedidosNewController extends Controller
                 }
             });
           })
+          ->whereHas('productos',  function ($query) use($filtro){
+            foreach ($filtro_proveedores as $proveedor) {
+              $query->where('id_proveedor', '=', $proveedor);
+              if($filtro["estado_envio"] != ''){
+                $query->where('estado_envio', '=', $filtro["estado_envio"]);
+              }
+              if($filtro["estado_incidencia"] != ''){
+                $query->whereHas('productos_incidencias', function($query) use($filtro) {
+                  $query->whereHas('incidencia', function($query) use($filtro){
+                    $query->where('estado', '=', $filtro["estado_incidencia"]);
+                  });
+                });
+              }
+            }
+          })
           ->orderBy('id','DESC')
           ->paginate(50);
       }
@@ -107,6 +131,7 @@ class PedidosNewController extends Controller
       $paginaTransportista = NULL;
       return View::make('pedidosnew/inicio', array('listado_pedidos' => $listado_pedidos,
                                                     'origenes' => $origenes,
+                                                    'proveedores' => $proveedores,
                                                     'paginaTransportista' => $paginaTransportista));
 
 

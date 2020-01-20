@@ -97,6 +97,13 @@
     background: #f1f8ff;
     border: 1px solid #b4d6ea;
     }
+    .filterProducts button.btn.dropdown-toggle.btn-default {
+      font-size: 12px;
+      height: 100%;
+      padding-left: 10px;
+      color: #555;
+      font-weight: 700;
+    }
     button#set-bultos_4433 {
     margin: 9px 6px 0px 9px !important;
     }
@@ -242,7 +249,7 @@
                 <th class="th-filtro th-total">Total </th>
                 <th class="th-filtro th-email">Email/Telefono </th>
                 <th class="th-filtro th-direccion">Dirección </th>
-                <th class="th-filtro th-productos">Productos </th>
+                <th class="th-filtro th-productos">Productos/Proveedor </th>
                 <th class="th-filtro th-enviado text-center" style="width: 10px">Enviado </th>
                 <th class="th-filtro th-incidencia text-center" style="width: 10px">Incidencia </th>
                 <th class="th-filtro th-opciones text-center" style="width: 125px">Opciones </th>
@@ -258,7 +265,7 @@
                   <!-- FILTRO ORIGEN -->
                   <th>
                     <input name="origen_referencia" type="text" style="display:none">
-  									<select class="form-control input-sm filterProducts selectpicker" data-live-search="true" data-width="70px" name="o_origen_referencia" title="origen" multiple>
+  									<select class="form-control input-sm filterProducts selectpicker" data-live-search="true" data-width="80px" name="o_origen_referencia" title="Origen" multiple>
                       @foreach ($origenes as $origen)
                         <option value="{{$origen->referencia}}" title="{{$origen->referencia}}" {{(@$_GET['o_origen_referencia']==$origen->referencia) ? 'selected': ''}}>{{$origen->nombre}}</option>
                       @endforeach
@@ -289,7 +296,7 @@
                   <!-- END FILTRO CLIENTE -->
 
                   <!-- FILTRO PRECIO -->
-                  <th><input class="form-control input-sm filterProducts" type="number" name="precio" placeholder="precio" step="any" value=""></th>
+                  <th><input class="form-control input-sm filterProducts" type="number" name="precio" placeholder="Precio" step="any" value=""></th>
                   <!-- END FILTRO PRECIO -->
 
                   <!-- FILTRO PRECIO -->
@@ -307,7 +314,14 @@
 
                   <!-- FILTRO PRODUCTO -->
                   <th>
-                    <input class="form-control input-sm filterProducts" type="text" name="nombre_producto" placeholder="nombre producto" value="">
+                    <input class="form-control input-sm filterProducts" type="text" name="nombre_producto" placeholder="Nombre producto" value="">
+                    <input name="proveedor" type="text" style="display:none">
+  									<select class="form-control input-sm filterProducts selectpicker" data-live-search="true" data-width="99.6%" name="o_proveedor" title="Proveedor" multiple>
+                      @foreach ($proveedores as $proveedor)
+                        <option value="{{$proveedor->id}}" title="{{$proveedor->nombre}}" {{(@$_GET['o_proveedor']==$proveedor->id) ? 'selected': ''}}>{{$proveedor->nombre}}</option>
+                      @endforeach
+                      <option value="">Todos</option>
+  									</select>
                   </th>
                   <!-- END FILTRO PRODUCTO -->
 

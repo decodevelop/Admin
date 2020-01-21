@@ -71,12 +71,12 @@ class PedidosNewController extends Controller
 
         if(!isset($filtro["nombre_producto"])){ $filtro["nombre_producto"] = ''; }
 
-        dd($filtro["proveedor"]);
         if(isset($filtro["proveedor"])&& $filtro["proveedor"]!=""){
           $filtro_proveedores = explode(',', $filtro["proveedor"] );
         }else{
           $filtro_proveedores = array();
         }
+        //dd($filtro_proveedores);
 
         if(!isset($filtro["estado_envio"])){ $filtro["estado_envio"] = ''; }
 
@@ -109,7 +109,7 @@ class PedidosNewController extends Controller
                 }
             });
           })
-          ->whereHas('productos',  function ($query) use($filtro){
+          ->whereHas('productos',  function ($query) use($filtro,$filtro_proveedores){
             foreach ($filtro_proveedores as $proveedor) {
               $query->where('id_proveedor', '=', $proveedor);
               if($filtro["estado_envio"] != ''){
@@ -129,6 +129,7 @@ class PedidosNewController extends Controller
       }
       //dd($origen);
       $paginaTransportista = NULL;
+      //dd($listado_pedidos);
       return View::make('pedidosnew/inicio', array('listado_pedidos' => $listado_pedidos,
                                                     'origenes' => $origenes,
                                                     'proveedores' => $proveedores,

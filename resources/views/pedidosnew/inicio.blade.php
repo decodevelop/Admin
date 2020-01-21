@@ -584,6 +584,10 @@
       //$('#debuger').val($('[name="o_o_csv"]').val());
     });
 
+    $('[name="o_proveedor"]').change(function(){
+      $('[name="proveedor"]').val($('[name="o_proveedor"]').val());
+      //$('#debuger').val($('[name="o_o_csv"]').val());
+    });
 
     $('[id^="albaran-pedido_"]').click(function(){
   		var idped = $( this ).attr("id").split("_")[1];

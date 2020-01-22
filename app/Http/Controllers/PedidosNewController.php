@@ -1343,7 +1343,7 @@ class PedidosNewController extends Controller
 
       $producto = Productos_pedidos::find($id) ;
 
-      $pedido = Pedidos::where('id', '=', $producto->id_pedido)->get() ;
+      $pedido = Pedidos::where('id', '=', $producto->id_pedido)->first() ;
 
       $fecha = new DateTime();
       $fecha = $fecha->format('Y-m-d');
@@ -1354,7 +1354,6 @@ class PedidosNewController extends Controller
         $correo_comercial = 'support@decowood.es';
         $titulo = "Hola, ".$pedido->cliente->nombre_esp." un producto de tu pedido ha sido enviado.";
         $email_cliente = ($pedido->cliente->email_facturacion) ? $pedido->cliente->email_facturacion : "Cliente";
-        //  dd($correo_comercial);
         // Parametros para el mailing
         $parametros = array("pedido" => $pedido->toArray(), 'producto' => $producto->toArray());
 
@@ -1378,6 +1377,7 @@ class PedidosNewController extends Controller
 
       $resultado = array('0' => "", '1' => "", '2' => "");
       try {
+
         $producto->fecha_envio = $fecha ;
         $producto->estado_envio = 1 ;
         $producto->save();

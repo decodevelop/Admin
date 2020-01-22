@@ -85,7 +85,8 @@
 						<th>SKU</th>
 						<th>EAN</th>
 						<th>Cantidad</th>
-						<th>transportista</th>
+						<th>Fecha max envío</th>
+						<th>Transportista</th>
 						<th>Proveedor</th>
 						<th>Subtotal</th>
 						<th>Eliminar</th>
@@ -101,6 +102,7 @@
 							<td><input type="text" class="form-control input-sm" name="SKU" value="{{$producto->SKU}}"/></td>
 							<td><input type="text" class="form-control input-sm" name="ean" value="{{$producto->ean}}"/></td>
 							<td><input  style="width: 65px;" type="number" class="form-control input-sm" name="cantidad" value="{{$producto->cantidad}}"/></td>
+							<td><input type="date" class="form-control input-sm" name="fecha_max_salida" value="{{$producto->fecha_max_salida}}"/></td>
 							<td>
 								<select style="width: 120px;" class="form-control" name="id_transportista">
 									@foreach ($transportistas as $transportista)
@@ -116,7 +118,7 @@
 								</select>
 							</td>
 							<td><input style="width: 100px;" type="text" class="form-control input-sm" name="precio_final" value="{{$producto->precio_final}}"/></td>
-							<td>
+							<td style="width: 88px;">
 								<select class="form-control" name="eliminar">
 									<option value="NO">NO</option>
 									<option value="SI">SI</option>
@@ -134,6 +136,7 @@
 						<td><input type="text" class="form-control input-sm" name="SKU" value=""/></td>
 						<td><input type="text" class="form-control input-sm" name="ean" value=""/></td>
 						<td><input type="number" class="form-control input-sm" name="cantidad" value=""/></td>
+						<td><input type="number" class="form-control input-sm" name="fecha_max_salida" value=""/></td>
 						<td>
 							<select class="form-control" name="id_transportista">
 								@foreach ($transportistas as $transportista)
@@ -257,7 +260,7 @@ $(document).ready(function(e){
 			$("[name='pedido']").click();
 		}
 	});
-
+	
 	/* Al clicar sobre el botón, importamos albaran marcados mediante ajax y retorna un pdf ( utilizado para definir los bultos ). */
 	$("#guardar_modificaciones").click(function(){
 		var productos = {
@@ -268,6 +271,7 @@ $(document).ready(function(e){
 		"SKU":  $("#productos [name='SKU']").serializeArray(),
 		"ean":  $("#productos [name='ean']").serializeArray(),
 		"cantidad":  $("#productos [name='cantidad']").serializeArray(),
+		"fecha_max_salida":  $("#productos [name='fecha_max_salida']").serializeArray(),
 		"id_transportista": $("#productos [name='id_transportista']").serializeArray(),
 		"id_proveedor": $("#productos [name='id_proveedor']").serializeArray(),
 		"precio_final": $("#productos [name='precio_final']").serializeArray(),

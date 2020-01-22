@@ -60,6 +60,7 @@ class Pedidos extends Model
         if(isset($producto->proveedor)){
           if($producto->proveedor->plazo){
             $dia = $producto->proveedor->plazo->dias;
+            //dd($dia);
             if($dia > $dia_max) { $dia_max = $dia; }
           }
 

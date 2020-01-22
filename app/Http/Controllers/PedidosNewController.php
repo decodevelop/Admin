@@ -45,6 +45,8 @@ class PedidosNewController extends Controller
       //$this->marcar_enviados();
       $origenes = Origen_pedidos::get();
       $proveedores = Proveedores::get();
+      $filtro_origenes = array();
+      $filtro_proveedores = array();
       //$incidencias = Incidencias::get();
       $filtro = $request->query();
       if(!$filtro){
@@ -76,7 +78,6 @@ class PedidosNewController extends Controller
         }else{
           $filtro_proveedores = array();
         }
-        //dd($filtro_proveedores);
 
         if(!isset($filtro["estado_envio"])){ $filtro["estado_envio"] = ''; }
 
@@ -127,12 +128,14 @@ class PedidosNewController extends Controller
           ->orderBy('id','DESC')
           ->paginate(50);
       }
-      //dd($origen);
+
       $paginaTransportista = NULL;
-      //dd($listado_pedidos);
+
       return View::make('pedidosnew/inicio', array('listado_pedidos' => $listado_pedidos,
                                                     'origenes' => $origenes,
+                                                    'filtro_origenes' => $filtro_origenes,
                                                     'proveedores' => $proveedores,
+                                                    'filtro_proveedores' => $filtro_proveedores,
                                                     'paginaTransportista' => $paginaTransportista));
 
 

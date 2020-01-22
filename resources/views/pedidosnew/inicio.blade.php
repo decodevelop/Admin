@@ -265,9 +265,15 @@
                   <!-- FILTRO ORIGEN -->
                   <th>
                     <input name="origen_referencia" type="text" style="display:none">
-  									<select class="form-control input-sm filterProducts selectpicker" data-live-search="true" data-width="80px" name="o_origen_referencia" title="Origen" multiple>
-                      @foreach ($origenes as $origen)
-                        <option value="{{$origen->referencia}}" title="{{$origen->referencia}}" {{(@$_GET['o_origen_referencia']==$origen->referencia) ? 'selected': ''}}>{{$origen->nombre}}</option>
+                    <select class="form-control input-sm filterProducts selectpicker" data-live-search="true" data-width="80px" name="o_origen_referencia" title="Origen" multiple>
+                      @foreach ( $origenes as $origen )
+                        <option value="{{$origen->referencia}}" title="{{$origen->referencia}}"
+                          @foreach ( $filtro_origenes as $filtro_origen )
+                            @if ( $filtro_origen == $origen->referencia )
+                              selected
+                            @endif
+                          @endforeach
+                          >{{$origen->nombre}}</option>
                       @endforeach
                       <option value="">Todos</option>
   									</select>
@@ -317,8 +323,14 @@
                     <input class="form-control input-sm filterProducts" type="text" name="nombre_producto" placeholder="Nombre producto" value="">
                     <input name="proveedor" type="text" style="display:none">
   									<select class="form-control input-sm filterProducts selectpicker" data-live-search="true" data-width="99.6%" name="o_proveedor" title="Proveedor" multiple>
-                      @foreach ($proveedores as $proveedor)
-                        <option value="{{$proveedor->id}}" title="{{$proveedor->nombre}}" {{(@$_GET['o_proveedor']==$proveedor->id) ? 'selected': ''}}>{{$proveedor->nombre}}</option>
+                      @foreach ( $proveedores as $proveedor )
+                        <option value="{{$proveedor->id}}" title="{{$proveedor->nombre}}"
+                          @foreach ( $filtro_proveedores as $filtro_proveedor )
+                            @if ( $filtro_proveedor == $proveedor->id )
+                              selected
+                            @endif
+                          @endforeach
+                          >{{$proveedor->nombre}}</option>
                       @endforeach
                       <option value="">Todos</option>
   									</select>

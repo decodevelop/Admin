@@ -2053,6 +2053,9 @@ class PedidosNewController extends Controller
     public function pedidos_transportista(Request $request,$nombre_transportista){
       //$this->marcar_enviados();
       $origenes = Origen_pedidos::get();
+      $proveedores = Proveedores::get();
+      $filtro_origenes = array();
+      $filtro_proveedores = array();
       //$incidencias = Incidencias::get();
       $transportista = Transportistas::where('nombre', '=', $nombre_transportista )->first();
       $filtro = $request->query();
@@ -2118,13 +2121,32 @@ class PedidosNewController extends Controller
                 }
             });
           })
+          ->whereHas('productos',  function ($query) use($filtro,$filtro_proveedores){
+            foreach ($filtro_proveedores as $proveedor) {
+              $query->where('id_proveedor', '=', $proveedor);
+              if($filtro["estado_envio"] != ''){
+                $query->where('estado_envio', '=', $filtro["estado_envio"]);
+              }
+              if($filtro["estado_incidencia"] != ''){
+                $query->whereHas('productos_incidencias', function($query) use($filtro) {
+                  $query->whereHas('incidencia', function($query) use($filtro){
+                    $query->where('estado', '=', $filtro["estado_incidencia"]);
+                  });
+                });
+              }
+            }
+          })
           ->orderBy('id','DESC')
           ->paginate(50);
       }
-      //dd($origen);
-      $paginaTransportista = $nombre_transportista;
+
+      $paginaTransportista = NULL;
+
       return View::make('pedidosnew/inicio', array('listado_pedidos' => $listado_pedidos,
                                                     'origenes' => $origenes,
+                                                    'filtro_origenes' => $filtro_origenes,
+                                                    'proveedores' => $proveedores,
+                                                    'filtro_proveedores' => $filtro_proveedores,
                                                     'paginaTransportista' => $paginaTransportista));
     }
 
@@ -2239,6 +2261,9 @@ class PedidosNewController extends Controller
     public function no_enviados(Request $request){
       //$this->marcar_enviados();
       $origenes = Origen_pedidos::get();
+      $proveedores = Proveedores::get();
+      $filtro_origenes = array();
+      $filtro_proveedores = array();
       //$incidencias = Incidencias::get();
       $filtro = $request->query();
       if(!$filtro){
@@ -2301,13 +2326,32 @@ class PedidosNewController extends Controller
                 }
             });
           })
-          ->orderBy('fecha_pedido','ASC')
+          ->whereHas('productos',  function ($query) use($filtro,$filtro_proveedores){
+            foreach ($filtro_proveedores as $proveedor) {
+              $query->where('id_proveedor', '=', $proveedor);
+              if($filtro["estado_envio"] != ''){
+                $query->where('estado_envio', '=', $filtro["estado_envio"]);
+              }
+              if($filtro["estado_incidencia"] != ''){
+                $query->whereHas('productos_incidencias', function($query) use($filtro) {
+                  $query->whereHas('incidencia', function($query) use($filtro){
+                    $query->where('estado', '=', $filtro["estado_incidencia"]);
+                  });
+                });
+              }
+            }
+          })
+          ->orderBy('id','DESC')
           ->paginate(50);
       }
-      //dd($origen);
+
       $paginaTransportista = NULL;
+
       return View::make('pedidosnew/inicio', array('listado_pedidos' => $listado_pedidos,
                                                     'origenes' => $origenes,
+                                                    'filtro_origenes' => $filtro_origenes,
+                                                    'proveedores' => $proveedores,
+                                                    'filtro_proveedores' => $filtro_proveedores,
                                                     'paginaTransportista' => $paginaTransportista));
 
 

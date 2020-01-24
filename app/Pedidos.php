@@ -115,7 +115,6 @@ class Pedidos extends Model
 
       return date('Y-m-d',$fecha_venci_noti);
 
-}
-
+  }
 
 }

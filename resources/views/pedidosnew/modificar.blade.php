@@ -260,7 +260,7 @@ $(document).ready(function(e){
 			$("[name='pedido']").click();
 		}
 	});
-	
+
 	/* Al clicar sobre el botón, importamos albaran marcados mediante ajax y retorna un pdf ( utilizado para definir los bultos ). */
 	$("#guardar_modificaciones").click(function(){
 		var productos = {

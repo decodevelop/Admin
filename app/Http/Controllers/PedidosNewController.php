@@ -873,6 +873,25 @@ class PedidosNewController extends Controller
                                   })
                                   ->get();
       $usuarios = User::get();
+
+      $productos = Productos_pedidos::where( 'id_pedido', '=', $id )->get() ;
+
+      $fecha_max_envio = '' ;
+
+      foreach ( $productos as $producto ) {
+
+        if ( $producto->fecha_max_salida > $fecha_max_envio ) {
+
+          $fecha_max_envio = $producto->fecha_max_salida ;
+
+        }
+
+      }
+
+      $pedido->fecha_max_envio = $fecha_max_envio ;
+
+      $pedido->save() ;
+
       return View::make('pedidosnew/detalle', array('pedido' => $pedido,
                                                     'seguimiento' => $seguimiento,
                                                     'incidencias' => $incidencias,
@@ -2495,4 +2514,5 @@ class PedidosNewController extends Controller
         $message->to('developer@decowood.es', 'Información')->subject('proba cron');
       });
     }
+
 }

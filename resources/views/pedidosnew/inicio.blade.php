@@ -475,7 +475,7 @@
                   <!-- ESTADO ENVIO -->
                       <td  class="estado-envio fecha-envio-{{$pedido->id}} fecha-envio-producto-{{$producto->id}}">
                         @if ($producto->estado_envio > 1)
-                          <a onclick="return false" href="" title="{{$producto->transportista->nombre}}" data-toggle="popover" data-placement="right" class="btn btn-default btn-md btn-pops label label-danger" data-content="345342534">
+                          <a onclick="return false" href="" title="{{$producto->transportista->nombre}}" data-toggle="popover" data-placement="right" class="btn btn-default btn-md btn-pops label label-danger" data-content="--">
                             {{$pedido->fecha_de_salida_producto($producto)}}
                           </a>
                           <span class="label label-danger">
@@ -484,11 +484,11 @@
                             </a>
                           </span>
                         @elseif ($producto->estado_envio == 0)
-                          <a onclick="return false" href="" title="{{$producto->transportista->nombre}}" data-toggle="popover" data-placement="right" class="btn btn-default btn-md btn-pops label label-danger" data-content="345342534">
+                          <a onclick="return false" href="" title="{{$producto->transportista->nombre}}" data-toggle="popover" data-placement="right" class="btn btn-default btn-md btn-pops label label-danger" data-content="--">
                             {{$pedido->fecha_de_salida_producto($producto)}}
                           </a>
                         @elseif ($producto->estado_envio == 1)
-                          <a onclick="return false" href="" title="{{$producto->transportista->nombre}}" data-toggle="popover" data-placement="right" class="btn btn-default btn-md btn-pops label label-success" data-content="345342534">
+                          <a onclick="return false" href="" title="{{$producto->transportista->nombre}}" data-toggle="popover" data-placement="right" class="btn btn-default btn-md btn-pops label label-success" data-content="--">
                             @if($producto->fecha_envio)
                               {{$producto->fecha_envio}}
                             @else

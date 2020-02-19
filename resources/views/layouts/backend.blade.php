@@ -376,6 +376,7 @@
           <li class="{{(Request::is('pedidos/transportista/mrw')) ? 'active':'' }}"><a href="{{url('/pedidos/transportista/mrw')}}"><i class="fa fa-envelope-square" aria-hidden="true"></i> MRW</a></li>
           <li class="{{(Request::is('pedidos/transportista/tipsa')) ? 'active':'' }}"><a href="{{url('/pedidos/transportista/tipsa')}}"><i class="fa fa-envelope-square" aria-hidden="true"></i> TIPSA</a></li>
           <li class="{{(Request::is('pedidos/transportista/ups')) ? 'active':'' }}"><a href="{{url('/pedidos/transportista/ups')}}"><i class="fa fa-envelope-square" aria-hidden="true"></i> UPS</a></li>
+          <li class="{{(Request::is('pedidos/transportista/envialia')) ? 'active':'' }}"><a href="{{url('/pedidos/transportista/envialia')}}"><i class="fa fa-envelope-square" aria-hidden="true"></i> Envialia</a></li>
           <li class="{{(Request::is('pedidos/transportista/SZENDEX')) ? 'active':'' }}"><a href="{{url('/pedidos/transportista/SZENDEX')}}"><i class="fa fa-envelope-square" aria-hidden="true"></i> SZENDEX</a></li>
         </ul>
       </li>

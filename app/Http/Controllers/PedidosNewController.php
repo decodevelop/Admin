@@ -846,7 +846,7 @@ class PedidosNewController extends Controller
           $transportista = Transportistas::where('nombre','=','MRW')
                                           ->first();
         }else{
-          $transportista = Transportistas::where('nombre','=',"tipsa")
+          $transportista = Transportistas::where('nombre','=',"envialia")
                                           ->first();
         }
       }else{
@@ -1694,7 +1694,7 @@ class PedidosNewController extends Controller
 
       $datos_adicionales = '#SeguimientoSMS=1#';
       $date = getdate();
-      $fecha = $date['year'].str_pad($date['mon'], 2, "0", STR_PAD_LEFT).str_pad($date['mday'], 2, "0", STR_PAD_LEFT);
+      $fecha = str_pad($date['mday'], 2, "0", STR_PAD_LEFT).'/'.str_pad($date['mon'], 2, "0", STR_PAD_LEFT).'/'.$date['year'];
 
       $tlf = "";
       $tlf = str_replace("/", "", $pedido->cliente->telefono);
@@ -1765,12 +1765,9 @@ class PedidosNewController extends Controller
         $datos_adicionales .= "#TipoServicio=0800#";
       }
 
-      $csv = array('numero_albaran' => $empty,
+      $csv = array('inicio' => "",
                     'referencia_envio' => $pedido->numero_albaran,
-                    'referencia_bulto' => $empty,
-                    'peso' => $inputs['kg-mrw'],
                     'bultos' => $inputs['bultos-mrw'],
-                    'fecha_recogida' => $inputs['fecha-mrw'],
                     'observacion' => ''.$pedido->observaciones.'',
                     'nombre_apellido' => $inputs['nombre-mrw'],
                     'direccion' => $inputs['direccion-mrw'],
@@ -1778,8 +1775,11 @@ class PedidosNewController extends Controller
                     'poblacion' => $inputs['ciudad-mrw'],
                     'codigo_pais' => $inputs['pais-mrw'],
                     'telefono' => $inputs['telefono-mrw'],
-                    'franquicia' => '',
-                    'adicionales' => ''.$datos_adicionales.''
+                    'correo' => $pedido->cliente->email,
+                    'fecha_salida' => $inputs['fecha-mrw'],
+                    'peso' => $inputs['kg-mrw'],
+                    'servicio' => '24',
+                    'fin' => ""
                     );
 
       return Excel::create('mrw_csv_'.$pedido->numero_albaran , function($excel) use($csv) {
@@ -2159,7 +2159,7 @@ class PedidosNewController extends Controller
           ->paginate(50);
       }
 
-      $paginaTransportista = NULL;
+      $paginaTransportista = $nombre_transportista;
 
       return View::make('pedidosnew/inicio', array('listado_pedidos' => $listado_pedidos,
                                                     'origenes' => $origenes,
@@ -2513,6 +2513,122 @@ class PedidosNewController extends Controller
         $message->from('info@decowood.es', 'Decowood ADMIN');
         $message->to('developer@decowood.es', 'Información')->subject('proba cron');
       });
+    }
+
+    public function csv_envialia($id,$generar_csv){
+      $pedido = Pedidos::find($id);
+
+      $date = getdate();
+      $fecha = $date['year'].str_pad($date['mon'], 2, "0", STR_PAD_LEFT).str_pad($date['mday'], 2, "0", STR_PAD_LEFT);
+
+      $tlf = "";
+      $tlf = str_replace("/", "", $pedido->cliente->telefono);
+      $tlf = trim($tlf);
+
+      if($pedido->cliente->direccion->pais_envio == ""){
+        $pais_fact = "ES";
+      }else{
+        $pais_fact = $pedido->cliente->direccion->pais_envio;
+      }
+
+      $empty = "";
+      $csv = array('numero_albaran' => $empty,
+                    'referencia_envio' => $pedido->numero_albaran,
+                    'referencia_bulto' => $empty,
+                    'peso' => $empty,
+                    'bultos' => $pedido->bultos,
+                    'fecha_recogida' => ''.$fecha.'',
+                    'observacion' => ''.$pedido->observaciones.'',
+                    'nombre_apellido' => ''.$pedido->cliente->nombre_envio.'',
+                    'direccion' => ''.$pedido->cliente->direccion->direccion_envio.'',
+                    'cp' => ''.trim($pedido->cliente->direccion->cp_envio).'',
+                    'poblacion' => ''.$pedido->cliente->direccion->ciudad_envio.'',
+                    'codigo_pais' => $pais_fact,
+                    'telefono' => ''.$tlf.'',
+                    'franquicia' => '',
+                    'adicionales' => $empty
+                    );
+      return json_encode($csv);
+    }
+
+    public function csv_envialia_post($id,Request $request){
+      $inputs = $request->all();
+      $pedido = Pedidos::find($id);
+      $productos = Productos_pedidos::whereHas('transportista', function($query){
+        $query->where('nombre', '=', 'envialia');
+      })
+      ->whereHas('pedido', function($query) use($pedido){
+        $query->where('id','=',$pedido->id);
+      })
+      ->get();
+
+      $fecha = new DateTime();
+      $fecha = $fecha->format('Y-m-d');
+
+      try {
+        if(($pedido->origen->api_key != null)&&($pedido->origen->api_key != '99999')){
+          $this->actualizar_pedidos_ps($pedido->origen->referencia,$pedido->numero_pedido_ps);
+        }
+
+        foreach ($productos as $producto) {
+          $producto->fecha_envio = $fecha;
+          $producto->estado_envio = 1;
+          $producto->save();
+        }
+
+      } catch(Exception $e){
+
+      }
+
+      $csv = array( 'inicio' => "",
+                    'referencia_envio' => $pedido->numero_albaran,
+                    'bultos' => $inputs['bultos-mrw'],
+                    'observacion' => ''.$pedido->observaciones.'',
+                    'nombre_apellido' => $inputs['nombre-mrw'],
+                    'direccion' => $inputs['direccion-mrw'],
+                    'cp' => trim($inputs['cp-mrw']),
+                    'poblacion' => $inputs['ciudad-mrw'],
+                    'codigo_pais' => $inputs['pais-mrw'],
+                    'telefono' => $inputs['telefono-mrw'],
+                    'correo' => $pedido->cliente->email,
+                    'fin' => ""
+                    );
+
+        return Excel::create('envialia_csv_'.$pedido->numero_albaran , function($excel) use($csv) {
+          $excel->getDefaultStyle()
+                 ->getAlignment()
+                 ->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+          $excel->getDefaultStyle()
+                 ->getAlignment()
+                 ->setVertical(\PHPExcel_Style_Alignment::VERTICAL_CENTER);
+
+          $excel->sheet('pedido', function($sheet) use($csv) {
+            // headers del documento xls
+            $header = [];
+            $row = 1;
+
+            //Crear headers
+
+
+            //añadimos las rows
+
+            //dd($productos_amazon);
+            $csv2= implode(';', $csv);
+            $csv3= array($csv2);
+            //dd($csv3);
+            $sheet->row($row , $csv3);
+
+
+            //$header = array_map('strtoupper', $header_valor);
+            $sheet->fromArray('', null, 'A1', true);
+            //$sheet->getStyle("A1:D1")->getFont()->setBold(true);
+
+          });
+
+
+        })->export('csv');
+
+
     }
 
 }

@@ -1690,130 +1690,210 @@ class PedidosNewController extends Controller
     }
 
     public function csv_mrw($id,$generar_csv){
-      $pedido = Pedidos::find($id);
 
-      $datos_adicionales = '#SeguimientoSMS=1#';
-      $date = getdate();
-      $fecha = str_pad($date['mday'], 2, "0", STR_PAD_LEFT).'/'.str_pad($date['mon'], 2, "0", STR_PAD_LEFT).'/'.$date['year'];
+        $pedido = Pedidos_wix_importados::find($id);
+        $peso = array();
+        $datos_adicionales = '#SeguimientoSMS=1#';
 
-      $tlf = "";
-      $tlf = str_replace("/", "", $pedido->cliente->telefono);
-      $tlf = trim($tlf);
+        $date = getdate();
 
-      if($pedido->cliente->direccion->pais_envio == ""){
-        $pais_fact = "ES";
-      }else{
-        $pais_fact = $pedido->cliente->direccion->pais_envio;
-      }
+        $fecha = $date['year'].str_pad($date['mon'], 2, "0", STR_PAD_LEFT).str_pad($date['mday'], 2, "0", STR_PAD_LEFT);
+        //dd($pedido);
+        $tlf = "";
+        $tlf = str_replace("/", "", $pedido->telefono_comprador);
+        $tlf = trim($tlf);
+        if($pedido->telefono_comprador != ""){
+          //$tlf = "34".$tlf;
+        }
+        $productos = Pedidos_wix_importados::where('numero_pedido', '=', $pedido->numero_pedido)->get();
+        //dd($productos);
 
-      $empty = "";
-      $csv = array('numero_albaran' => $empty,
-                    'referencia_envio' => $pedido->numero_albaran,
-                    'referencia_bulto' => $empty,
-                    'peso' => $empty,
-                    'bultos' => $pedido->bultos,
-                    'fecha_recogida' => ''.$fecha.'',
-                    'observacion' => ''.$pedido->observaciones.'',
-                    'nombre_apellido' => ''.$pedido->cliente->nombre_envio.'',
-                    'direccion' => ''.$pedido->cliente->direccion->direccion_envio.'',
-                    'cp' => ''.trim($pedido->cliente->direccion->cp_envio).'',
-                    'poblacion' => ''.$pedido->cliente->direccion->ciudad_envio.'',
-                    'codigo_pais' => $pais_fact,
-                    'telefono' => ''.$tlf.'',
-                    'franquicia' => '',
-                    'adicionales' => ''.$datos_adicionales.''
-                    );
+        foreach ($productos as $key => $producto) {
+          //dd($producto->sku_producto);
+          $peso_producto = DB::select("select peso from productos where '".$producto->sku_producto."' like skuActual");
 
-        return json_encode($csv);
+          if(isset($peso_producto[0])){
+            array_push( $peso ,  $peso_producto[0]);
+          }
+        }
+        $peso_final = 0;
+        foreach ($peso as $preu) {
+          //dd($preu->peso);
+          if($preu->peso>0){
+            $peso_final += $preu->peso;
+          }
+        }
+        //dd($peso_final);
+
+        if($peso_final > 5){
+          $datos_adicionales += "#TipoServicio=0205#";
+        }else{
+          $datos_adicionales += "#TipoServicio=0800#";
+        }
+        if($pedido->pais_envio == ""){
+          $pais_fact = "ES";
+        }else{
+          $pais_fact = $pedido->pais_envio;
+        }
+
+
+        $n_pedido= $pedido->o_csv.$pedido->numero_pedido;
+        $empty = "";
+        $csv = array('numero_albaran' => $empty,
+                      'referencia_envio' => $n_pedido,
+                      'referencia_bulto' => $empty,
+                      'peso' => $peso_final,
+                      'bultos' => $pedido->bultos,
+                      'fecha_recogida' => ''.$fecha.'',
+                      'observacion' => ''.$pedido->observaciones.'',
+                      'nombre_apellido' => ''.$pedido->cliente_envio.'',
+                      'direccion' => ''.$pedido->direccion_envio.'',
+                      'cp' => ''.trim($pedido->cp_envio).'',
+                      'poblacion' => ''.$pedido->ciudad_envio.'',
+                      'codigo_pais' => $pais_fact,
+                      'telefono' => ''.$tlf.'',
+                      'franquicia' => '',
+                      'adicionales' => ''.$datos_adicionales.''
+                      );
+      //  dd($csv);
+
+
+        if($generar_csv == "TRUE"){
+            return Excel::create('mrw_csv_'.$n_pedido , function($excel) use($csv) {
+              $excel->getDefaultStyle()
+                     ->getAlignment()
+                     ->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+              $excel->getDefaultStyle()
+                     ->getAlignment()
+                     ->setVertical(\PHPExcel_Style_Alignment::VERTICAL_CENTER);
+
+              $excel->sheet('pedido', function($sheet) use($csv) {
+                // headers del documento xls
+                $header = [];
+                $row = 1;
+
+                //Crear headers
+
+
+                //añadimos las rows
+
+                //dd($productos_amazon);
+                $csv2= implode(';', $csv);
+                $csv3= array($csv2);
+                //dd($csv3);
+                $sheet->row($row , $csv);
+
+
+                //$header = array_map('strtoupper', $header_valor);
+                $sheet->fromArray('', null, 'A1', true);
+                //$sheet->getStyle("A1:D1")->getFont()->setBold(true);
+
+              });
+
+
+            })->export('csv');
+        }else{
+        //  dd(json_encode($csv));
+            return json_encode($csv);
+
+          }
+
+
 
     }
 
     public function csv_mrw_post($id,Request $request){
-      $inputs = $request->all();
-      $pedido = Pedidos::find($id);
-      $productos = Productos_pedidos::whereHas('transportista', function($query) {
-        $query->where('nombre', '=', 'mrw');
-      })
-      ->whereHas('pedido', function($query) use($pedido){
-        $query->where('id','=',$pedido->id);
-      })
-      ->get();
 
-      $fecha = new DateTime();
-      $fecha = $fecha->format('Y-m-d');
+        $inputs = $request->all();
+        $pedido = Pedidos_wix_importados::find($id);
+        // Formato fecha update
+    		$fecha = new DateTime();
+    		$fecha = $fecha->format('Y-m-d');
+        //----------
+        $origen_pedidos = DB::select('select * from `origen_pedidos` where referencia = "'.$pedido->o_csv.'"');
+        $origen_pedidos = $origen_pedidos[0];
+        try {
+          if(($origen_pedidos->api_key != null)&&($pedido->numero_pedido_ps != '99999')){
+            $this->actualizar_pedidos_ps($origen_pedidos->referencia,$pedido->numero_pedido_ps);
+          }
+    			$pedido->fecha_envio = $fecha;
+    			$pedido->enviado = 1;
+    			$pedido->save();
+        } catch(Exception $e){
 
-      $datos_adicionales = '#SeguimientoSMS=1#';
-      try {
-        if(($pedido->origen->api_key != null)&&($pedido->origen->api_key != '99999')){
-          $this->actualizar_pedidos_ps($pedido->origen->referencia,$pedido->numero_pedido_ps);
+    	  }
+
+        $datos_adicionales = '#SeguimientoSMS=1#';
+        //dd($inputs);
+        $empty='';
+        $n_pedido= $pedido->o_csv.$pedido->numero_pedido;
+        if($inputs['kg-mrw'] > 5){
+          $datos_adicionales .= "#TipoServicio=0205#";
+        }else{
+          $datos_adicionales .= "#TipoServicio=0800#";
         }
+        $csv = array('numero_albaran' => $empty,
+                      'referencia_envio' => $n_pedido,
+                      'referencia_bulto' => $empty,
+                      'peso' => $inputs['kg-mrw'],
+                      'bultos' => $inputs['bultos-mrw'],
+                      'fecha_recogida' => $inputs['fecha-mrw'],
+                      'observacion' => ''.$pedido->observaciones.'',
+                      'nombre_apellido' => $inputs['nombre-mrw'],
+                      'direccion' => $inputs['direccion-mrw'],
+                      'cp' => trim($inputs['cp-mrw']),
+                      'poblacion' => $inputs['ciudad-mrw'],
+                      'codigo_pais' => $inputs['pais-mrw'],
+                      'telefono' => $inputs['telefono-mrw'],
+                      'franquicia' => '',
+                      'adicionales' => ''.$datos_adicionales.''
+                      );
+       //dd($csv);
 
-        foreach ($productos as $producto) {
-          $producto->fecha_envio = $fecha;
-          $producto->estado_envio = 1;
-          $producto->save();
-        }
+            return Excel::create('mrw_csv_'.$n_pedido , function($excel) use($csv) {
+              $excel->getDefaultStyle()
+                     ->getAlignment()
+                     ->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+              $excel->getDefaultStyle()
+                     ->getAlignment()
+                     ->setVertical(\PHPExcel_Style_Alignment::VERTICAL_CENTER);
 
-      } catch(Exception $e){
+              $excel->sheet('pedido', function($sheet) use($csv) {
+                // headers del documento xls
+                $header = [];
+                $row = 1;
+
+                //Crear headers
+
+
+                //añadimos las rows
+
+                //dd($productos_amazon);
+                $csv2= implode(';', $csv);
+                $csv3= array($csv2);
+                //dd($csv3);
+                $sheet->row($row , $csv);
+
+
+                //$header = array_map('strtoupper', $header_valor);
+                $sheet->fromArray('', null, 'A1', true);
+                //$sheet->getStyle("A1:D1")->getFont()->setBold(true);
+
+              });
+
+
+            })->export('csv');
+
+
+
 
       }
-
-      $empty='';
-      if($inputs['kg-mrw'] > 5){
-        $datos_adicionales .= "#TipoServicio=0205#";
-      }else{
-        $datos_adicionales .= "#TipoServicio=0800#";
-      }
-
-      $csv = array('inicio' => "",
-                    'referencia_envio' => $pedido->numero_albaran,
-                    'bultos' => $inputs['bultos-mrw'],
-                    'observacion' => ''.$pedido->observaciones.'',
-                    'nombre_apellido' => $inputs['nombre-mrw'],
-                    'direccion' => $inputs['direccion-mrw'],
-                    'cp' => trim($inputs['cp-mrw']),
-                    'poblacion' => $inputs['ciudad-mrw'],
-                    'codigo_pais' => $inputs['pais-mrw'],
-                    'telefono' => $inputs['telefono-mrw'],
-                    'correo' => $pedido->cliente->email,
-                    'fecha_salida' => $inputs['fecha-mrw'],
-                    'peso' => $inputs['kg-mrw'],
-                    'servicio' => '24',
-                    'fin' => ""
-                    );
-
-      return Excel::create('mrw_csv_'.$pedido->numero_albaran , function($excel) use($csv) {
-        $excel->getDefaultStyle()
-               ->getAlignment()
-               ->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $excel->getDefaultStyle()
-               ->getAlignment()
-               ->setVertical(\PHPExcel_Style_Alignment::VERTICAL_CENTER);
-
-        $excel->sheet('pedido', function($sheet) use($csv) {
-          // headers del documento xls
-          $header = [];
-          $row = 1;
-          //Crear headers
-          //añadimos las rows
-          //dd($productos_amazon);
-          $csv2= implode(';', $csv);
-          $csv3= array($csv2);
-          //dd($csv3);
-          $sheet->row($row , $csv);
-          //$header = array_map('strtoupper', $header_valor);
-          $sheet->fromArray('', null, 'A1', true);
-          //$sheet->getStyle("A1:D1")->getFont()->setBold(true);
-        });
-      })->export('csv');
-
-    }
 
     public function csv_tipsa($id,$generar_csv){
       $pedido = Pedidos::find($id);
 
       $date = getdate();
-      $fecha = $date['year'].str_pad($date['mon'], 2, "0", STR_PAD_LEFT).str_pad($date['mday'], 2, "0", STR_PAD_LEFT);
+      $fecha = str_pad($date['mday'], 2, "0", STR_PAD_LEFT).'/'.str_pad($date['mon'], 2, "0", STR_PAD_LEFT).'/'.$date['year'];
 
       $tlf = "";
       $tlf = str_replace("/", "", $pedido->cliente->telefono);
@@ -1874,7 +1954,7 @@ class PedidosNewController extends Controller
 
       }
 
-      $csv = array( 'inicio' => "",
+      $csv = array('inicio' => "",
                     'referencia_envio' => $pedido->numero_albaran,
                     'bultos' => $inputs['bultos-mrw'],
                     'observacion' => ''.$pedido->observaciones.'',
@@ -1885,8 +1965,12 @@ class PedidosNewController extends Controller
                     'codigo_pais' => $inputs['pais-mrw'],
                     'telefono' => $inputs['telefono-mrw'],
                     'correo' => $pedido->cliente->email,
+                    'fecha_salida' => $inputs['fecha-mrw'],
+                    'peso' => $inputs['kg-mrw'],
+                    'servicio' => '24',
                     'fin' => ""
                     );
+
 
         return Excel::create('tipsa_csv_'.$pedido->numero_albaran , function($excel) use($csv) {
           $excel->getDefaultStyle()
@@ -2519,7 +2603,7 @@ class PedidosNewController extends Controller
       $pedido = Pedidos::find($id);
 
       $date = getdate();
-      $fecha = $date['year'].str_pad($date['mon'], 2, "0", STR_PAD_LEFT).str_pad($date['mday'], 2, "0", STR_PAD_LEFT);
+      $fecha = str_pad($date['mday'], 2, "0", STR_PAD_LEFT).'/'.str_pad($date['mon'], 2, "0", STR_PAD_LEFT).'/'.$date['year'];
 
       $tlf = "";
       $tlf = str_replace("/", "", $pedido->cliente->telefono);
@@ -2580,7 +2664,7 @@ class PedidosNewController extends Controller
 
       }
 
-      $csv = array( 'inicio' => "",
+      $csv = array('inicio' => "",
                     'referencia_envio' => $pedido->numero_albaran,
                     'bultos' => $inputs['bultos-mrw'],
                     'observacion' => ''.$pedido->observaciones.'',
@@ -2591,6 +2675,9 @@ class PedidosNewController extends Controller
                     'codigo_pais' => $inputs['pais-mrw'],
                     'telefono' => $inputs['telefono-mrw'],
                     'correo' => $pedido->cliente->email,
+                    'fecha_salida' => $inputs['fecha-mrw'],
+                    'peso' => $inputs['kg-mrw'],
+                    'servicio' => '24',
                     'fin' => ""
                     );
 

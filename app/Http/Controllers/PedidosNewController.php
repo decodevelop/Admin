@@ -2241,7 +2241,7 @@ class PedidosNewController extends Controller
               $message->from('info@decowood.es', 'Info ');
               $message->to( $proveedor->email, 'Información')->subject('Nuevos pedidos Decowood '.date("d-m-Y"));
               if($proveedor->email == "ICOMMERS"){
-                $message->cc('info@icommers.com', 'Icommers');
+                $message->cc('angel@creacollection.com', 'Icommers');
               }else if($proveedor->email == "TIC TAC"){
                 $message->cc('maderasfelix@gmail.com', 'Icommers');
               }

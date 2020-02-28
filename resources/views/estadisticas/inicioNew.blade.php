@@ -120,7 +120,7 @@
 										</dd>
 										<dd>
 											<b class="label label-primary " title="total - incidencias" style="text-transform: uppercase;">
-												Total: {{number_format($estadisticas[$periodo]['total'] - $incidencias[$periodo], 2, ',', '.' ) }} €
+												Total: {{number_format($estadisticas[$periodo]['total'], 2, ',', '.' ) }} € <span style="font-size: 7px;font-weight: 100;">(incidencias inc.)</span>
 											</b>
 										</dd>
 									</div>

@@ -35,5 +35,12 @@ class User extends Authenticatable
 	public function getAuthPassword(){
 		return $this->clave;
 	}
+  public function hasRole($role)
+{
+  if ($this->rol == $role) {
+      return true;
+  }
+  return false;
+}
 
 }

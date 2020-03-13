@@ -67,7 +67,7 @@
     <!-- /.social-auth-links -->
 
     <a href="{{url('/password/reset')}}">Restablecer contraseña.</a><br>
-    <a href="{{url('/register')}}" class="text-center">Registrar nuevo usuario.</a>
+    {{-- <a href="{{url('/register')}}" class="text-center">Registrar nuevo usuario.</a>--}}
 
   </div>
   <!-- /.login-box-body -->

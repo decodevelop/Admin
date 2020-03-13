@@ -62,10 +62,11 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+      dd("Acceso denegado");
+        /*return User::create([
             'apodo' => $data['apodo'],
             'email' => $data['email'],
             'clave' => bcrypt($data['clave']),
-        ]);
+        ]);*/
     }
 }

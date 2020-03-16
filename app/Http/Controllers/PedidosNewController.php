@@ -651,7 +651,7 @@ class PedidosNewController extends Controller
       } else {
         $mensaje['success'] = 'CSV cargado con exito con un total de ( '.$registros.' ) registros insertados.';
       }
-      if($_SERVER['HTTP_HOST'] == "admin.decowood.es" ){
+      if(($_SERVER['HTTP_HOST'] == "admin.decowood.es") || ($_SERVER['HTTP_HOST'] == "admin.decowoodservers.cat") ){
         $this->aviso_retraso();
       }
       return back()
@@ -2233,16 +2233,16 @@ class PedidosNewController extends Controller
 
         $proveedor = Proveedores::where('nombre','=',$nombre_proveedor)->first();
 
-        if($_SERVER['HTTP_HOST'] == "admin.decowood.es" ){
+        if(($_SERVER['HTTP_HOST'] == "admin.decowood.es") || ($_SERVER['HTTP_HOST'] == "admin.decowoodservers.cat") ){
           if(count($a_apdf) > 0){
             $parametros = array("pedidos" => $pedidos);
             Mail::send('mail.dups', $parametros, function($message) use($a_apdf, $a_nompdf, $proveedor)
             {
               $message->from('info@decowood.es', 'Info ');
               $message->to( $proveedor->email, 'Información')->subject('Nuevos pedidos Decowood '.date("d-m-Y"));
-              if($proveedor->email == "ICOMMERS"){
+              if($proveedor->nombre == "ICOMMERS"){
                 $message->cc('angel@creacollection.com', 'Icommers');
-              }else if($proveedor->email == "TIC TAC"){
+              }else if($proveedor->nombre == "TIC TAC"){
                 $message->cc('maderasfelix@gmail.com', 'Icommers');
               }
               $message->cc('sandra@decowood.es', 'sandra');

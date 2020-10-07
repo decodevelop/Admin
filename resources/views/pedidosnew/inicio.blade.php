@@ -464,7 +464,7 @@
                 <td class="productos" colspan="3">
                   <table class="tabla_producto">
                   @foreach ($pedido->productos as $producto)
-                  @if(($producto->transportista->nombre == $paginaTransportista) || is_null($paginaTransportista))
+                  @if((strtolower($producto->transportista->nombre) == strtolower($paginaTransportista)) || is_null($paginaTransportista))
                     <tr class="producto-pedido-{{$producto->id}}">
                       <td class="nombre-producto">
                         <a style="color:black" href="#" onclick="return false" title="Proveedor" data-toggle="popover" data-trigger="hover" data-content="{{$producto->proveedor->nombre}}">

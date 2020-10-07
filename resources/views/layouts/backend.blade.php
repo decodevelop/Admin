@@ -62,6 +62,26 @@
   $bdeco = "DECO<b>TEST</b>";
   $sdeco = "DC<b>T</b>";
   ?>
+  @elseif(strpos( $url, 'admin.decowood.es' ))
+  .skin-blue .main-header .logo {
+    background-color: #ababab !important;
+  }
+  .skin-blue .main-header .navbar {
+    background-color: #1a2226 !important;
+  }
+  .skin-blue .main-header .navbar .sidebar-toggle:hover {
+    background-color: #de991a !important;
+  }
+  .skin-blue .main-header li.user-header {
+    background-color: #ac7308 !important;
+  }
+  .navbar-nav>.user-menu>.dropdown-menu {
+    padding: 0px 0 0 0 !important;
+  }
+  <?php
+  $bdeco = "DECO<b>TEST</b>";
+  $sdeco = "DC<b>T</b>";
+  ?>
   @else
 
   <?php

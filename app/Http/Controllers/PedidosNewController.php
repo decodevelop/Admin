@@ -454,20 +454,50 @@ class PedidosNewController extends Controller
 
         // Comprobamos el primer registro del documento,
         // si existe, nos lo saltamos y lo marcamos como repetido.
-        $pedido_exists =  Pedidos::where('numero_pedido_ps','=',$fila[0])
+        if($origen->id == 45 || $origen->id == 44){
+
+          /*if($fila[38] == 21){
+            $estandar = 0;
+          }else{
+            $estandar = 1;
+          }*/
+          $bulto = str_pad($fila[40], 4, "0", STR_PAD_LEFT).str_pad($fila[39], 4, "0", STR_PAD_LEFT);
+
+
+
+          $pedido_exists =  Pedidos::where('numero_pedido_ps','=',$fila[0])
+          ->where('referencia_ps','=',$bulto)
           ->where('origen_id','=', $origen->id)
           ->exists();
+        }else{
+
+          $pedido_exists =  Pedidos::where('numero_pedido_ps','=',$fila[0])
+          ->where('origen_id','=', $origen->id)
+          ->exists();
+        }
+
+
+
+
 
           if($pedido_exists){
-            $pedido_encontrado = Pedidos::where('numero_pedido_ps','=',$fila[0])
+
+            if($origen->id == 45 || $origen->id == 44){
+              $pedido_encontrado = Pedidos::where('numero_pedido_ps','=',$fila[0])
+              ->where('referencia_ps','=',$bulto)
               ->where('origen_id','=', $origen->id)
               ->first();
+            }else{
+
+              $pedido_encontrado = Pedidos::where('numero_pedido_ps','=',$fila[0])
+              ->where('origen_id','=', $origen->id)
+              ->first();
+            }
 
           /*  $producto_pedido_exists = Productos_pedidos::where('id_pedido','=',$pedido_encontrado->id)
               ->where('SKU','=', $fila[20])
               ->where('nombre','like', "%".$fila[18]."%")
               ->exists();*/
-
               $producto_pedido_exists = Productos_pedidos::where('id_pedido','=',$pedido_encontrado->id)
                   ->where('id_order_product','=', $fila[37])
                   ->exists();
@@ -480,13 +510,24 @@ class PedidosNewController extends Controller
                       ->where('nombre','like', "%".$fila[18]."%");
               })
               ->exists();*/
+              if($origen->id == 45 || $origen->id == 44){
+                $producto_pedido_exists = Pedidos::where('numero_pedido_ps','=',$fila[0])
+                ->where('origen_id','=', $origen->id)
+                ->where('referencia_ps','=',$bulto)
+                ->whereHas('productos',  function ($query) use($fila){
+                  $query->where('id_order_product','=', $fila[37]);
+                })
+                ->exists();
 
-              $producto_pedido_exists = Pedidos::where('numero_pedido_ps','=',$fila[0])
+              }else{
+
+                $producto_pedido_exists = Pedidos::where('numero_pedido_ps','=',$fila[0])
                 ->where('origen_id','=', $origen->id)
                 ->whereHas('productos',  function ($query) use($fila){
                   $query->where('id_order_product','=', $fila[37]);
                 })
                 ->exists();
+              }
           }
 
 
@@ -500,24 +541,25 @@ class PedidosNewController extends Controller
             }
 
             //Buscamos dirección
-            $direccion = Direcciones::where('direccion_envio','=', $fila[13])
+
+          /*  $direccion = Direcciones::where('direccion_envio','=', $fila[13])
                                     ->where('ciudad_envio','=', $fila[12])
                                     ->where('estado_envio','=', $fila[11])
                                     ->where('cp_envio','=', $fila[14])
                                     ->where('direccion_facturacion','=', $fila[7])
                                     ->where('estado_facturacion','=', $fila[5])
                                     ->where('cp_facturacion','=', $fila[8])
-                                    ->first();
+                                    ->first();*/
 
             //AÑADIMOS DIRECCIÓN SI NO EXISTE SI EXISTE BUSCAMOS EL CLIENTE
-            if(is_null($direccion)){
-              $cliente = Clientes_pedidos::where('nombre_apellidos','=',$fila[3])
+            //if(is_null($direccion)){
+            /*  $cliente = Clientes_pedidos::where('nombre_apellidos','=',$fila[3])
                                         ->where('email','=',$fila[16])
                                         ->where('telefono','=',$fila[15])
                                         ->where('nombre_envio','=',$fila[9])
-                                        ->first();
+                                        ->first();*/
 
-              if(is_null($cliente)){
+            //  if(is_null($cliente)){
                 $cliente = new Clientes_pedidos;
                 $cliente->nombre_apellidos =  $fila[3];
                 $cliente->email =  $fila[16];
@@ -526,7 +568,7 @@ class PedidosNewController extends Controller
                 $cliente->telefono_facturacion = $fila[15];
                 $cliente->nombre_envio =  $fila[9];
                 $cliente->save();
-              }
+              //}
 
               $direccion = new Direcciones;
               $direccion->direccion_envio = $fila[13];
@@ -541,9 +583,9 @@ class PedidosNewController extends Controller
               $direccion->cp_facturacion = $fila[8];
               $direccion->id_cliente = $cliente->id;
               $direccion->save();
-            }else{
+          /*  }else{
               $cliente = Clientes_pedidos::find($direccion->id_cliente);
-            }
+            }*/
             //END Direcciones
 
 
@@ -577,18 +619,24 @@ class PedidosNewController extends Controller
             $pedido->total = $fila[28];
             $pedido->precio_envio = $fila[26];
             $pedido->observaciones = $fila[35];
-
+            if($origen->id == 45 || $origen->id == 44){
+              $pedido->referencia_ps = $bulto;
+              $pedido->numero_albaran = $origen->referencia.str_pad($numeroPedido, 5, "0", STR_PAD_LEFT).'-'.$bulto;
+            }else{
+              $pedido->numero_albaran = $origen->referencia.str_pad($numeroPedido, 5, "0", STR_PAD_LEFT);
+            }
             $pedido->bultos = 1;
 
             $pedido->numero_pedido_ps = $fila[0];
             $pedido->tasas = $fila[27];
             $pedido->cupon = $fila[25];
             $pedido->codigo_factura = null;
-            $pedido->numero_albaran = $origen->referencia.str_pad($numeroPedido, 5, "0", STR_PAD_LEFT);
             $pedido->id_cliente= $cliente->id;
             $pedido->id_metodo_pago = $metodo_pago->id;
             $pedido->save();
-
+            if($origen->id == 45 || $origen->id == 44){
+              $this->actualizar_pedidos_ps("DC",$pedido->numero_pedido_ps,3);
+            }
           }
           //END PEDIDOS
 
@@ -688,9 +736,11 @@ class PedidosNewController extends Controller
 
       }elseif ($referencia == 'DW' && $pais == 'FR' ) {
         $referencia = 'DF';
-      }
-
+      }elseif ($referencia == 'DC' && $pais == 'FR' ) {
+      $referencia = 'DF';
+    }
       $origen = Origen_pedidos::where('referencia','=',$referencia)->first();
+      //dd($origen);
 
       return $origen;
 
@@ -1090,6 +1140,9 @@ class PedidosNewController extends Controller
         case 'DW':
           $origen_csv = 'DD';
           break;
+          case 'DC':
+            $origen_csv = 'DD';
+            break;
         default:
           $origen_csv = $origen;
           break;
@@ -1300,29 +1353,43 @@ class PedidosNewController extends Controller
       $fecha = $fecha->format('Y-m-d');
 
       if($_GET["notificar"]=="si"){
-        // Mailing
-        //$correo_comercial = Auth::user()->email;
-        $correo_comercial = 'support@decowood.es';
-        $titulo = "Hola, ".$pedido->cliente->nombre_esp." su pedido ha sido enviado.";
-        $email_cliente = ($pedido->cliente->email_facturacion) ? $pedido->cliente->email_facturacion : "Cliente";
-        //  dd($correo_comercial);
-        // Parametros para el mailing
-        $parametros = array("pedido" => $pedido->toArray(), 'productos' => $pedido->productos->toArray());
+        if($pedido->origen_id == 45){
+            $parametros = array("pedido" => $pedido, 'productos' => $pedido->productos);
+            $email_cliente = ($pedido->cliente->email_facturacion) ? $pedido->cliente->email_facturacion : "Cliente";
 
-        // Se envia mensaje al cliente
-        Mail::send('mail.informar_envio', $parametros, function($message) use($email_cliente)
-        {
-          $message->from('info@decowood.es', 'Información de su PEDIDO');
-          $message->to($email_cliente, 'Información')->subject('Información');
-        });
+            Mail::send('mail.info_envio_ps_17', $parametros, function($message) use($email_cliente)
+            {
+              $message->from('info@decowood.es', 'Información de su PEDIDO');
+              $message->to($email_cliente, 'Información')->subject('Información');
+            });
+              $mensaje = "El pedido se ha actualizado, y se ha enviado una notificación al correo del cliente.";
+        }
+        if(false){
 
-        // Se envia copia del mensaje al administrador y al usuario que envia.
-        Mail::send('mail.informar_envio', $parametros, function($message) use($correo_comercial)
-        {
-          $message->from('info@decowood.es', 'Información de su PEDIDO');
-          $message->to($correo_comercial, 'Información')->subject('Información (COPIA)');
-        });
-        $mensaje = "El pedido se ha actualizado, y se ha enviado una notificación al correo del cliente.";
+          // Mailing
+          //$correo_comercial = Auth::user()->email;
+          $correo_comercial = 'support@decowood.es';
+          $titulo = "Hola, ".$pedido->cliente->nombre_esp." su pedido ha sido enviado.";
+          $email_cliente = ($pedido->cliente->email_facturacion) ? $pedido->cliente->email_facturacion : "Cliente";
+          //  dd($correo_comercial);
+          // Parametros para el mailing
+          $parametros = array("pedido" => $pedido->toArray(), 'productos' => $pedido->productos->toArray());
+
+          // Se envia mensaje al cliente
+          Mail::send('mail.informar_envio', $parametros, function($message) use($email_cliente)
+          {
+            $message->from('info@decowood.es', 'Información de su PEDIDO');
+            $message->to($email_cliente, 'Información')->subject('Información');
+          });
+
+          // Se envia copia del mensaje al administrador y al usuario que envia.
+          Mail::send('mail.informar_envio', $parametros, function($message) use($correo_comercial)
+          {
+            $message->from('info@decowood.es', 'Información de su PEDIDO');
+            $message->to($correo_comercial, 'Información')->subject('Información (COPIA)');
+          });
+          $mensaje = "El pedido se ha actualizado, y se ha enviado una notificación al correo del cliente.";
+        }
       } else {
         $mensaje = "El pedido se ha actualizado, pero no se ha notificado al cliente.";
       }
@@ -1342,7 +1409,7 @@ class PedidosNewController extends Controller
         $resultado[1] = $fecha;
 
         if(($pedido->origen->api_key != null)&&($pedido->numero_pedido_ps != '99999')&&($pedido->numero_pedido_ps = '')){
-          /*if($this->actualizar_pedidos_ps($pedido->origen->referencia,$id_ps)){
+          /*if($this->actualizar_pedidos_ps($pedido->origen->referencia,$id_ps,4)){
             $resultado[2] = "true";
           }*/
           $resultado[0] .= " \n || Falta por activar el webservice!!!!";
@@ -1421,21 +1488,21 @@ class PedidosNewController extends Controller
 
     }
 
-    public function actualizar_pedidos_ps($origen,$id_order)
+    public function actualizar_pedidos_ps($origen,$id_order,$id_state)
     {
-
+      //dds($origen);
       /* Obtenemos los datos de la tabla origen */
       $origen_pedidos =  Origen_pedidos::where('referencia','=',$origen)->first();
-      define('DEBUG', false);
+      $DEBUG = false;
       /*Definimos el host y la key que será la url de la web recuperada desde la BDD*/
-      define('PS_SHOP_PATH', $origen_pedidos->web );
-      define('PS_WS_AUTH_KEY', $origen_pedidos->api_key);
+      $PS_SHOP_PATH = $origen_pedidos->web ;
+      $PS_WS_AUTH_KEY = $origen_pedidos->api_key;
       //require_once('PSWebServiceLibrary/PrestaShopWebservice.php');
       // Obtencion del pedido
       try
       {
         /*Petición al web service*/
-        $webService = new PrestaShopWebservice(PS_SHOP_PATH, PS_WS_AUTH_KEY, DEBUG);
+        $webService = new PrestaShopWebservice($PS_SHOP_PATH, $PS_WS_AUTH_KEY, $DEBUG);
   	    $opt = array('resource' => 'orders');
         $opt['id'] = $id_order;
         $xml = $webService->get($opt);
@@ -1457,7 +1524,7 @@ class PedidosNewController extends Controller
         4 : ENVIADO
 
       */
-      $resources->current_state = 4;
+      $resources->current_state = $id_state;
 
       try
     	{
@@ -1745,7 +1812,7 @@ class PedidosNewController extends Controller
       $datos_adicionales = '#SeguimientoSMS=1#';
       try {
         if(($pedido->origen->api_key != null)&&($pedido->origen->api_key != '99999')){
-          $this->actualizar_pedidos_ps($pedido->origen->referencia,$pedido->numero_pedido_ps);
+          $this->actualizar_pedidos_ps($pedido->origen->referencia,$pedido->numero_pedido_ps,4);
         }
 
         foreach ($productos as $producto) {
@@ -1861,7 +1928,7 @@ class PedidosNewController extends Controller
 
       try {
         if(($pedido->origen->api_key != null)&&($pedido->origen->api_key != '99999')){
-          $this->actualizar_pedidos_ps($pedido->origen->referencia,$pedido->numero_pedido_ps);
+          $this->actualizar_pedidos_ps($pedido->origen->referencia,$pedido->numero_pedido_ps,4);
         }
 
         foreach ($productos as $producto) {
@@ -2000,7 +2067,7 @@ class PedidosNewController extends Controller
       $datos_adicionales = '#SeguimientoSMS=1#';
       try {
         if(($pedido->origen->api_key != null)&&($pedido->origen->api_key != '99999')){
-          $this->actualizar_pedidos_ps($pedido->origen->referencia,$pedido->numero_pedido_ps);
+          $this->actualizar_pedidos_ps($pedido->origen->referencia,$pedido->numero_pedido_ps,4);
         }
 
         foreach ($productos as $producto) {
@@ -2571,7 +2638,7 @@ class PedidosNewController extends Controller
 
       try {
         if(($pedido->origen->api_key != null)&&($pedido->origen->api_key != '99999')){
-          $this->actualizar_pedidos_ps($pedido->origen->referencia,$pedido->numero_pedido_ps);
+          //$this->actualizar_pedidos_ps($pedido->origen->referencia,$pedido->numero_pedido_ps,4);
         }
 
         foreach ($productos as $producto) {
@@ -2636,6 +2703,68 @@ class PedidosNewController extends Controller
         })->export('csv');
 
 
+    }
+
+    public function eliminar_pedido($id_pedido){
+
+      try {
+        // Asignamos variables
+        $id = $id_pedido;
+        $eliminados = "(".$id.") reg [ ";
+
+        $pedido = Pedidos::find($id);
+        $seguimientos = Seguimiento_pedidos::where('origen', '=', $pedido->origen->referencia)
+                                            ->where('numero_pedido', '=', $pedido->numero_pedido)
+                                            ->get();
+
+        foreach ($seguimientos as $seguimiento) {
+          $seguimiento->delete();
+        }
+
+        $pedido->cliente->direccion->delete();
+        $pedido->cliente->delete();
+
+        foreach ($pedido->productos as $producto) {
+          foreach ($producto->productos_incidencias as $p_incidencia) {
+            //  dd($p_incidencia->incidencia);
+            $p_incidencia->incidencia->delete();
+
+            $p_incidencia->delete();
+          }
+          $eliminados .= "{".$producto->id.":".$producto->nombre_esp."} ";
+          $producto->delete();
+        }
+
+        $pedido->delete();
+
+
+        $eliminados .= "]";
+        return "Eliminado correctamente: ".$eliminados;
+      } catch(\Exception $err){
+        return "No se ha podido eliminar, intentelo de nuevo o contacte con el administrador.".var_dump();
+      }
+
+    }
+    function eliminar_pedidos_muchos(){
+
+    }
+    function eliminar_pedidos_hoy(){
+      $pedidos = Pedidos::where('origen_id', '=', '44' )->where('fecha_pedido','=','2020-09-21')->whereDate('created_at', '=', date('Y-m-d'))->get();
+      //dd($pedidos);
+      foreach ($pedidos as $key => $pedido) {
+
+        echo $this->eliminar_pedido($pedido->id);
+      }
+    }
+
+    function prueba_API_envio(){
+      //$origen = Origen_pedidos::find(45);
+
+      $this->actualizar_pedidos_ps('DF',1204,3);
+      //$pedido = Pedidos::find(37316);
+
+      //return View::make('mail/info_envio_ps_17', array('pedido' => $pedido,
+                                            //        'productos' => $pedido->productos));
     }
 
 }

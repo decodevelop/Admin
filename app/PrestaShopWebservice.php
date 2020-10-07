@@ -60,7 +60,7 @@ class PrestaShopWebservice
 	 * 	$ws = new PrestaShopWebservice('http://mystore.com/', 'ZQ88PRJX5VWQHCWE4EE7SQ7HPNX00RAJ', false);
 	 * 	// Now we have a webservice object to play with
 	 * }
-	 * catch (PrestaShopWebserviceException $ex)
+	 * catch (\Exception $ex)
 	 * {
 	 * 	echo 'Error : '.$ex->getMessage();
 	 * }
@@ -72,7 +72,7 @@ class PrestaShopWebservice
 	*/
 	function __construct($url, $key, $debug = true) {
 		if (!extension_loaded('curl'))
-		  throw new PrestaShopWebserviceException('Please activate the PHP extension \'curl\' to allow use of PrestaShop webservice library');
+		  throw new \Exception('Please activate the PHP extension \'curl\' to allow use of PrestaShop webservice library');
 		$this->url = $url;
 		$this->key = $key;
 		$this->debug = $debug;
@@ -89,13 +89,13 @@ class PrestaShopWebservice
 		switch($status_code)
 		{
 			case 200:	case 201:	break;
-			case 204: throw new PrestaShopWebserviceException(sprintf($error_label, $status_code, 'No content'));break;
-			case 400: throw new PrestaShopWebserviceException(sprintf($error_label, $status_code, 'Bad Request'));break;
-			case 401: throw new PrestaShopWebserviceException(sprintf($error_label, $status_code, 'Unauthorized'));break;
-			case 404: throw new PrestaShopWebserviceException(sprintf($error_label, $status_code, 'Not Found'));break;
-			case 405: throw new PrestaShopWebserviceException(sprintf($error_label, $status_code, 'Method Not Allowed'));break;
-			case 500: throw new PrestaShopWebserviceException(sprintf($error_label, $status_code, 'Internal Server Error'));break;
-			default: throw new PrestaShopWebserviceException('This call to PrestaShop Web Services returned an unexpected HTTP status of:' . $status_code);
+			case 204: throw new \Exception(sprintf($error_label, $status_code, 'No content'));break;
+			case 400: throw new \Exception(sprintf($error_label, $status_code, 'Bad Request'));break;
+			case 401: throw new \Exception(sprintf($error_label, $status_code, 'Unauthorized'));break;
+			case 404: throw new \Exception(sprintf($error_label, $status_code, 'Not Found'));break;
+			case 405: throw new \Exception(sprintf($error_label, $status_code, 'Method Not Allowed'));break;
+			case 500: throw new \Exception(sprintf($error_label, $status_code, 'Internal Server Error'));break;
+			default: throw new \Exception('This call to PrestaShop Web Services returned an unexpected HTTP status of:' . $status_code);
 		}
 	}
 	/**
@@ -134,7 +134,7 @@ class PrestaShopWebservice
 
 		$index = strpos($response, "\r\n\r\n");
 		if ($index === false && $curl_params[CURLOPT_CUSTOMREQUEST] != 'HEAD')
-			throw new PrestaShopWebserviceException('Bad HTTP response');
+			throw new \Exception('Bad HTTP response');
 
 		$header = substr($response, 0, $index);
 		$body = substr($response, $index + 4);
@@ -157,7 +157,7 @@ class PrestaShopWebservice
 				version_compare(PrestaShopWebservice::psCompatibleVersionsMin, $headerArray['PSWS-Version']) == 1 ||
 				version_compare(PrestaShopWebservice::psCompatibleVersionsMax, $headerArray['PSWS-Version']) == -1
 			)
-			throw new PrestaShopWebserviceException('This library is not compatible with this version of PrestaShop. Please upgrade/downgrade this library');
+			throw new \Exception('This library is not compatible with this version of PrestaShop. Please upgrade/downgrade this library');
 		}
 
 		if ($this->debug)
@@ -168,7 +168,7 @@ class PrestaShopWebservice
 		}
 		$status_code = curl_getinfo($session, CURLINFO_HTTP_CODE);
 		if ($status_code === 0)
-			throw new PrestaShopWebserviceException('CURL Error: '.curl_error($session));
+			throw new \Exception('CURL Error: '.curl_error($session));
 		curl_close($session);
 		if ($this->debug)
 		{
@@ -206,12 +206,12 @@ class PrestaShopWebservice
 			{
 				$msg = var_export(libxml_get_errors(), true);
 				libxml_clear_errors();
-				throw new PrestaShopWebserviceException('HTTP XML response is not parsable: '.$msg);
+				throw new \Exception('HTTP XML response is not parsable: '.$msg);
 			}
 			return $xml;
 		}
 		else
-			throw new PrestaShopWebserviceException('HTTP response is empty');
+			throw new \Exception('HTTP response is empty');
 	}
 
 	/**
@@ -237,7 +237,7 @@ class PrestaShopWebservice
 				$url .= '&id_group_shop='.$options['id_group_shop'];
 		}
 		else
-			throw new PrestaShopWebserviceException('Bad parameters given');
+			throw new \Exception('Bad parameters given');
 		$request = self::executeRequest($url, array(CURLOPT_CUSTOMREQUEST => 'POST', CURLOPT_POSTFIELDS => $xml));
 
 		self::checkStatusCode($request['status_code']);
@@ -263,7 +263,7 @@ class PrestaShopWebservice
 	 * foreach ($xml->children()->children() as $attName => $attValue)
 	 * 	echo $attName.' = '.$attValue.'<br />';
 	 * }
-	 * catch (PrestaShopWebserviceException $ex)
+	 * catch (\Exception $ex)
 	 * {
 	 * 	echo 'Error : '.$ex->getMessage();
 	 * }
@@ -292,7 +292,7 @@ class PrestaShopWebservice
 				$url .= '?'.http_build_query($url_params);
 		}
 		else
-			throw new PrestaShopWebserviceException('Bad parameters given');
+			throw new \Exception('Bad parameters given');
 
 		$request = self::executeRequest($url, array(CURLOPT_CUSTOMREQUEST => 'GET'));
 
@@ -326,7 +326,7 @@ class PrestaShopWebservice
 				$url .= '?'.http_build_query($url_params);
 		}
 		else
-			throw new PrestaShopWebserviceException('Bad parameters given');
+			throw new \Exception('Bad parameters given');
 		$request = self::executeRequest($url, array(CURLOPT_CUSTOMREQUEST => 'HEAD', CURLOPT_NOBODY => true));
 		self::checkStatusCode($request['status_code']);// check the response validity
 		return $request['header'];
@@ -355,7 +355,7 @@ class PrestaShopWebservice
 				$url .= '&id_group_shop='.$options['id_group_shop'];
 		}
 		else
-			throw new PrestaShopWebserviceException('Bad parameters given');
+			throw new \Exception('Bad parameters given');
 
 		$request = self::executeRequest($url,  array(CURLOPT_CUSTOMREQUEST => 'PUT', CURLOPT_POSTFIELDS => $xml));
 		self::checkStatusCode($request['status_code']);// check the response validity
@@ -377,7 +377,7 @@ class PrestaShopWebservice
 	 *	// Following code will not be executed if an exception is thrown.
 	 * 	echo 'Successfully deleted.';
 	 * }
-	 * catch (PrestaShopWebserviceException $ex)
+	 * catch (\Exception $ex)
 	 * {
 	 * 	echo 'Error : '.$ex->getMessage();
 	 * }
@@ -409,4 +409,4 @@ class PrestaShopWebservice
 /**
  * @package PrestaShopWebservice
  */
-//class PrestaShopWebserviceException extends Exception { }
+//class \Exception extends Exception { }

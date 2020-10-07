@@ -108,10 +108,12 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div class="box DataTableBox">
+
         @if (\Session::has('success'))
           <div class="alert alert-success">
             <ul>
-              <li>{!! \Session::get('success') !!}</li>
+
+              <li></li>
             </ul>
           </div>
         @endif

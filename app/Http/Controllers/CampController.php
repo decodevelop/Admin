@@ -211,7 +211,7 @@ class CampController extends Controller
     })
     ->orderBy('restantes','desc')
     ->paginate(30);
-
+    //dd($productos);
     return View::make('campanas/productos', array('productos' => $productos, 'id_campana' => $id_campana));
   }
 
@@ -391,22 +391,17 @@ class CampController extends Controller
           $result=$archivo->get();
           foreach($result as $key => $value){
 
-            if (DB::table('Productos_vp')->where('id_vp', '=', $value['id'])->exists()){
+            if (DB::table('productos_vp')->where('id_vp', '=', $value['id'])->exists()){
               array_push($repetidos, $value['ean'].' = '.$value['nombre']);
               $producto_vp = Productos_vp::where('id_vp','=', $value['id'])->first();
               $producto_vp->id_vp = $value['id'];
               $producto_vp->nombre = $value['nombre'];
               $producto_vp->referencia = $value['sku'];
               $producto_vp->ean = $value['ean'];
-              if($value['largo'] = ''){
-                $producto_vp->largo = $value['largo'];
-              }
-              if($value['alto'] = ''){
-                $producto_vp->alto = $value['alto'];
-              }
-              if($value['ancho'] = ''){
-                $producto_vp->ancho = $value['ancho'];
-              }
+              $producto_vp->largo = $value['largo'];
+              $producto_vp->alto = $value['alto'];
+              $producto_vp->ancho = $value['ancho'];
+
 
               $producto_vp->save();
 

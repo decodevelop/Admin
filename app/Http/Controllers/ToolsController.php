@@ -356,14 +356,14 @@ class ToolsController extends Controller
 
     }
 
-    public function exportarClientesWebs(Request $request){
+    public function exportarClientesWebs($web ,Request $request){
       $productos = array();
       $success= array();
       $errors = array();
 
-      return Excel::create('clientes_web', function($excel) {
+      return Excel::create('clientes_web', function($excel) use($web){
 
-        $excel->sheet('Sheetname', function($sheet) {
+        $excel->sheet('Sheetname', function($sheet) use($web) {
           // headers del documento xls
           $header = [];
           $row = 1;
@@ -371,7 +371,11 @@ class ToolsController extends Controller
 
           $header = array('Nombre','email_facturacion','web');
 
-          $clientes = Clientes_pedidos::get();
+          $clientes = Clientes_pedidos::whereHas('pedidos',  function ($query) use($web) {
+            $query->whereHas('origen',  function ($query) use($web) {
+              $query->where('id', '=', $web);
+            });
+          })->get();
 
           //dd($productos);
           // Bucle para rellenar el documento segun el numero de pedidos

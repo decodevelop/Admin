@@ -310,184 +310,188 @@ use App\Pedidos_wix_importados;
 						<tbody id="dataTables_pedidos">
 
 							@forelse($listado_incidencias as $incidencia)
-
-							<tr class="ver_pedido num-{{$incidencia->id}} @if($incidencia->estado==1)incidencia @elseif($incidencia->estado==2) espera @endif ">
-								<td class="table-check num-{{ $incidencia->id }}">
-									<input type="checkbox" class="flat-red" name='pedido' value='{{ $incidencia->id }}'>
-								</td>
+                @if(isset( $incidencia->productos_incidencias[0]->producto->pedido))
                 @php
                   $pedido = $incidencia->productos_incidencias[0]->producto->pedido;
                 @endphp
-								<td>{{ $pedido->origen->referencia }}</td>
-								<td><a href="/pedidos/detalle/{{$pedido->id}}" target="ventana" class="iframe-ventana">{{ $pedido->numero_pedido }}</a></td>
+                <tr class="ver_pedido num-{{$incidencia->id}} @if($incidencia->estado==1)incidencia @elseif($incidencia->estado==2) espera @endif ">
+                  <td class="table-check num-{{ $incidencia->id }}">
+                    <input type="checkbox" class="flat-red" name='pedido' value='{{ $incidencia->id }}'>
+                  </td>
 
-                <td>{{$pedido->cliente->nombre_apellidos}}</td>
 
-								<td class="productos">
-                  <table class="tabla_producto">
-                  @foreach ($incidencia->productos_incidencias as $producto_incidencia)
-                    @php
-                      $producto = $producto_incidencia->producto;
-                    @endphp
-                        <tr class="producto-pedido-{{$producto->id}}">
-                          <td class="nombre-producto">{{ $producto->nombre_esp }}({{ $producto->cantidad }})</td>
+                  <td>{{ $pedido->origen->referencia }}</td>
+                  <td><a href="/pedidos/detalle/{{$pedido->id}}" target="ventana" class="iframe-ventana">{{ $pedido->numero_pedido }}</a></td>
 
-                <!-- END PRODUCTOS PEDIDOS -->
+                  <td>{{$pedido->cliente->nombre_apellidos}}</td>
 
-                <!-- ESTADO ENVIO -->
-                    <td  class="estado-envio fecha-envio-{{$pedido->id}} fecha-envio-producto-{{$producto->id}}">
-                      @if ($producto->estado_envio == 4)
-                        <span class="label label-danger">
-                          <a href="#" onclick="return false" title="Transportista" data-toggle="popover" data-trigger="hover" data-content="{{$producto->transportista->nombre}}">
-                            +30 Días
-                          </a>
-                        </span>
-                      @elseif ($producto->estado_envio == 3)
-                        <span class="label label-danger">
-                          <a href="#" onclick="return false" title="Transportista" data-toggle="popover" data-trigger="hover" data-content="{{$producto->transportista->nombre}}">
-                            +20 Días
-                          </a>
-                        </span>
-                      @elseif ($producto->estado_envio == 2)
-                        <span class="label label-danger">
-                          <a href="#" onclick="return false" title="Transportista" data-toggle="popover" data-trigger="hover" data-content="{{$producto->transportista->nombre}}">
-                            +10 Días
-                          </a>
-                        </span>
-                      @elseif ($producto->estado_envio == 0)
-                        <span class="label label-danger">
-                          <a href="#" onclick="return false" title="Transportista" data-toggle="popover" data-trigger="hover" data-content="{{$producto->transportista->nombre}}">
-                            no enviado
-                          </a>
-                        </span>
-                      @elseif ($producto->estado_envio == 1)
-                        <span class="label label-success">
-                          <a href="#" onclick="return false" title="Transportista" data-toggle="popover" data-trigger="hover" data-content="{{$producto->transportista->nombre}}">
-                            @if($producto->fecha_envio)
-                              {{$producto->fecha_envio}}
-                            @else
-                              enviado
-                            @endif
-                          </a>
-                        </span>
-                      @endif
-                      </td>
-                      <!-- END ESTADO ENVIOO -->
+                  <td class="productos">
+                    <table class="tabla_producto">
+                    @foreach ($incidencia->productos_incidencias as $producto_incidencia)
+                      @php
+                        $producto = $producto_incidencia->producto;
+                      @endphp
+                          <tr class="producto-pedido-{{$producto->id}}">
+                            <td class="nombre-producto">{{ $producto->nombre_esp }}({{ $producto->cantidad }})</td>
 
-                <!-- INCIDENCIA -->
-                    <td class="estado-incidencia">
-                      @forelse ($producto->productos_incidencias as $incidencia_p)
-                        @if ($incidencia_p->incidencia->estado == 1)
-                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                        @elseif ($incidencia_p->incidencia->estado == 2)
-                          <i class="fa fa-wrench" aria-hidden="true"></i>
+                  <!-- END PRODUCTOS PEDIDOS -->
+
+                  <!-- ESTADO ENVIO -->
+                      <td  class="estado-envio fecha-envio-{{$pedido->id}} fecha-envio-producto-{{$producto->id}}">
+                        @if ($producto->estado_envio == 4)
+                          <span class="label label-danger">
+                            <a href="#" onclick="return false" title="Transportista" data-toggle="popover" data-trigger="hover" data-content="{{$producto->transportista->nombre}}">
+                              +30 Días
+                            </a>
+                          </span>
+                        @elseif ($producto->estado_envio == 3)
+                          <span class="label label-danger">
+                            <a href="#" onclick="return false" title="Transportista" data-toggle="popover" data-trigger="hover" data-content="{{$producto->transportista->nombre}}">
+                              +20 Días
+                            </a>
+                          </span>
+                        @elseif ($producto->estado_envio == 2)
+                          <span class="label label-danger">
+                            <a href="#" onclick="return false" title="Transportista" data-toggle="popover" data-trigger="hover" data-content="{{$producto->transportista->nombre}}">
+                              +10 Días
+                            </a>
+                          </span>
+                        @elseif ($producto->estado_envio == 0)
+                          <span class="label label-danger">
+                            <a href="#" onclick="return false" title="Transportista" data-toggle="popover" data-trigger="hover" data-content="{{$producto->transportista->nombre}}">
+                              no enviado
+                            </a>
+                          </span>
+                        @elseif ($producto->estado_envio == 1)
+                          <span class="label label-success">
+                            <a href="#" onclick="return false" title="Transportista" data-toggle="popover" data-trigger="hover" data-content="{{$producto->transportista->nombre}}">
+                              @if($producto->fecha_envio)
+                                {{$producto->fecha_envio}}
+                              @else
+                                enviado
+                              @endif
+                            </a>
+                          </span>
                         @endif
-                      @empty
-                      @endforelse
+                        </td>
+                        <!-- END ESTADO ENVIOO -->
+
+                  <!-- INCIDENCIA -->
+                      <td class="estado-incidencia">
+                        @forelse ($producto->productos_incidencias as $incidencia_p)
+                          @if ($incidencia_p->incidencia->estado == 1)
+                            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                          @elseif ($incidencia_p->incidencia->estado == 2)
+                            <i class="fa fa-wrench" aria-hidden="true"></i>
+                          @endif
+                        @empty
+                        @endforelse
+                      </td>
+
+                  <!-- END INCIDENCIA -->
+
+
+                      </tr>
+                    @endforeach
+                    </table>
+                  </td>
+                  <td class="table-email" style="width: 10px">
+                    <div style="width:100%;margin-bottom: 10px;">
+                    <span class="label label-custom">{{$incidencia->fecha_incidencia}}</span>
+                    </div>
+                    @if($pedido->cliente->email)
+                    <a onclick="return false" href="" title="Correo electrónico" data-toggle="popover" data-placement="bottom" class="btn btn-default btn-md btn-pops" data-content="{{ $pedido->cliente->email }}"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+                    @endif
+                    @if($pedido->cliente->telefono)
+                    <a onclick="return false" href="" title="Teléfono" data-toggle="popover" data-placement="top" class="btn btn-default btn-md btn-pops" data-content="{{ $pedido->cliente->telefono }}"><i class="fa fa-phone-square" aria-hidden="true"></i></a>
+                    @endif
+                  </td>
+
+
+
+                    <td class="text-center botones-pedidos" style="width: auto;">
+                      <form id="form_incidencia" method="post">
+                       {{ csrf_field() }}
+                       <div style="display:none">
+                      <label>Estado</label>
+                        <select name="estado_incidencia" id="desplegable_estado_{{$incidencia->id}}">
+                          <option value="1" {{ ($incidencia->estado==1) ? 'selected' : '' }}>Abierta</option>
+                          <option value="0" {{ ($incidencia->estado==0) ? 'selected' : '' }}>Cerrada</option>
+                          <option value="2" {{ ($incidencia->estado==2) ? 'selected' : '' }}>Resuelta</option>
+                        </select>
+                      </div>
+                      <div style="display:none">
+                        <input type="text" name="productos_incidencia" id="productos_incidencia_{{$incidencia->id}}" value="{{$incidencia->id}}">
+                      </div>
+                        <div class="col-xs-4 motivo-incidencia">
+                          <div class="col-xs-12">
+                            <label>Motivo de la incidencia</label>
+                            <label class="hidden">Motivo inciden.</label>
+                          </div>
+                          <div class="col-xs-12">
+                            <select name="desplegable_mensaje_incidencia" id="desplegable_mensaje_incidencia_{{$incidencia->id}}">
+                              @foreach ($motivos as $motivo)
+                                <option value="{{$motivo->id}}" {{ ($incidencia->id_motivo == $motivo->id) ? 'selected' : '' }}>{{$motivo->nombre}}</option>
+                              @endforeach
+                            </select>
+                          </div>
+
+                          <div class="col-xs-12">
+                            <textarea class="callout callout-default" name="mensaje_incidencia" id="mensaje_incidencia_{{$incidencia->id}}" style="width: 100%;margin-top:10px;margin-bottom:0px;display:block">{{$incidencia->motivo_info}}</textarea>
+                          </div>
+                        </div>
+                        <div class="col-xs-4">
+                          <div class="col-xs-12">
+                            <label>Gestión</label>
+                          </div>
+                          <div class="col-xs-12">
+                            <select name="desplegable_gestion_incidencia" id="desplegable_gestion_incidencia_{{$incidencia->id}}">
+                              @foreach ($gestiones as $gestion)
+                                <option value="{{$gestion->id}}" {{ ($incidencia->id_gestion == $gestion->id ) ? 'selected' : '' }}>{{$gestion->nombre}}</option>
+                              @endforeach
+                            </select>
+                          </div>
+                          <div class="col-xs-12">
+                            <textarea class="callout callout-default" name="gestion_incidencia" id="gestion_incidencia_{{$incidencia->id}}" style="width: 100%;margin-top:10px;margin-bottom:0px;display:block">{{$incidencia->gestion_info}}</textarea>
+                          </div>
+                        </div>
+                        <div class="descuento col-xs-4">
+                          <div class="col-xs-12">
+                            <label>Cantidad a descontar</label>
+                            <label class="hidden">Cant. descontar</label>
+                          </div>
+                          <div class="col-xs-12">
+                            <input type="number" style="width: 50%; text-align: right; margin-top: 10px; margin-bottom: 0px;" name="cantidad_descontar" id="cantidad_descontar_{{$incidencia->id}}" placeholder="Cantidad a descontar" step="any" value="{{$incidencia->cantidad_descontar}}" />
+                          </div>
+
+                        <div class="col-md-6 col-xs-12">
+                            <button title="Actualizar" class="btn btn-info btn-sm btn-actualizar" id="btn_actualizar_{{$incidencia->id}}" onclick="return false">Actualizar
+                              <!--  <i class="fa fa-save"></i> -->
+                            </button>
+                            <button title="Actualizar" class="hidden btn btn-info btn-sm btn-actualizar" id="btn_actualizar_{{$incidencia->id}}" onclick="return false">
+                               <i class="fa fa-save"></i>
+                            </button>
+
+                        </div>
+                        <div class="col-md-6 col-xs-12">
+                          <button title="Resolver" class="btn btn-success btn-sm btn-resolver" onclick="return false" id="btn_resolver_{{$incidencia->id}}">Resolver
+                            <!--  <i class="fa fa-check"></i> -->
+                          </button>
+                          <button title="Resolver" class="hidden btn btn-success btn-sm btn-resolver" onclick="return false" id="btn_resolver_{{$incidencia->id}}">
+                            <i class="fa fa-check"></i>
+                          </button>
+                        </div>
+                      </div>
+                        <!--button class="btn btn-danger btn-sm" id="btn_marcar_{{$incidencia->id}}" type="submit">Marcar incidencia</button-->
+                        <button class="btn btn-info btn-sm" style="display:none" id="btn_enviar_{{$incidencia->id}}" type="submit">enviar incidencia</button>
+
+                      </form>
                     </td>
+                  </td>
 
-                <!-- END INCIDENCIA -->
+                </tr>
+                @endif
 
-
-                    </tr>
-                  @endforeach
-                  </table>
-								</td>
-								<td class="table-email" style="width: 10px">
-                  <div style="width:100%;margin-bottom: 10px;">
-                  <span class="label label-custom">{{$incidencia->fecha_incidencia}}</span>
-                  </div>
-                  @if($pedido->cliente->email)
-                  <a onclick="return false" href="" title="Correo electrónico" data-toggle="popover" data-placement="bottom" class="btn btn-default btn-md btn-pops" data-content="{{ $pedido->cliente->email }}"><i class="fa fa-envelope" aria-hidden="true"></i></a>
-                  @endif
-                  @if($pedido->cliente->telefono)
-                  <a onclick="return false" href="" title="Teléfono" data-toggle="popover" data-placement="top" class="btn btn-default btn-md btn-pops" data-content="{{ $pedido->cliente->telefono }}"><i class="fa fa-phone-square" aria-hidden="true"></i></a>
-                  @endif
-                </td>
-
-
-
-									<td class="text-center botones-pedidos" style="width: auto;">
-                    <form id="form_incidencia" method="post">
-      							 {{ csrf_field() }}
-      							 <div style="display:none">
-      							<label>Estado</label>
-      								<select name="estado_incidencia" id="desplegable_estado_{{$incidencia->id}}">
-      								  <option value="1" {{ ($incidencia->estado==1) ? 'selected' : '' }}>Abierta</option>
-      								  <option value="0" {{ ($incidencia->estado==0) ? 'selected' : '' }}>Cerrada</option>
-                        <option value="2" {{ ($incidencia->estado==2) ? 'selected' : '' }}>Resuelta</option>
-      								</select>
-      							</div>
-                    <div style="display:none">
-                      <input type="text" name="productos_incidencia" id="productos_incidencia_{{$incidencia->id}}" value="{{$incidencia->id}}">
-                    </div>
-      								<div class="col-xs-4 motivo-incidencia">
-                        <div class="col-xs-12">
-                          <label>Motivo de la incidencia</label>
-                          <label class="hidden">Motivo inciden.</label>
-                        </div>
-      								  <div class="col-xs-12">
-                          <select name="desplegable_mensaje_incidencia" id="desplegable_mensaje_incidencia_{{$incidencia->id}}">
-                            @foreach ($motivos as $motivo)
-                              <option value="{{$motivo->id}}" {{ ($incidencia->id_motivo == $motivo->id) ? 'selected' : '' }}>{{$motivo->nombre}}</option>
-                            @endforeach
-          								</select>
-                        </div>
-
-							          <div class="col-xs-12">
-                          <textarea class="callout callout-default" name="mensaje_incidencia" id="mensaje_incidencia_{{$incidencia->id}}" style="width: 100%;margin-top:10px;margin-bottom:0px;display:block">{{$incidencia->motivo_info}}</textarea>
-                        </div>
-      							  </div>
-      								<div class="col-xs-4">
-                        <div class="col-xs-12">
-                          <label>Gestión</label>
-                        </div>
-        								<div class="col-xs-12">
-                          <select name="desplegable_gestion_incidencia" id="desplegable_gestion_incidencia_{{$incidencia->id}}">
-                            @foreach ($gestiones as $gestion)
-                              <option value="{{$gestion->id}}" {{ ($incidencia->id_gestion == $gestion->id ) ? 'selected' : '' }}>{{$gestion->nombre}}</option>
-                            @endforeach
-          								</select>
-                        </div>
-        								<div class="col-xs-12">
-                          <textarea class="callout callout-default" name="gestion_incidencia" id="gestion_incidencia_{{$incidencia->id}}" style="width: 100%;margin-top:10px;margin-bottom:0px;display:block">{{$incidencia->gestion_info}}</textarea>
-                        </div>
-      								</div>
-                      <div class="descuento col-xs-4">
-                        <div class="col-xs-12">
-                          <label>Cantidad a descontar</label>
-                          <label class="hidden">Cant. descontar</label>
-                        </div>
-                        <div class="col-xs-12">
-                          <input type="number" style="width: 50%; text-align: right; margin-top: 10px; margin-bottom: 0px;" name="cantidad_descontar" id="cantidad_descontar_{{$incidencia->id}}" placeholder="Cantidad a descontar" step="any" value="{{$incidencia->cantidad_descontar}}" />
-                        </div>
-
-                      <div class="col-md-6 col-xs-12">
-      								    <button title="Actualizar" class="btn btn-info btn-sm btn-actualizar" id="btn_actualizar_{{$incidencia->id}}" onclick="return false">Actualizar
-                            <!--  <i class="fa fa-save"></i> -->
-                          </button>
-      								    <button title="Actualizar" class="hidden btn btn-info btn-sm btn-actualizar" id="btn_actualizar_{{$incidencia->id}}" onclick="return false">
-                             <i class="fa fa-save"></i>
-                          </button>
-
-                      </div>
-                      <div class="col-md-6 col-xs-12">
-                        <button title="Resolver" class="btn btn-success btn-sm btn-resolver" onclick="return false" id="btn_resolver_{{$incidencia->id}}">Resolver
-                          <!--  <i class="fa fa-check"></i> -->
-                        </button>
-                        <button title="Resolver" class="hidden btn btn-success btn-sm btn-resolver" onclick="return false" id="btn_resolver_{{$incidencia->id}}">
-                          <i class="fa fa-check"></i>
-                        </button>
-                      </div>
-                    </div>
-                      <!--button class="btn btn-danger btn-sm" id="btn_marcar_{{$incidencia->id}}" type="submit">Marcar incidencia</button-->
-                      <button class="btn btn-info btn-sm" style="display:none" id="btn_enviar_{{$incidencia->id}}" type="submit">enviar incidencia</button>
-
-                    </form>
-									</td>
-								</td>
-
-							</tr>
 							@empty
 								<p>No hay datos.</p>
 							@endforelse

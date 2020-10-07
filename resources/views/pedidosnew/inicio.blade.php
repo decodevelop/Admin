@@ -10,6 +10,9 @@
   table.tabla_producto {
       width: 100%;
   }
+  .date-create{
+    display: none;
+  }
   td.nombre-producto {
       width: 54%;
   }
@@ -421,7 +424,11 @@
                 <!-- END NUMERO PEDIDO -->
 
                 <!-- FECHA PEDIDO -->
-                <td>{{ $pedido->fecha_pedido}}</td>
+                <td>{{ $pedido->fecha_pedido}}
+                  <div class="date-create">
+                    {{$pedido->created_at}}
+                  </div>
+                </td>
                 <!-- END FECHA PEDIDO -->
 
                 <!-- CLIENTE -->

@@ -547,12 +547,12 @@
                                  <td style="width: 600px" class="w560">
                                     <![endif]-->
                                     <div class="column" style="padding: 23px;background: #ffffff;text-align: left;color: #000000 !important;font-size: 14px;line-height: 21px;font-family: "Open Sans",sans-serif;max-width: 600px;min-width: 320px;width: 320px;width: calc(28000% - 167400px);">
-                                      <div class="text">
+                                      <div class="text" style="background: white;padding: 21px;">
                                        <span>
-                                         Hola Decowood Europa S.L.,<br><br>
-                                         Tu pedido #{order_name} ya ha salido de nuestras instalaciones. Próximamente llegará a la siguiente dirección que nos indicaste:
+                                         Hola {{ $pedido->cliente->nombre_envio}},<br><br>
+                                         Tu pedido Nº{{$pedido->numero_albaran}} ya ha salido de nuestras instalaciones. Próximamente llegará a la siguiente dirección que nos indicaste:
                                          <br><br>
-                                         <b>Dirección de entrega:</b> {delivery_address1}. {delivery_postcode} {delivery_city}.
+                                         <b>Dirección de entrega:</b> {{ $pedido->cliente->direccion->direccion_envio }}. {{ $pedido->cliente->direccion->ciudad_envio }}, {{ $pedido->cliente->direccion->cp_envio }}.
                                          <br><br>
                                          A continuación, te indicamos más detalles sobre la entrega, pero también puedes consultar el estado del envío en la sección
                                          <a href="https://decowood.com/es/mi-cuenta" target="_blank" style="color: #000;"> <u>Histórico de pedidos</u></a> dentro de tu cuenta en cualquier momento.
@@ -576,7 +576,7 @@
                                     <div class="column" style="text-align: left;color: #60666d;font-size: 14px;line-height: 21px;font-family: &quot;Open Sans&quot;,sans-serif;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);">
                                        <div style="Margin-left: 20px;Margin-right: 20px;Margin-top: 24px;">
                                          <div class="num-pedido" style="margin: 1rem 0; padding: 1rem; background-color: #F4F3F0;" bgcolor="#F4F3F0">
-                                            <span><b>Núm. de pedido:</b> {order_name}</span>
+                                            <span><b>Núm. de pedido:</b> {{ $pedido['numero_pedido_ps'] }}</span>
                                           </div>
 
                                           <!--ul style="padding-bottom:20px;Margin-top: 20px;Margin-bottom: 20px;Margin-left: 24px;padding: 0;list-style-type: disc;">
@@ -591,34 +591,23 @@
                                           <div class="products products-table">
                                             <table style="width:100%">
                                               <tbody>
+                                                @forelse($productos as $key => $producto)
                                                 <tr>
                                                   <!--td class="product-img-td" >
                                                   </td-->
                                                   <td class="product-info-td" style="width: 60%;height:140px">
-                                                    <div><strong>Caja cuadrada pequeña natural</strong></div>
-                                                    <div>04534</div>
+                                                    <div><strong>{{ $producto->nombre }} - ({{$producto->variante}})</strong></div>
+                                                    <div>{{$producto->SKU}}</div>
                                                   </td>
                                                   <td class="product-quantity-td" style="text-align: right">
-                                                    <span>2uds</span>
+                                                    <span>{{($producto->cantidad==1) ? $producto->cantidad." ud" : $producto->cantidad." uds"}}</span>
                                                   </td>
                                                   <td class="product-price-td" style="text-align: right">
-                                                    <span>23,99 €</span>
+                                                    <span>{{$producto['precio_final']}} €</span>
                                                   </td>
                                                 </tr>
-                                                <tr>
-                                                  <!--td class="product-img-td" >
-                                                  </td-->
-                                                  <td class="product-info-td" style="width: 60%;height:140px">
-                                                    <div><strong>Caja cuadrada pequeña natural</strong></div>
-                                                    <div>04534</div>
-                                                  </td>
-                                                  <td class="product-quantity-td" style="text-align: right">
-                                                    <span>2uds</span>
-                                                  </td>
-                                                  <td class="product-price-td" style="text-align: right">
-                                                    <span>23,99 €</span>
-                                                  </td>
-                                                </tr>
+                                                @empty
+                                                @endforelse
                                               </tbody>
                                             </table>
                                           </div>

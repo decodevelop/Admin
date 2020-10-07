@@ -398,7 +398,7 @@ class PedidosController extends Controller
       	} else {
       		$mensaje['success'] = 'CSV cargado con exito con un total de ( '.$registros.' ) registros insertados.';
       	}
-        if($_SERVER['HTTP_HOST'] == "admin.decowood.es" ){
+        if(($_SERVER['HTTP_HOST'] == "admin.decowood.es" ) || ($_SERVER['HTTP_HOST'] == "admin.decowoodservers.cat" )){
           $this->aviso_retraso();
         }
       	return back()
@@ -3299,7 +3299,7 @@ class PedidosController extends Controller
           array_push($a_nompdf,$nombre_pdf);
         }
       }
-      if($_SERVER['HTTP_HOST'] == "admin.decowood.es" ){
+      if(($_SERVER['HTTP_HOST'] == "admin.decowood.es" ) || ($_SERVER['HTTP_HOST'] == "admin.decowoodservers.cat" )){
         if(count($a_apdf) > 0){
           $parametros = array("pedidos" => $pedidos);
           Mail::send('mail.dups', $parametros, function($message) use($a_apdf, $a_nompdf)

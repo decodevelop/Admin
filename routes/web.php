@@ -312,7 +312,7 @@ Route::group(['middleware' => 'auth'], function() {
 			Route::post('/development/categorias_sql', 'ToolsController@generarConsultaCategoriasSql');
 			Route::post('/development/precios_sql', 'ToolsController@generarConsultaPreciosSql');
 			Route::post('/development/fabricante_sql', 'ToolsController@generarConsultaManufacturerSql');
-			Route::get('/development/clientes', 'ToolsController@exportarClientesWebs');
+			Route::get('/development/clientes/{web}', 'ToolsController@exportarClientesWebs');
 
 			Route::get('/development/etiquetas_pc' , function(){
 
@@ -372,6 +372,9 @@ Route::group(['middleware' => 'auth'], function() {
 			Route::get( '/transportistas/editar/{id}', 'TransportistasController@editar' ) ;
 			Route::post( '/transportistas/editar/{id}', 'TransportistasController@editar_POST' ) ;
 			Route::get( '/transportistas/eliminar/{id}', 'TransportistasController@eliminar' ) ;
+
+			Route::get('/pedidos/eliminar_pedidos_hoy','PedidosNewController@eliminar_pedidos_hoy');
+				Route::get('/pedidos/prueba_api_envios','PedidosNewController@prueba_API_envio');
 	});
 
 
